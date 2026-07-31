@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AvtoTest UZ — O'zbekiston PDD Imtihoni va Yo'l Harakati Qoidalari Portali</title>
+  <meta name="description" content="O'zbekiston haydovchilik guvohnomasi imtihoniga tayyorlanish uchun to'liq qamrovli, zamonaviy veb-sayt. PDD testlar, yo'l belgilari, nazariya va jarimalar." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0B0F14',
+            surface: '#11161D',
+            'surface-2': '#171C24',
+            primary: '#F2C94C',
+            danger: '#EB5757',
+            text: '#E8EAED',
+            'text-muted': '#9AA0A6',
+            border: '#242B36'
+          },
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Space Grotesk & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#F2C94C] selection:text-[#0B0F14]">
+
+  <!-- Header / Technical Navigation Bar (Height: 80px) -->
+  <header id="main-header" class="sticky top-0 z-50 tech-navbar transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- LOGO (Pure Geometric SVG Hexagon Monogram) -->
+        <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="window.switchTab('home')">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="20,3 36,12 36,28 20,37 4,28 4,12" stroke="#F2C94C" stroke-width="2.5" fill="#11161D" />
+            <text x="20" y="25" font-family="'Space Grotesk', monospace" font-weight="800" font-size="15" fill="#F2C94C" text-anchor="middle">AT</text>
+          </svg>
+          <div class="flex flex-col">
+            <span class="text-xl font-extrabold tracking-tight text-[#E8EAED] font-heading leading-none">
+              AvtoTest <span class="text-[#F2C94C]">UZ</span>
+            </span>
+            <span class="text-[10px] uppercase font-bold text-[#9AA0A6] tracking-wider mt-0.5">
+              PDD Imtihon Portali
+            </span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Links (Offset left ~10-15%) -->
+        <nav class="hidden md:flex items-center gap-1 nav-menu-container">
+          <button data-tab="home" onclick="window.switchTab('home')" class="nav-btn active">
+            Bosh Sahifa
+          </button>
+          <button data-tab="test" onclick="window.switchTab('test')" class="nav-btn">
+            Test Rejimi
+          </button>
+          <button data-tab="signs" onclick="window.switchTab('signs')" class="nav-btn">
+            Yo'l Belgilari
+          </button>
+          <button data-tab="theory" onclick="window.switchTab('theory')" class="nav-btn">
+            Nazariya
+          </button>
+          <button data-tab="fines" onclick="window.switchTab('fines')" class="nav-btn">
+            Jarimalar
+          </button>
+          <button data-tab="stats" onclick="window.switchTab('stats')" class="nav-btn">
+            Statistika
+          </button>
+        </nav>
+
+        <!-- Right Side CTA Action -->
+        <div class="flex items-center gap-3">
+          <button onclick="window.switchTab('test')" class="btn-primary text-xs py-2.5 px-5">
+            <span>Testni Boshlash</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button id="btn-mobile-menu" class="md:hidden p-2 rounded.md bg-[#171C24] text-[#E8EAED] border border-[#242B36]">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 border-b border-[#242B36] bg-[#0B0F14]/95 backdrop-blur-md">
+      <div class="flex flex-col gap-1 pt-3">
+        <button onclick="window.switchTab('home')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Bosh Sahifa
+        </button>
+        <button onclick="window.switchTab('test')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Test Rejimi
+        </button>
+        <button onclick="window.switchTab('signs')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Yo'l Belgilari Katalogi
+        </button>
+        <button onclick="window.switchTab('theory')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          PDD Nazariya
+        </button>
+        <button onclick="window.switchTab('fines')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Jarimalar Jadvali
+        </button>
+        <button onclick="window.switchTab('stats')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Statistika va Progress
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div id="app-main-content">
+      <!-- Dynamic views injected here -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#242B36] bg-[#0B0F14] mt-16 py-8 text-[#9AA0A6] text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-[#E8EAED] font-heading">AvtoTest UZ</span>
+        <span>— O'zbekiston Yo'l harakati qoidalari portali</span>
+      </div>
+      <p>© 2026 Barcha huquqlar himoyalangan. Tayyorgarlik tizimi va PDD simulyatsiyasi.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./data/questions.js"></script>
+  <script src="./data/signs.js"></script>
+  <script src="./data/theory.js"></script>
+  <script src="./data/fines.js"></script>
+  <script src="./js/storage.js"></script>
+  <script src="./js/test.js"></script>
+  <script src="./js/signs.js"></script>
+  <script src="./js/theory.js"></script>
+  <script src="./js/fines.js"></script>
+  <script src="./js/stats.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

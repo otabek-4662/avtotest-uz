@@ -1,0 +1,110 @@
+window.FINES_DATA = [
+  {
+    "id": "f1",
+    "article": "128-modda",
+    "title": "Xavfsizlik kamarini taqmaslik",
+    "category": "xavfsizlik",
+    "bhm": "0.5 baravar",
+    "amount": "170 000 so'm",
+    "desc": "Haydovchilarning xavfsizlik kamaridan foydalanish qoidalariga rioya etmasligi."
+  },
+  {
+    "id": "f2",
+    "article": "128-1-modda",
+    "title": "Boshqaruv paytida telefondan foydalanish",
+    "category": "qoida",
+    "bhm": "3 baravar",
+    "amount": "1 020 000 so'm",
+    "desc": "Transport vositasini boshqarishda telefondan qo'lda foydalanish (Hands-free bundan mustasno)."
+  },
+  {
+    "id": "f3",
+    "article": "128-3-modda",
+    "title": "Tezlikni oshirish (20 km/s gacha)",
+    "category": "tezlik",
+    "bhm": "1 baravar",
+    "amount": "340 000 so'm",
+    "desc": "Belgilangan tezlikni soatiga 20 km dan oshmaydigan kattalikda oshirish."
+  },
+  {
+    "id": "f4",
+    "article": "128-3-modda",
+    "title": "Tezlikni oshirish (20 dan 40 km/s gacha)",
+    "category": "tezlik",
+    "bhm": "5 baravar",
+    "amount": "1 700 000 so'm",
+    "desc": "Belgilangan tezlikni soatiga 20 km dan ortiq, lekin 40 km dan oshmaydigan kattalikda oshirish."
+  },
+  {
+    "id": "f5",
+    "article": "128-3-modda",
+    "title": "Tezlikni oshirish (40 km/s dan ortiq)",
+    "category": "tezlik",
+    "bhm": "9 baravar",
+    "amount": "3 060 000 so'm",
+    "desc": "Belgilangan harakat tezligini soatiga 40 km dan ortiq kattalikda oshirish."
+  },
+  {
+    "id": "f6",
+    "article": "128-4-modda",
+    "title": "Svetoforning taqiqlovchi ishorasiga (qizilga) o'tish",
+    "category": "svetofor",
+    "bhm": "2 baravar",
+    "amount": "680 000 so'm",
+    "desc": "Svetoforning taqiqlovchi ishorasiga yoki tartibga soluvchining taqiqlovchi ishorasiga bo me'yoriy o'tish."
+  },
+  {
+    "id": "f7",
+    "article": "128-5-modda",
+    "title": "Piyodalarga yo'l bermaslik",
+    "category": "piyoda",
+    "bhm": "0.5 baravar",
+    "amount": "170 000 so'm",
+    "desc": "Piyodalar o'tish joyida piyodalarga yo'l bermaslik."
+  },
+  {
+    "id": "f8",
+    "article": "128-6-modda",
+    "title": "To'xtash yoki to'xtab turish qoidalarini buzish",
+    "category": "parkovka",
+    "bhm": "2 baravar",
+    "amount": "680 000 so'm",
+    "desc": "To'xtash yoki to'xtab turish (parkovka) qoidalarini buzish."
+  },
+  {
+    "id": "f9",
+    "article": "131-modda",
+    "title": "Transport vositasini mast holda boshqarish",
+    "category": "ogir",
+    "bhm": "25 baravar + 1.5-3 yil guvohnomadan mahrum qilish",
+    "amount": "8 500 000 so'm",
+    "desc": "Alkogolli ichimlik, giyohvandlik vositasi ta'sirida avtomobil boshqarish."
+  },
+  {
+    "id": "f10",
+    "article": "135-modda",
+    "title": "Hujjatlarsiz (prava, texpasport) boshqarish",
+    "category": "hujjat",
+    "bhm": "1 baravar",
+    "amount": "340 000 so'm",
+    "desc": "Haydovchilik guvohnomasi yoki texnik pasport yonida bo'lmasdan avtomobil boshqarish."
+  },
+  {
+    "id": "f11",
+    "article": "126-modda",
+    "title": "Noqonuniy tonirovka (Oynalarni tusuini o'zgartirish)",
+    "category": "qoida",
+    "bhm": "25 baravar",
+    "amount": "8 500 000 so'm",
+    "desc": "Tegishli ruxsatnomasi bo'lmagan holda avtomobil oynalarining tusini o'zgartirish (tonirovka)."
+  },
+  {
+    "id": "f12",
+    "article": "138-modda",
+    "title": "Piyodalar tomonidan yo'l qoidalarini buzish",
+    "category": "piyoda",
+    "bhm": "0.3 baravar",
+    "amount": "102 000 so'm",
+    "desc": "Piyodalarning svetofor qoidalariga rioya etmasligi, yo'lni belgilanmagan joydan kesib o'tishi yoki telefondan foydalanishi."
+  }
+];
