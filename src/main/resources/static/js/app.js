@@ -163,6 +163,9 @@
       const authBtns = document.getElementById('auth-nav-buttons');
       const userPill = document.getElementById('user-profile-pill');
       const userDisplayName = document.getElementById('user-display-name');
+      const mobileAuth = document.getElementById('mobile-auth-container');
+      const mobileUser = document.getElementById('mobile-user-container');
+      const mobileUserName = document.getElementById('mobile-user-name');
 
       if (storedUser) {
         try {
@@ -170,10 +173,23 @@
           if (authBtns) authBtns.classList.add('hidden');
           if (userPill) userPill.classList.remove('hidden');
           if (userDisplayName) userDisplayName.textContent = user.username;
+          
+          if (mobileAuth) mobileAuth.classList.add('hidden');
+          if (mobileUser) {
+            mobileUser.classList.remove('hidden');
+            mobileUser.classList.add('flex');
+          }
+          if (mobileUserName) mobileUserName.textContent = user.username;
         } catch(e) {}
       } else {
         if (authBtns) authBtns.classList.remove('hidden');
         if (userPill) userPill.classList.add('hidden');
+        
+        if (mobileAuth) mobileAuth.classList.remove('hidden');
+        if (mobileUser) {
+          mobileUser.classList.add('hidden');
+          mobileUser.classList.remove('flex');
+        }
       }
     }
 
@@ -549,9 +565,9 @@
           if (res.ok && data.success) {
             window.setSessionUser(data.username || usernameOrEmail, data.token);
             if (msg) {
-              msg.style.background = 'rgba(39,174,96,0.15)';
-              msg.style.border = '1px solid #27AE60';
-              msg.style.color = '#27AE60';
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
               msg.textContent = data.message || "Xush kelibsiz!";
               msg.classList.remove('hidden');
             }
@@ -562,9 +578,9 @@
         } catch (err) {
           window.setSessionUser(usernameOrEmail, 'local-token');
           if (msg) {
-            msg.style.background = 'rgba(39,174,96,0.15)';
-            msg.style.border = '1px solid #27AE60';
-            msg.style.color = '#27AE60';
+            msg.style.background = 'rgba(242,201,76,0.15)';
+            msg.style.border = '1px solid var(--primary)';
+            msg.style.color = 'var(--primary)';
             msg.textContent = "Xush kelibsiz, " + usernameOrEmail + "!";
             msg.classList.remove('hidden');
           }
@@ -590,9 +606,9 @@
           if (res.ok && data.success) {
             window.setSessionUser(username, data.token);
             if (msg) {
-              msg.style.background = 'rgba(39,174,96,0.15)';
-              msg.style.border = '1px solid #27AE60';
-              msg.style.color = '#27AE60';
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
               msg.textContent = data.message || "Ro'yxatdan o'tdingiz!";
               msg.classList.remove('hidden');
             }
@@ -603,9 +619,9 @@
         } catch (err) {
           window.setSessionUser(username, 'local-token');
           if (msg) {
-            msg.style.background = 'rgba(39,174,96,0.15)';
-            msg.style.border = '1px solid #27AE60';
-            msg.style.color = '#27AE60';
+            msg.style.background = 'rgba(242,201,76,0.15)';
+            msg.style.border = '1px solid var(--primary)';
+            msg.style.color = 'var(--primary)';
             msg.textContent = "Ro'yxatdan muvaffaqiyatli o'tdingiz, " + username + "!";
             msg.classList.remove('hidden');
           }
