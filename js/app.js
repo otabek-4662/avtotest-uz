@@ -438,7 +438,7 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            this.setSessionUser(data.username || usernameOrEmail, data.token);
+            window.setSessionUser(data.username || usernameOrEmail, data.token);
             if (msg) {
               msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
               msg.textContent = data.message || "Xush kelibsiz!";
@@ -449,7 +449,7 @@
             throw new Error(data.message || "Kirishda xatolik!");
           }
         } catch (err) {
-          this.setSessionUser(usernameOrEmail, 'local-token');
+          window.setSessionUser(usernameOrEmail, 'local-token');
           if (msg) {
             msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
             msg.textContent = "Xush kelibsiz, " + usernameOrEmail + "!";
@@ -475,7 +475,7 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            this.setSessionUser(username, data.token);
+            window.setSessionUser(username, data.token);
             if (msg) {
               msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
               msg.textContent = data.message || "Ro'yxatdan o'tdingiz!";
@@ -486,7 +486,7 @@
             throw new Error(data.message || "Ro'yxatdan o'tishda xatolik!");
           }
         } catch (err) {
-          this.setSessionUser(username, 'local-token');
+          window.setSessionUser(username, 'local-token');
           if (msg) {
             msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
             msg.textContent = "Ro'yxatdan muvaffaqiyatli o'tdingiz, " + username + "!";

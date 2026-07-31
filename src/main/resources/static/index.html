@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="uz" class="dark">
+<html lang="uz" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AvtoTest UZ — O'zbekiston PDD Imtihoni va Yo'l Harakati Qoidalari Portali</title>
   <meta name="description" content="O'zbekiston haydovchilik guvohnomasi imtihoniga tayyorlanish uchun to'liq qamrovli, zamonaviy veb-sayt. PDD testlar, yo'l belgilari, nazariya va jarimalar." />
+
+  <!-- Favicon (SVG inline data URI — gradient hexagon AT) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23F2C94C'/%3E%3Cstop offset='100%25' stop-color='%23D4A017'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='20,2 37,11.5 37,28.5 20,38 3,28.5 3,11.5' stroke='url(%23g)' stroke-width='3' fill='%2311161D'/%3E%3Ctext x='20' y='26' font-family='sans-serif' font-weight='900' font-size='16' fill='url(%23g)' text-anchor='middle'%3EAT%3C/text%3E%3C/svg%3E" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,14 +17,14 @@
       theme: {
         extend: {
           colors: {
-            bg: '#0B0F14',
-            surface: '#11161D',
-            'surface-2': '#171C24',
-            primary: '#F2C94C',
-            danger: '#EB5757',
-            text: '#E8EAED',
-            'text-muted': '#9AA0A6',
-            border: '#242B36'
+            bg: 'var(--bg)',
+            surface: 'var(--surface)',
+            'surface-2': 'var(--surface-2)',
+            primary: 'var(--primary)',
+            danger: 'var(--danger)',
+            text: 'var(--text)',
+            'text-muted': 'var(--text-muted)',
+            border: 'var(--border)'
           },
           fontFamily: {
             heading: ['Space Grotesk', 'sans-serif'],
@@ -40,92 +43,126 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./css/style.css" />
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-[#F2C94C] selection:text-[#0B0F14]">
+<body class="min-h-screen flex flex-col justify-between selection:bg-[var(--primary)] selection:text-[var(--bg)]">
 
-  <!-- Header / Technical Navigation Bar (Height: 80px) -->
+  <!-- Header / Technical Navigation Bar -->
   <header id="main-header" class="sticky top-0 z-50 tech-navbar transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
       <div class="flex items-center justify-between h-20">
 
-        <!-- LOGO (Pure Geometric SVG Hexagon Monogram) -->
-        <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="window.switchTab('home')">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="20,3 36,12 36,28 20,37 4,28 4,12" stroke="#F2C94C" stroke-width="2.5" fill="#11161D" />
-            <text x="20" y="25" font-family="'Space Grotesk', monospace" font-weight="800" font-size="15" fill="#F2C94C" text-anchor="middle">AT</text>
-          </svg>
+        <!-- ENHANCED LOGO WITH GRADIENT & SPEEDOMETER ACCENT -->
+        <div class="flex items-center gap-3 cursor-pointer shrink-0 group" onclick="window.switchTab('home')">
+          <div class="relative">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-300 group-hover:scale-105">
+              <defs>
+                <linearGradient id="logo-grad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#F2C94C"/>
+                  <stop offset="100%" stop-color="#D4A017"/>
+                </linearGradient>
+              </defs>
+              <!-- Hexagon body -->
+              <polygon points="22,2 40,12 40,32 22,42 4,32 4,12" stroke="url(#logo-grad)" stroke-width="2.5" fill="var(--surface)"/>
+              <!-- Speedometer arc (top decorative) -->
+              <path d="M14 16 A10 10 0 0 1 30 16" stroke="url(#logo-grad)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+              <!-- Speedometer needle -->
+              <line x1="22" y1="20" x2="28" y2="14" stroke="url(#logo-grad)" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- AT Text -->
+              <text x="22" y="33" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="14" fill="url(#logo-grad)" text-anchor="middle">AT</text>
+            </svg>
+            <!-- Subtle glow pulse -->
+            <div class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-500" style="background:radial-gradient(circle, var(--primary) 0%, transparent 70%);filter:blur(8px)"></div>
+          </div>
           <div class="flex flex-col">
-            <span class="text-xl font-extrabold tracking-tight text-[#E8EAED] font-heading leading-none">
-              AvtoTest <span class="text-[#F2C94C]">UZ</span>
+            <span class="text-xl font-extrabold tracking-tight font-heading leading-none" style="color:var(--text)">
+              Avto<span class="logo-gradient-text">Test</span> <span style="color:var(--primary)">UZ</span>
             </span>
-            <span class="text-[10px] uppercase font-bold text-[#9AA0A6] tracking-wider mt-0.5">
-              PDD Imtihon Portali
-            </span>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:var(--primary)"></span>
+              <span data-i18n="logo-sub" class="text-[10px] uppercase font-bold tracking-wider" style="color:var(--text-muted)">
+                PDD Imtihon Portali
+              </span>
+            </div>
           </div>
         </div>
 
-        <!-- Desktop Navigation Links (Offset left ~10-15%) -->
+        <!-- Desktop Navigation Links -->
         <nav class="hidden md:flex items-center gap-1 nav-menu-container">
           <button data-tab="home" onclick="window.switchTab('home')" class="nav-link nav-btn active">
-            Bosh Sahifa
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+            <span data-i18n="nav-home">Bosh Sahifa</span>
           </button>
           <button data-tab="test" onclick="window.switchTab('test')" class="nav-link nav-btn">
-            Test Rejimi
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <span data-i18n="nav-test">Test Rejimi</span>
           </button>
           <button data-tab="signs" onclick="window.switchTab('signs')" class="nav-link nav-btn">
-            Yo'l Belgilari
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <span data-i18n="nav-signs">Yo'l Belgilari</span>
           </button>
           <button data-tab="theory" onclick="window.switchTab('theory')" class="nav-link nav-btn">
-            Nazariya
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>
+            <span data-i18n="nav-theory">Nazariya</span>
           </button>
           <button data-tab="fines" onclick="window.switchTab('fines')" class="nav-link nav-btn">
-            Jarimalar
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029C10.792 13.807 10.304 14 10 14c-.304 0-.792-.193-1.264-.979a5.672 5.672 0 01-.421-.821H10a1 1 0 100-2H8.007a7.29 7.29 0 010-1H10a1 1 0 100-2H8.315c.134-.29.287-.556.421-.821z" clip-rule="evenodd"/></svg>
+            <span data-i18n="nav-fines">Jarimalar</span>
           </button>
           <button data-tab="stats" onclick="window.switchTab('stats')" class="nav-link nav-btn">
-            Statistika
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+            <span data-i18n="nav-stats">Statistika</span>
           </button>
         </nav>
 
-        <!-- Right Side Actions: GLOBAL SEARCH, LANGUAGE SWITCHER, AUTH & CTA -->
+        <!-- Right Side Actions -->
         <div class="flex items-center gap-3">
           
-          <!-- FEATURE 3: GLOBAL NAVBAR SEARCH INPUT -->
-          <div class="relative hidden lg:block w-44">
-            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9AA0A6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- ENHANCED GLOBAL NAVBAR SEARCH -->
+          <div class="relative hidden lg:block w-48 search-container">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 search-icon" style="color:var(--text-muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             <input 
               type="text" 
               id="global-search-input" 
+              data-i18n-placeholder="search-placeholder"
               placeholder="Qidiruv..." 
               oninput="window.handleGlobalSearch(this.value)"
-              class="w-full pl-9 pr-3 py-1.5 rounded-md bg-[#171C24] border border-[#242B36] text-[#E8EAED] text-xs focus:outline-none focus:border-[#F2C94C] transition-colors"
+              class="search-input w-full pl-9 pr-3 py-2 rounded-lg text-xs focus:outline-none"
             />
           </div>
 
-          <!-- FEATURE 2: SLEEK LANGUAGE SWITCHER (UZ / RU) -->
-          <button id="btn-lang-toggle" onclick="window.toggleLanguage()" class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold text-[#F2C94C] flex items-center gap-1 border border-[#242B36]" title="Tilni almashtirish / Сменить язык">
+          <!-- THEME SWITCHER -->
+          <div class="relative">
+            <button id="btn-theme-toggle" onclick="window.cycleTheme()" class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1" title="Temani almashtirish">
+              <span id="theme-icon">🌙</span>
+              <span id="current-theme-label" class="hidden sm:inline">Dark</span>
+            </button>
+          </div>
+
+          <!-- LANGUAGE SWITCHER -->
+          <button id="btn-lang-toggle" onclick="window.toggleLanguage()" class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1" style="color:var(--primary);border-color:var(--border)" title="Tilni almashtirish / Сменить язык">
             <span id="current-lang-label">UZ</span>
-            <svg class="w-3 h-3 text-[#9AA0A6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            <svg class="w-3 h-3" style="color:var(--text-muted)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </button>
 
-          <!-- FEATURE 1: AUTHENTICATION BUTTONS (LOGIN & REGISTER) -->
+          <!-- AUTH BUTTONS -->
           <div id="auth-nav-buttons" class="hidden sm:flex items-center gap-2">
-            <button onclick="window.openAuthModal('login')" class="btn-secondary text-xs py-2 px-3">
+            <button onclick="window.openAuthModal('login')" class="btn-secondary text-xs py-2 px-3" data-i18n="btn-login">
               Kirish
             </button>
-            <button onclick="window.openAuthModal('register')" class="btn-primary text-xs py-2 px-3.5">
+            <button onclick="window.openAuthModal('register')" class="btn-primary text-xs py-2 px-3.5" data-i18n="btn-register">
               Ro'yxatdan o'tish
             </button>
           </div>
 
-          <!-- Logged In User Pill (Hidden by default) -->
-          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs">
-            <span id="user-display-name" class="font-mono font-bold text-[#F2C94C]">Foydalanuvchi</span>
-            <button onclick="window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold ml-1">Chiqish</button>
+          <!-- Logged In User Pill -->
+          <div id="user-profile-pill" class="hidden flex items-center gap-2 px-3 py-1.5 rounded-md text-xs" style="background:var(--surface-2);border:1px solid var(--border)">
+            <span id="user-display-name" class="font-mono font-bold" style="color:var(--primary)">Foydalanuvchi</span>
+            <button onclick="window.logoutUser()" class="hover:underline font-semibold ml-1" style="color:var(--danger)" data-i18n="btn-logout">Chiqish</button>
           </div>
 
-          <!-- Mobile Hamburger Menu Button -->
-          <button id="btn-mobile-menu" class="md:hidden p-2 rounded-md bg-[#171C24] text-[#E8EAED] border border-[#242B36]">
+          <!-- Mobile Hamburger -->
+          <button id="btn-mobile-menu" class="md:hidden p-2 rounded-md" style="background:var(--surface-2);color:var(--text);border:1px solid var(--border)">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
           </button>
         </div>
@@ -133,30 +170,18 @@
       </div>
     </div>
 
-    <!-- Mobile Dropdown Navigation Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 border-b border-[#242B36] bg-[#0B0F14]/95 backdrop-blur-md">
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4" style="border-bottom:1px solid var(--border);background:var(--bg)">
       <div class="flex flex-col gap-1 pt-3">
-        <button onclick="window.switchTab('home')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          Bosh Sahifa
-        </button>
-        <button onclick="window.switchTab('test')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          Test Rejimi
-        </button>
-        <button onclick="window.switchTab('signs')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          Yo'l Belgilari Katalogi
-        </button>
-        <button onclick="window.switchTab('theory')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          PDD Nazariya
-        </button>
-        <button onclick="window.switchTab('fines')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          Jarimalar Jadvali
-        </button>
-        <button onclick="window.switchTab('stats')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
-          Statistika va Progress
-        </button>
-        <div class="pt-2 border-t border-[#242B36] flex gap-2">
-          <button onclick="window.openAuthModal('login')" class="btn-secondary w-full text-xs py-2">Kirish</button>
-          <button onclick="window.openAuthModal('register')" class="btn-primary w-full text-xs py-2">Ro'yxatdan o'tish</button>
+        <button onclick="window.switchTab('home')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-home">Bosh Sahifa</button>
+        <button onclick="window.switchTab('test')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-test">Test Rejimi</button>
+        <button onclick="window.switchTab('signs')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-signs">Yo'l Belgilari</button>
+        <button onclick="window.switchTab('theory')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-theory">Nazariya</button>
+        <button onclick="window.switchTab('fines')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-fines">Jarimalar</button>
+        <button onclick="window.switchTab('stats')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-stats">Statistika</button>
+        <div class="pt-2 flex gap-2" style="border-top:1px solid var(--border)">
+          <button onclick="window.openAuthModal('login')" class="btn-secondary w-full text-xs py-2" data-i18n="btn-login">Kirish</button>
+          <button onclick="window.openAuthModal('register')" class="btn-primary w-full text-xs py-2" data-i18n="btn-register">Ro'yxatdan o'tish</button>
         </div>
       </div>
     </div>
@@ -169,136 +194,100 @@
     </div>
   </main>
 
-  <!-- FEATURE 4: MODERN FOOTER WITH PRIVACY POLICY, TERMS OF SERVICE & TELEGRAM LINK -->
-  <footer class="border-t border-[#242B36] bg-[#0B0F14] mt-16 py-10 text-[#9AA0A6] text-xs">
+  <!-- FOOTER -->
+  <footer class="mt-16 py-10 text-xs" style="border-top:1px solid var(--border);background:var(--bg);color:var(--text-muted)">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#242B36]">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-6" style="border-bottom:1px solid var(--border)">
         
-        <!-- Left Footer Brand -->
         <div class="flex items-center gap-3">
           <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="20,3 36,12 36,28 20,37 4,28 4,12" stroke="#F2C94C" stroke-width="2.5" fill="#11161D" />
-            <text x="20" y="25" font-family="'Space Grotesk', monospace" font-weight="800" font-size="15" fill="#F2C94C" text-anchor="middle">AT</text>
+            <polygon points="20,3 36,12 36,28 20,37 4,28 4,12" stroke="var(--primary)" stroke-width="2.5" fill="var(--surface)" />
+            <text x="20" y="25" font-family="'Space Grotesk', monospace" font-weight="800" font-size="15" fill="var(--primary)" text-anchor="middle">AT</text>
           </svg>
           <div>
-            <span class="font-bold text-[#E8EAED] font-heading text-sm block">AvtoTest UZ</span>
-            <span class="text-[#9AA0A6] text-[11px]">O'zbekiston Yo'l Harakati Qoidalari va Imtihon Portali</span>
+            <span class="font-bold font-heading text-sm block" style="color:var(--text)">AvtoTest UZ</span>
+            <span class="text-[11px]" style="color:var(--text-muted)" data-i18n="footer-desc">O'zbekiston Yo'l Harakati Qoidalari va Imtihon Portali</span>
           </div>
         </div>
 
-        <!-- Center / Right Links: Privacy Policy, Terms, Telegram -->
         <div class="flex items-center flex-wrap gap-6 text-xs font-medium">
-          <a href="#" onclick="alert('Maxfiylik Siyosati:\nFoydalanuvchi ma’lumotlari xavfsiz saqlanadi hamda uchinchi shaxslarga berilmaydi.'); return false;" class="hover:text-[#F2C94C] transition-colors">
+          <a href="#" data-i18n="footer-privacy" onclick="alert('Maxfiylik Siyosati: Foydalanuvchi ma\'lumotlari xavfsiz saqlanadi.'); return false;" class="hover:opacity-80 transition-opacity" style="color:var(--text-muted)">
             Maxfiylik Siyosati
           </a>
-          <span class="text-[#242B36]">•</span>
-          <a href="#" onclick="alert('Foydalanish Shartlari:\nPlatforma O‘zbekiston PDD imtihoniga tayyorlanish uchun mo’ljallangan o’quv-interaktiv simulyatsiya hisoblanadi.'); return false;" class="hover:text-[#F2C94C] transition-colors">
+          <span style="color:var(--border)">•</span>
+          <a href="#" data-i18n="footer-terms" onclick="alert('Foydalanish Shartlari: Platforma PDD imtihoniga tayyorlanish uchun.'); return false;" class="hover:opacity-80 transition-opacity" style="color:var(--text-muted)">
             Foydalanish Shartlari
           </a>
-          <span class="text-[#242B36]">•</span>
-          <a href="https://t.me/otabek_dev" target="_blank" class="hover:text-[#F2C94C] transition-colors flex items-center gap-1.5 text-[#E8EAED] bg-[#171C24] px-3 py-1.5 rounded border border-[#242B36]">
-            <svg class="w-4 h-4 text-[#F2C94C]" fill="currentColor" viewBox="0 0 24 24">
+          <span style="color:var(--border)">•</span>
+          <a href="https://t.me/otabek_dev" target="_blank" class="hover:opacity-80 transition-opacity flex items-center gap-1.5 px-3 py-1.5 rounded" style="color:var(--text);background:var(--surface-2);border:1px solid var(--border)">
+            <svg class="w-4 h-4" style="color:var(--primary)" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.65-.53.81-1.07.5l-3-2.21-1.45 1.39c-.16.16-.3.3-.61.3l.21-3.05 5.56-5.02c.24-.22-.05-.34-.37-.13l-6.87 4.33-2.96-.92c-.64-.2-.65-.64.13-.95l11.57-4.46c.54-.19 1.01.13.84.95z"/>
             </svg>
-            <span>Telegram Aloqa</span>
+            <span data-i18n="footer-telegram">Telegram Aloqa</span>
           </a>
         </div>
 
       </div>
 
-      <!-- Copyright Line -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-[#9AA0A6]">
-        <p>© 2026 AvtoTest UZ. Barcha huquqlar himoyalangan.</p>
-        <p>Tayyorgarlik tizimi va PDD simulyatsiyasi.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px]" style="color:var(--text-muted)">
+        <p data-i18n="footer-copyright">© 2026 AvtoTest UZ. Barcha huquqlar himoyalangan.</p>
+        <p data-i18n="footer-tagline">Tayyorgarlik tizimi va PDD simulyatsiyasi.</p>
       </div>
 
     </div>
   </footer>
 
-  <!-- FEATURE 1: AUTH MODAL WINDOW (LOGIN & REGISTER FORMS MATCHING YELLOW/DARK THEME) -->
-  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B0F14]/90 backdrop-blur-md hidden fade-in">
-    <div class="tech-card p-8 max-w-md w-full relative border border-[#242B36] shadow-2xl">
+  <!-- AUTH MODAL WINDOW -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden fade-in" style="background:rgba(0,0,0,0.7);backdrop-filter:blur(8px)">
+    <div class="tech-card p-8 max-w-md w-full relative shadow-2xl" style="border:1px solid var(--border)">
       
-      <!-- Close Button -->
-      <button onclick="window.closeAuthModal()" class="absolute top-4 right-4 w-8 h-8 rounded-md bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] flex items-center justify-center text-sm font-bold border border-[#242B36]">
+      <button onclick="window.closeAuthModal()" class="absolute top-4 right-4 w-8 h-8 rounded-md flex items-center justify-center text-sm font-bold" style="background:var(--surface-2);color:var(--text-muted);border:1px solid var(--border)">
         ✕
       </button>
 
-      <!-- Auth Tab Header Switcher -->
-      <div class="flex items-center gap-2 mb-6 border-b border-[#242B36] pb-3">
-        <button id="tab-login-btn" onclick="window.switchAuthTab('login')" class="text-lg font-bold font-heading text-[#F2C94C] border-b-2 border-[#F2C94C] pb-1 mr-4 transition-all">
+      <div class="flex items-center gap-2 mb-6 pb-3" style="border-bottom:1px solid var(--border)">
+        <button id="tab-login-btn" onclick="window.switchAuthTab('login')" class="text-lg font-bold font-heading pb-1 mr-4 transition-all" style="color:var(--primary);border-bottom:2px solid var(--primary)" data-i18n="auth-login">
           Kirish
         </button>
-        <button id="tab-register-btn" onclick="window.switchAuthTab('register')" class="text-lg font-bold font-heading text-[#9AA0A6] hover:text-[#E8EAED] pb-1 transition-all">
+        <button id="tab-register-btn" onclick="window.switchAuthTab('register')" class="text-lg font-bold font-heading pb-1 transition-all" style="color:var(--text-muted)" data-i18n="auth-register">
           Ro'yxatdan o'tish
         </button>
       </div>
 
-      <!-- Status Message Area -->
       <div id="auth-status-msg" class="hidden mb-4 p-3 rounded-md text-xs font-semibold"></div>
 
       <!-- LOGIN FORM -->
       <form id="login-form" onsubmit="window.handleLoginSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1">Foydalanuvchi nomi yoki Email</label>
-          <input 
-            type="text" 
-            id="login-username" 
-            required 
-            placeholder="masalan: otabek" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
+          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-username-email">Foydalanuvchi nomi yoki Email</label>
+          <input type="text" id="login-username" required placeholder="masalan: otabek" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
         </div>
         <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1">Parol</label>
-          <input 
-            type="password" 
-            id="login-password" 
-            required 
-            placeholder="••••••••" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
+          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
         </div>
         <button type="submit" class="btn-primary w-full py-3 text-sm mt-2">
-          <span>Kirish</span>
+          <span data-i18n="btn-login">Kirish</span>
         </button>
       </form>
 
-      <!-- REGISTER FORM (Hidden by default) -->
+      <!-- REGISTER FORM -->
       <form id="register-form" onsubmit="window.handleRegisterSubmit(event)" class="space-y-4 hidden">
         <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1">Foydalanuvchi nomi</label>
-          <input 
-            type="text" 
-            id="reg-username" 
-            required 
-            placeholder="masalan: otabek" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
+          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-username">Foydalanuvchi nomi</label>
+          <input type="text" id="reg-username" required placeholder="masalan: otabek" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
         </div>
         <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1">Email Manzil</label>
-          <input 
-            type="email" 
-            id="reg-email" 
-            required 
-            placeholder="otabek@example.com" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
+          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-email">Email Manzil</label>
+          <input type="email" id="reg-email" required placeholder="otabek@example.com" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
         </div>
         <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1">Parol</label>
-          <input 
-            type="password" 
-            id="reg-password" 
-            required 
-            placeholder="••••••••" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
+          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>
+          <input type="password" id="reg-password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
         </div>
         <button type="submit" class="btn-primary w-full py-3 text-sm mt-2">
-          <span>Ro'yxatdan o'tish</span>
+          <span data-i18n="btn-register">Ro'yxatdan o'tish</span>
         </button>
       </form>
 
