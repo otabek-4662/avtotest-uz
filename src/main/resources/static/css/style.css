@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap');
+
+:root {
+  --bg: #0B0F14;
+  --surface: #11161D;
+  --surface-2: #171C24;
+
+  --primary: #F2C94C;
+  --danger: #EB5757;
+
+  --text: #E8EAED;
+  --text-muted: #9AA0A6;
+
+  --border: #242B36;
+
+  --shadow: 0 10px 40px rgba(0,0,0,.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Road Dashed Line SVG Pattern (2.5% opacity) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 v24 M40 40 v24' stroke='%23ffffff' stroke-width='2' stroke-dasharray='12 12' stroke-opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--text);
+  letter-spacing: normal;
+}
+
+/* Base Headings & Typography */
+h1, .hero-h1 {
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+h2, .section-title {
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.body-text {
+  font-size: 17px;
+  color: var(--text);
+}
+
+.muted-text {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* Technical Navbar Styling */
+.tech-navbar {
+  height: 80px;
+  background: transparent;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out, backdrop-filter 200ms ease-out;
+}
+
+.tech-navbar.scrolled {
+  background: rgba(11, 15, 20, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Custom Navigation Menu offset */
+.nav-menu-container {
+  margin-left: clamp(1rem, 6vw, 4rem);
+}
+
+/* Nav Item buttons */
+.nav-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 200ms ease-out;
+}
+
+.nav-btn:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.nav-btn.active {
+  color: var(--primary);
+  font-weight: 600;
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* Button System (Technical, strictly no rounded-full, no glass effect) */
+.btn-primary {
+  display: inline-flex;
+  items-center: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #0B0F14;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(242, 201, 78, 0.15);
+  transition: background-color 200ms ease-out, filter 200ms ease-out, transform 200ms ease-out;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  items-center: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--surface-2);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 22px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 200ms ease-out;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface);
+  border-color: var(--text-muted);
+  color: #ffffff;
+}
+
+/* Card System */
+.tech-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: border-color 200ms ease-out, transform 200ms ease-out;
+}
+
+.tech-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+/* Stats Progress Visuals */
+.radial-stat-box {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 200ms ease-out;
+}
+
+.radial-stat-box:hover {
+  border-color: var(--primary);
+}
+
+/* SVG Line & Progress stroke animations */
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.35s ease-out;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Standardized Option Buttons for Tests */
+.test-option-btn {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: var(--text);
+  text-align: left;
+  transition: border-color 200ms ease-out, background-color 200ms ease-out;
+  cursor: pointer;
+  width: 100%;
+}
+
+.test-option-btn:hover {
+  border-color: var(--primary);
+  background-color: var(--surface-2);
+}
+
+.test-option-btn.selected {
+  border-color: var(--primary);
+  background-color: rgba(242, 201, 78, 0.08);
+}
+
+.test-option-btn.correct {
+  border-color: #27AE60 !important;
+  background-color: rgba(39, 174, 96, 0.12) !important;
+  color: #27AE60 !important;
+}
+
+.test-option-btn.incorrect {
+  border-color: var(--danger) !important;
+  background-color: rgba(235, 87, 87, 0.12) !important;
+  color: var(--danger) !important;
+}
+
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 200ms ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
