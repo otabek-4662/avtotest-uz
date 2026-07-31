@@ -26,5 +26,8 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // e.g. "USER", "ADMIN"
+    private String role; // "USER", "ADMIN", "SUPER_ADMIN"
+
+    @Column(nullable = true)
+    private String permissions; // e.g. "MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS,ALL"
 }

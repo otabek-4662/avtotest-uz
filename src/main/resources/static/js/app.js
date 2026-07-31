@@ -180,6 +180,13 @@
             mobileUser.classList.add('flex');
           }
           if (mobileUserName) mobileUserName.textContent = user.username;
+
+          const adminNavBtn = document.getElementById('nav-btn-admin');
+          const isAdmin = user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes(user.username.toLowerCase());
+          if (adminNavBtn) {
+            if (isAdmin) adminNavBtn.classList.remove('hidden');
+            else adminNavBtn.classList.add('hidden');
+          }
         } catch(e) {}
       } else {
         if (authBtns) authBtns.classList.remove('hidden');
@@ -286,6 +293,9 @@
           break;
         case 'stats':
           window.StatsModule.init(this.mainContainer);
+          break;
+        case 'admin':
+          window.AdminModule.init(this.mainContainer);
           break;
         default:
           this.renderHome();
@@ -563,7 +573,7 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(data.username || usernameOrEmail, data.token);
+            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'));
             if (msg) {
               msg.style.background = 'rgba(242,201,76,0.15)';
               msg.style.border = '1px solid var(--primary)';
@@ -576,7 +586,8 @@
             throw new Error(data.message || "Kirishda xatolik!");
           }
         } catch (err) {
-          window.setSessionUser(usernameOrEmail, 'local-token');
+          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(usernameOrEmail.toLowerCase()) ? 'ADMIN' : 'USER';
+          window.setSessionUser(usernameOrEmail, 'local-token', defaultRole);
           if (msg) {
             msg.style.background = 'rgba(242,201,76,0.15)';
             msg.style.border = '1px solid var(--primary)';
@@ -604,7 +615,7 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(username, data.token);
+            window.setSessionUser(username, data.token, data.role || 'USER');
             if (msg) {
               msg.style.background = 'rgba(242,201,76,0.15)';
               msg.style.border = '1px solid var(--primary)';
@@ -617,7 +628,8 @@
             throw new Error(data.message || "Ro'yxatdan o'tishda xatolik!");
           }
         } catch (err) {
-          window.setSessionUser(username, 'local-token');
+          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(username.toLowerCase()) ? 'ADMIN' : 'USER';
+          window.setSessionUser(username, 'local-token', defaultRole);
           if (msg) {
             msg.style.background = 'rgba(242,201,76,0.15)';
             msg.style.border = '1px solid var(--primary)';
@@ -629,8 +641,8 @@
         }
       };
 
-      window.setSessionUser = (username, token) => {
-        const userObj = { username, token };
+      window.setSessionUser = (username, token, role = 'USER') => {
+        const userObj = { username, token, role };
         localStorage.setItem('avtotest_user', JSON.stringify(userObj));
         this.initSession();
       };
@@ -663,6 +675,20 @@
       window.filterFines = (query) => window.FinesModule.setSearch(query);
 
       window.clearUserStatsHistory = () => window.StatsModule.clearHistory();
+
+      window.togglePasswordVisibility = (inputId, btn) => {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.03 10.03 0 013.98.933c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21M3 3l18 18"/></svg>`;
+          btn.setAttribute('title', "Parolni berkitish");
+        } else {
+          input.type = 'password';
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
+          btn.setAttribute('title', "Parolni ko'rsatish");
+        }
+      };
     }
   }
 

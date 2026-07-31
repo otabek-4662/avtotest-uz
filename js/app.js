@@ -1,13 +1,141 @@
 (function() {
+
+  // ========== I18N DICTIONARY ==========
+  const I18N = {
+    UZ: {
+      'logo-sub': 'PDD Imtihon Portali',
+      'nav-home': 'Bosh Sahifa',
+      'nav-test': 'Test Rejimi',
+      'nav-signs': "Yo'l Belgilari",
+      'nav-theory': 'Nazariya',
+      'nav-fines': 'Jarimalar',
+      'nav-stats': 'Statistika',
+      'search-placeholder': 'Qidiruv...',
+      'btn-login': 'Kirish',
+      'btn-register': "Ro'yxatdan o'tish",
+      'btn-logout': 'Chiqish',
+      'auth-login': 'Kirish',
+      'auth-register': "Ro'yxatdan o'tish",
+      'label-username-email': 'Foydalanuvchi nomi yoki Email',
+      'label-password': 'Parol',
+      'label-username': 'Foydalanuvchi nomi',
+      'label-email': 'Email Manzil',
+      'footer-desc': "O'zbekiston Yo'l Harakati Qoidalari va Imtihon Portali",
+      'footer-privacy': 'Maxfiylik Siyosati',
+      'footer-terms': 'Foydalanish Shartlari',
+      'footer-telegram': 'Telegram Aloqa',
+      'footer-copyright': '© 2026 AvtoTest UZ. Barcha huquqlar himoyalangan.',
+      'footer-tagline': 'Tayyorgarlik tizimi va PDD simulyatsiyasi.',
+      // Home page translations
+      'standart': "O'ZBEKISTON PDD 2026 STANDARTI",
+      'heroH1': 'Haydovchilik Imtihoniga <span style="color:var(--primary)">Professional</span> Tayyorgarlik Tizimi',
+      'heroDesc': "Rasmiy YPX PDD imtihon biletlari, yo'l belgilari katalogi, qoidalar nazariyasi hamda MJtK jarimalari bo'yicha yagona texnik platforma.",
+      'btnStart': 'Imtihon Testini Boshlash',
+      'btnSigns': "Yo'l Belgilarini Ko'rish",
+      'savollarBazasi': 'Savollar Bazasi',
+      'rasmiyManba': 'Rasmiy YPX manbasi',
+      'taymer': '20 Daq',
+      'taymerStandarti': 'Taymer Standarti',
+      'vaqtNazorati': 'Vaqt nazorati',
+      'muvaffaqiyat': 'Muvaffaqiyat',
+      'otishKorsatkich': "O'tish ko'rsatkich",
+      'ishlanganTestlar': 'Ishlangan Testlar',
+      'shaxsiyNatija': 'Shaxsiy natijangiz',
+      'asosiyBolimlar': "Asosiy Bo'limlar",
+      'interaktivImkoniyatlar': 'Platformaning barcha interaktiv imkoniyatlari',
+      'testRejimi': 'Test Rejimi',
+      'testDesc': '20 ta savol, vaqt va xatolar tahlili bilan PDD rasmiy imtihon simulyatsiyasi.',
+      'boshlash': 'Boshlash',
+      'yolBelgilari': "Yo'l Belgilari",
+      'signsDesc': "6 ta kategoriya bo'yicha belgilarni izlash, nomi va qoidalari bilan katalog.",
+      'kataloggaOtish': "Katalogga o'tish",
+      'pddNazariya': 'PDD Nazariya',
+      'theoryDesc': "Chorrahalar, svetofor, harakatlanish va xavfsizlik qoidalarining to'liq nazariyasi.",
+      'qoidalarniOqish': "Qoidalarni o'qish",
+      'jarimalarJadvali': 'Jarimalar Jadvali',
+      'finesDesc': "O'zbekiston MJtK moddalari bo'yicha amaldagi jarima miqdorlari va qidiruv.",
+      'jadvalniKorish': "Jadvalni ko'rish",
+      'loyihaHaqida': 'Loyiha va Dasturchi Haqida',
+      'loyihaDesc': 'Platformaning yaratilishi hamda ishlatilgan texnologiyalar',
+      'otabekDesc': "Ushbu AvtoTest UZ platformasi O'zbekiston PDD imtihoniga tayyorlanish hamda yo'l harakati qoidalarini interaktiv tarzda o'rganish maqsadida yaratildi.",
+      'steki': 'Texnologiyalar Steki:'
+    },
+    RU: {
+      'logo-sub': 'Портал Экзамена ПДД',
+      'nav-home': 'Главная',
+      'nav-test': 'Тест',
+      'nav-signs': 'Знаки',
+      'nav-theory': 'Теория',
+      'nav-fines': 'Штрафы',
+      'nav-stats': 'Статистика',
+      'search-placeholder': 'Поиск...',
+      'btn-login': 'Войти',
+      'btn-register': 'Регистрация',
+      'btn-logout': 'Выйти',
+      'auth-login': 'Войти',
+      'auth-register': 'Регистрация',
+      'label-username-email': 'Имя пользователя или Email',
+      'label-password': 'Пароль',
+      'label-username': 'Имя пользователя',
+      'label-email': 'Email Адрес',
+      'footer-desc': 'Портал Правил Дорожного Движения и Экзаменов Узбекистана',
+      'footer-privacy': 'Политика конфиденциальности',
+      'footer-terms': 'Условия использования',
+      'footer-telegram': 'Telegram Связь',
+      'footer-copyright': '© 2026 AvtoTest UZ. Все права защищены.',
+      'footer-tagline': 'Система подготовки и симуляция ПДД.',
+      // Home page translations
+      'standart': 'СТАНДАРТ ПДД УЗБЕКИСТАНА 2026',
+      'heroH1': 'Система <span style="color:var(--primary)">Профессиональной</span> Подготовки к Экзамену ПДД',
+      'heroDesc': 'Единая техническая платформа для билетов экзамена ПДД, каталога дорожных знаков, теории правил и штрафов.',
+      'btnStart': 'Начать Экзамен',
+      'btnSigns': 'Дорожные Знаки',
+      'savollarBazasi': 'База Вопросов',
+      'rasmiyManba': 'Официальная база',
+      'taymer': '20 Мин',
+      'taymerStandarti': 'Стандарт Таймера',
+      'vaqtNazorati': 'Контроль времени',
+      'muvaffaqiyat': 'Успеваемость',
+      'otishKorsatkich': 'Показатель сдачи',
+      'ishlanganTestlar': 'Пройдено Тестов',
+      'shaxsiyNatija': 'Личный результат',
+      'asosiyBolimlar': 'Основные Разделы',
+      'interaktivImkoniyatlar': 'Все интерактивные возможности платформы',
+      'testRejimi': 'Режим Теста',
+      'testDesc': 'Симуляция экзамена ПДД из 20 вопросов с таймером и анализом.',
+      'boshlash': 'Начать',
+      'yolBelgilari': 'Дорожные Знаки',
+      'signsDesc': 'Каталог из 6 категорий дорожных знаков с названиями и правилами.',
+      'kataloggaOtish': 'В каталог',
+      'pddNazariya': 'Теория ПДД',
+      'theoryDesc': 'Полная теория правил дорожного движения, перекрестков и светофоров.',
+      'qoidalarniOqish': 'Читать правила',
+      'jarimalarJadvali': 'Таблица Штрафов',
+      'finesDesc': 'Действующие суммы штрафов КоАО РУз с поиском по статьям.',
+      'jadvalniKorish': 'Смотреть таблицу',
+      'loyihaHaqida': 'О Проекте и Разработчике',
+      'loyihaDesc': 'Создание платформы и используемые технологии',
+      'otabekDesc': 'Данная платформа AvtoTest UZ создана для подготовки к экзаменам ПДД Узбекистана и интерактивного изучения правил.',
+      'steki': 'Стек Технологий:'
+    }
+  };
+
+  // ========== THEME CONFIG ==========
+  const THEMES = ['dark', 'light', 'cloud'];
+  const THEME_ICONS = { dark: '🌙', light: '☀️', cloud: '☁️' };
+  const THEME_LABELS = { dark: 'Dark', light: 'Light', cloud: 'Cloud' };
+
   class AppController {
     constructor() {
       this.currentTab = 'home';
       this.currentLang = localStorage.getItem('avtotest_lang') || 'UZ';
+      this.currentTheme = localStorage.getItem('avtotest_theme') || 'dark';
       this.mainContainer = document.getElementById('app-main-content');
       this.bindEvents();
       this.attachGlobalHandlers();
       this.initSession();
-      this.updateLanguageUI();
+      this.applyTheme(this.currentTheme);
+      this.applyI18n();
       this.renderTab('home');
     }
 
@@ -35,6 +163,9 @@
       const authBtns = document.getElementById('auth-nav-buttons');
       const userPill = document.getElementById('user-profile-pill');
       const userDisplayName = document.getElementById('user-display-name');
+      const mobileAuth = document.getElementById('mobile-auth-container');
+      const mobileUser = document.getElementById('mobile-user-container');
+      const mobileUserName = document.getElementById('mobile-user-name');
 
       if (storedUser) {
         try {
@@ -42,23 +173,85 @@
           if (authBtns) authBtns.classList.add('hidden');
           if (userPill) userPill.classList.remove('hidden');
           if (userDisplayName) userDisplayName.textContent = user.username;
+          
+          if (mobileAuth) mobileAuth.classList.add('hidden');
+          if (mobileUser) {
+            mobileUser.classList.remove('hidden');
+            mobileUser.classList.add('flex');
+          }
+          if (mobileUserName) mobileUserName.textContent = user.username;
+
+          const adminNavBtn = document.getElementById('nav-btn-admin');
+          const isAdmin = user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes(user.username.toLowerCase());
+          if (adminNavBtn) {
+            if (isAdmin) adminNavBtn.classList.remove('hidden');
+            else adminNavBtn.classList.add('hidden');
+          }
         } catch(e) {}
       } else {
         if (authBtns) authBtns.classList.remove('hidden');
         if (userPill) userPill.classList.add('hidden');
+        
+        if (mobileAuth) mobileAuth.classList.remove('hidden');
+        if (mobileUser) {
+          mobileUser.classList.add('hidden');
+          mobileUser.classList.remove('flex');
+        }
       }
+    }
+
+    // ========== I18N SYSTEM ==========
+    t(key) {
+      return (I18N[this.currentLang] && I18N[this.currentLang][key]) || key;
+    }
+
+    applyI18n() {
+      // Update lang label
+      const label = document.getElementById('current-lang-label');
+      if (label) label.textContent = this.currentLang;
+
+      // Update all data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const translated = this.t(key);
+        if (translated !== key) {
+          el.textContent = translated;
+        }
+      });
+
+      // Update all data-i18n-placeholder elements
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const translated = this.t(key);
+        if (translated !== key) {
+          el.placeholder = translated;
+        }
+      });
     }
 
     toggleLanguage() {
       this.currentLang = this.currentLang === 'UZ' ? 'RU' : 'UZ';
       localStorage.setItem('avtotest_lang', this.currentLang);
-      this.updateLanguageUI();
+      this.applyI18n();
       this.renderTab(this.currentTab);
     }
 
-    updateLanguageUI() {
-      const label = document.getElementById('current-lang-label');
-      if (label) label.textContent = this.currentLang;
+    // ========== THEME SYSTEM ==========
+    applyTheme(theme) {
+      this.currentTheme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('avtotest_theme', theme);
+
+      const icon = document.getElementById('theme-icon');
+      const themeLabel = document.getElementById('current-theme-label');
+      if (icon) icon.textContent = THEME_ICONS[theme] || '🌙';
+      if (themeLabel) themeLabel.textContent = THEME_LABELS[theme] || 'Dark';
+    }
+
+    cycleTheme() {
+      const currentIndex = THEMES.indexOf(this.currentTheme);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      this.applyTheme(THEMES[nextIndex]);
     }
 
     switchTab(tabName) {
@@ -101,6 +294,9 @@
         case 'stats':
           window.StatsModule.init(this.mainContainer);
           break;
+        case 'admin':
+          window.AdminModule.init(this.mainContainer);
+          break;
         default:
           this.renderHome();
       }
@@ -108,70 +304,35 @@
 
     renderHome() {
       const stats = window.StorageManager.getStatsSummary();
-      const isUz = this.currentLang === 'UZ';
-
-      const t = {
-        standart: isUz ? "O'ZBEKISTON PDD 2026 STANDARTI" : "СТАНДАРТ ПДД УЗБЕКИСТАНА 2026",
-        heroH1: isUz ? 'Haydovchilik Imtihoniga <span class="text-[#F2C94C]">Professional</span> Tayyorgarlik Tizimi' : 'Система <span class="text-[#F2C94C]">Профессиональной</span> Подготовки к Экзамену ПДД',
-        heroDesc: isUz ? "Rasmiy YPX PDD imtihon biletlari, yo'l belgilari katalogi, qoidalar nazariyasi hamda MJtK jarimalari bo'yicha yagona texnik platforma." : "Единая техническая платформа для билетов экзамена ПДД, каталога дорожных знаков, теории правил и штрафов.",
-        btnStart: isUz ? 'Imtihon Testini Boshlash' : 'Начать Экзамен',
-        btnSigns: isUz ? "Yo'l Belgilarini Ko'rish" : 'Дорожные Знаки',
-        savollarBazasi: isUz ? 'Savollar Bazasi' : 'База Вопросов',
-        rasmiyManba: isUz ? 'Rasmiy YPX manbasi' : 'Официальная база',
-        taymer: isUz ? '20 Daq' : '20 Мин',
-        taymerStandarti: isUz ? 'Taymer Standarti' : 'Стандарт Таймера',
-        vaqtNazorati: isUz ? 'Vaqt nazorati' : 'Контроль времени',
-        muvaffaqiyat: isUz ? 'Muvaffaqiyat' : 'Успеваемость',
-        otishKorsatkich: isUz ? "O'tish ko'rsatkich" : 'Показатель сдачи',
-        ishlanganTestlar: isUz ? 'Ishlangan Testlar' : 'Пройдено Тестов',
-        shaxsiyNatija: isUz ? 'Shaxsiy natijangiz' : 'Личный результат',
-        asosiyBolimlar: isUz ? "Asosiy Bo'limlar" : 'Основные Разделы',
-        interaktivImkoniyatlar: isUz ? 'Platformaning barcha interaktiv imkoniyatlari' : 'Все интерактивные возможности платформы',
-        testRejimi: isUz ? 'Test Rejimi' : 'Режим Теста',
-        testDesc: isUz ? '20 ta savol, vaqt va xatolar tahlili bilan PDD rasmiy imtihon simulyatsiyasi.' : 'Симуляция экзамена ПДД из 20 вопросов с таймером и анализом.',
-        boshlash: isUz ? 'Boshlash' : 'Начать',
-        yolBelgilari: isUz ? "Yo'l Belgilari" : 'Дорожные Знаки',
-        signsDesc: isUz ? "6 ta kategoriya bo'yicha belgilarni izlash, nomi va qoidalari bilan katalog." : 'Каталог из 6 категорий дорожных знаков с названиями и правилами.',
-        kataloggaOtish: isUz ? "Katalogga o'tish" : 'В каталог',
-        pddNazariya: isUz ? 'PDD Nazariya' : 'Теория ПДД',
-        theoryDesc: isUz ? "Chorrahalar, svetofor, harakatlanish va xavfsizlik qoidalarining to'liq nazariyasi." : "Полная теория правил дорожного движения, перекрестков и светофоров.",
-        qoidalarniOqish: isUz ? "Qoidalarni o'qish" : 'Читать правила',
-        jarimalarJadvali: isUz ? 'Jarimalar Jadvali' : 'Таблица Штрафов',
-        finesDesc: isUz ? "O'zbekiston MJtK moddalari bo'yicha amaldagi jarima miqdorlari va qidiruv." : 'Действующие суммы штрафов КоАО РУз с поиском по статьям.',
-        jadvalniKorish: isUz ? "Jadvalni ko'rish" : 'Смотреть таблицу',
-        loyihaHaqida: isUz ? 'Loyiha va Dasturchi Haqida' : 'О Проекте и Разработчике',
-        loyihaDesc: isUz ? 'Platformaning yaratilishi hamda ishlatilgan texnologiyalar' : 'Создание платформы и используемые технологии',
-        otabekDesc: isUz ? "Ushbu AvtoTest UZ platformasi O'zbekiston PDD imtihoniga tayyorlanish hamda yo'l harakati qoidalarini interaktiv tarzda o'rganish maqsadida yaratildi." : 'Данная платформа AvtoTest UZ создана для подготовки к экзаменам ПДД Узбекистана и интерактивного изучения правил.',
-        steki: isUz ? 'Texnologiyalar Steki:' : 'Стек Технологий:'
-      };
+      const t = (key) => this.t(key);
 
       const html = `
         <div class="fade-in space-y-20 py-4">
           <!-- HERO SECTION -->
           <section class="relative py-12 text-left max-w-4xl">
             <div class="space-y-6">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#171C24] border border-[#242B36] text-xs font-mono font-medium text-[#F2C94C]">
-                <span class="w-2 h-2 rounded-full bg-[#F2C94C]"></span>
-                ${t.standart}
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
+                <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
+                ${t('standart')}
               </div>
 
-              <h1 class="hero-h1 text-[#E8EAED]">
-                ${t.heroH1}
+              <h1 class="hero-h1" style="color:var(--text)">
+                ${t('heroH1')}
               </h1>
 
-              <p class="body-text text-[#9AA0A6] max-w-2xl">
-                ${t.heroDesc}
+              <p class="body-text max-w-2xl" style="color:var(--text-muted)">
+                ${t('heroDesc')}
               </p>
 
               <div class="pt-4 flex flex-wrap items-center gap-4">
                 <button onclick="window.switchTab('test')" class="btn-primary">
-                  <span>${t.btnStart}</span>
+                  <span>${t('btnStart')}</span>
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </button>
 
                 <button onclick="window.switchTab('signs')" class="btn-secondary">
-                  <span>${t.btnSigns}</span>
-                  <svg class="w-4 h-4 text-[#9AA0A6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                  <span>${t('btnSigns')}</span>
+                  <svg class="w-4 h-4" style="color:var(--text-muted)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                 </button>
               </div>
             </div>
@@ -179,184 +340,157 @@
 
           <!-- STATISTIKA BLOKLARI -->
           <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Circular Indicator 1 -->
             <div class="radial-stat-box">
               <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path class="text-[#171C24]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path class="text-[#F2C94C] progress-ring-circle" stroke-dasharray="85, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="85, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
-                <span class="absolute font-heading font-extrabold text-xl text-[#E8EAED]">5000+</span>
+                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">5000+</span>
               </div>
-              <span class="text-sm font-semibold text-[#E8EAED]">${t.savollarBazasi}</span>
-              <span class="text-xs text-[#9AA0A6] mt-0.5">${t.rasmiyManba}</span>
+              <span class="text-sm font-semibold" style="color:var(--text)">${t('savollarBazasi')}</span>
+              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('rasmiyManba')}</span>
             </div>
 
-            <!-- Circular Indicator 2 -->
             <div class="radial-stat-box">
               <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path class="text-[#171C24]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path class="text-[#F2C94C] progress-ring-circle" stroke-dasharray="100, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="100, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
-                <span class="absolute font-heading font-extrabold text-lg text-[#E8EAED]">${t.taymer}</span>
+                <span class="absolute font-heading font-extrabold text-lg" style="color:var(--text)">${t('taymer')}</span>
               </div>
-              <span class="text-sm font-semibold text-[#E8EAED]">${t.taymerStandarti}</span>
-              <span class="text-xs text-[#9AA0A6] mt-0.5">${t.vaqtNazorati}</span>
+              <span class="text-sm font-semibold" style="color:var(--text)">${t('taymerStandarti')}</span>
+              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('vaqtNazorati')}</span>
             </div>
 
-            <!-- Circular Indicator 3 -->
             <div class="radial-stat-box">
               <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path class="text-[#171C24]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path class="text-[#F2C94C] progress-ring-circle" stroke-dasharray="95, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="95, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
-                <span class="absolute font-heading font-extrabold text-xl text-[#E8EAED]">95%</span>
+                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">95%</span>
               </div>
-              <span class="text-sm font-semibold text-[#E8EAED]">${t.muvaffaqiyat}</span>
-              <span class="text-xs text-[#9AA0A6] mt-0.5">${t.otishKorsatkich}</span>
+              <span class="text-sm font-semibold" style="color:var(--text)">${t('muvaffaqiyat')}</span>
+              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('otishKorsatkich')}</span>
             </div>
 
-            <!-- Circular Indicator 4 -->
             <div class="radial-stat-box">
               <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path class="text-[#171C24]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path class="text-[#F2C94C] progress-ring-circle" stroke-dasharray="60, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="60, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
-                <span class="absolute font-heading font-extrabold text-xl text-[#E8EAED]">${stats.totalTests}</span>
+                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">${stats.totalTests}</span>
               </div>
-              <span class="text-sm font-semibold text-[#E8EAED]">${t.ishlanganTestlar}</span>
-              <span class="text-xs text-[#9AA0A6] mt-0.5">${t.shaxsiyNatija}</span>
+              <span class="text-sm font-semibold" style="color:var(--text)">${t('ishlanganTestlar')}</span>
+              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('shaxsiyNatija')}</span>
             </div>
-
           </section>
 
           <!-- SECTIONS / CARDS -->
           <section class="space-y-6">
             <div class="space-y-1">
-              <h2 class="section-title text-[#E8EAED]">${t.asosiyBolimlar}</h2>
-              <p class="muted-text">${t.interaktivImkoniyatlar}</p>
+              <h2 class="section-title" style="color:var(--text)">${t('asosiyBolimlar')}</h2>
+              <p class="muted-text">${t('interaktivImkoniyatlar')}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               
-              <!-- Card 1: Test Rejimi -->
               <div onclick="window.switchTab('test')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
-                  <div class="w-12 h-12 rounded-lg bg-[#171C24] border border-[#242B36] text-[#F2C94C] flex items-center justify-center mb-5">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                   </div>
-                  <h3 class="text-lg font-bold text-[#E8EAED] mb-2 font-heading">${t.testRejimi}</h3>
-                  <p class="muted-text mb-4 leading-relaxed">
-                    ${t.testDesc}
-                  </p>
+                  <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('testRejimi')}</h3>
+                  <p class="muted-text mb-4 leading-relaxed">${t('testDesc')}</p>
                 </div>
-                <span class="text-xs font-bold text-[#F2C94C] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>${t.boshlash}</span>
+                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--primary)">
+                  <span>${t('boshlash')}</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </span>
               </div>
 
-              <!-- Card 2: Yo'l Belgilari -->
               <div onclick="window.switchTab('signs')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
-                  <div class="w-12 h-12 rounded-lg bg-[#171C24] border border-[#242B36] text-[#F2C94C] flex items-center justify-center mb-5">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                   </div>
-                  <h3 class="text-lg font-bold text-[#E8EAED] mb-2 font-heading">${t.yolBelgilari}</h3>
-                  <p class="muted-text mb-4 leading-relaxed">
-                    ${t.signsDesc}
-                  </p>
+                  <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('yolBelgilari')}</h3>
+                  <p class="muted-text mb-4 leading-relaxed">${t('signsDesc')}</p>
                 </div>
-                <span class="text-xs font-bold text-[#F2C94C] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>${t.kataloggaOtish}</span>
+                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--primary)">
+                  <span>${t('kataloggaOtish')}</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </span>
               </div>
 
-              <!-- Card 3: PDD Nazariya -->
               <div onclick="window.switchTab('theory')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
-                  <div class="w-12 h-12 rounded-lg bg-[#171C24] border border-[#242B36] text-[#F2C94C] flex items-center justify-center mb-5">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                   </div>
-                  <h3 class="text-lg font-bold text-[#E8EAED] mb-2 font-heading">${t.pddNazariya}</h3>
-                  <p class="muted-text mb-4 leading-relaxed">
-                    ${t.theoryDesc}
-                  </p>
+                  <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('pddNazariya')}</h3>
+                  <p class="muted-text mb-4 leading-relaxed">${t('theoryDesc')}</p>
                 </div>
-                <span class="text-xs font-bold text-[#F2C94C] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>${t.qoidalarniOqish}</span>
+                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--primary)">
+                  <span>${t('qoidalarniOqish')}</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </span>
               </div>
 
-              <!-- Card 4: Jarimalar Jadvali -->
               <div onclick="window.switchTab('fines')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
-                  <div class="w-12 h-12 rounded-lg bg-[#171C24] border border-[#242B36] text-[#EB5757] flex items-center justify-center mb-5">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--danger)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
                   </div>
-                  <h3 class="text-lg font-bold text-[#E8EAED] mb-2 font-heading">${t.jarimalarJadvali}</h3>
-                  <p class="muted-text mb-4 leading-relaxed">
-                    ${t.finesDesc}
-                  </p>
+                  <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('jarimalarJadvali')}</h3>
+                  <p class="muted-text mb-4 leading-relaxed">${t('finesDesc')}</p>
                 </div>
-                <span class="text-xs font-bold text-[#EB5757] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>${t.jadvalniKorish}</span>
+                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--danger)">
+                  <span>${t('jadvalniKorish')}</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </span>
               </div>
-
             </div>
           </section>
 
-          <!-- MEN HAQIMDA (ABOUT THE DEVELOPER) CARD -->
+          <!-- MEN HAQIMDA -->
           <section class="space-y-6 pt-4">
             <div class="space-y-1">
-              <h2 class="section-title text-[#E8EAED]">${t.loyihaHaqida}</h2>
-              <p class="muted-text">${t.loyihaDesc}</p>
+              <h2 class="section-title" style="color:var(--text)">${t('loyihaHaqida')}</h2>
+              <p class="muted-text">${t('loyihaDesc')}</p>
             </div>
 
             <div class="tech-card p-6 sm:p-8 relative overflow-hidden">
               <div class="flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
-                
                 <div class="flex items-center gap-5">
-                  <div class="w-16 h-16 rounded-xl bg-[#171C24] border-2 border-[#F2C94C] flex items-center justify-center shrink-0 shadow-lg shadow-[#F2C94C]/10">
-                    <svg class="w-9 h-9 text-[#F2C94C]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <div class="w-16 h-16 rounded-xl flex items-center justify-center shrink-0" style="background:var(--surface-2);border:2px solid var(--primary);box-shadow:0 0 15px rgba(0,0,0,0.1)">
+                    <svg class="w-9 h-9" style="color:var(--primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                     </svg>
                   </div>
                   <div>
                     <div class="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 class="text-xl font-bold text-[#E8EAED] font-heading">Otabek</h3>
-                      <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-[#171C24] text-[#F2C94C] border border-[#242B36]">
-                        Full-Stack / Java Backend Developer
-                      </span>
-                      <span class="text-xs font-mono text-[#9AA0A6]">
-                        (21.09.2006)
-                      </span>
+                      <h3 class="text-xl font-bold font-heading" style="color:var(--text)">Otabek</h3>
+                      <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded" style="background:var(--surface-2);color:var(--primary);border:1px solid var(--border)">Full-Stack / Java Backend Developer</span>
+                      <span class="text-xs font-mono" style="color:var(--text-muted)">(21.09.2006)</span>
                     </div>
-                    <p class="text-sm text-[#9AA0A6] leading-relaxed max-w-xl">
-                      ${t.otabekDesc}
-                    </p>
+                    <p class="text-sm leading-relaxed max-w-xl" style="color:var(--text-muted)">${t('otabekDesc')}</p>
                   </div>
                 </div>
 
-                <div class="w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-[#242B36] flex flex-col gap-2 shrink-0">
-                  <span class="text-xs font-mono uppercase font-bold text-[#9AA0A6] tracking-wider">${t.steki}</span>
+                <div class="w-full md:w-auto pt-4 md:pt-0 md:border-t-0 flex flex-col gap-2 shrink-0" style="border-top:1px solid var(--border)">
+                  <span class="text-xs font-mono uppercase font-bold tracking-wider" style="color:var(--text-muted)">${t('steki')}</span>
                   <div class="flex flex-wrap gap-2 max-w-xs">
-                    <span class="px-2.5 py-1 rounded bg-[#171C24] border border-[#242B36] text-xs font-mono text-[#E8EAED]">Java</span>
-                    <span class="px-2.5 py-1 rounded bg-[#171C24] border border-[#242B36] text-xs font-mono text-[#E8EAED]">Spring Boot</span>
-                    <span class="px-2.5 py-1 rounded bg-[#171C24] border border-[#242B36] text-xs font-mono text-[#E8EAED]">PostgreSQL</span>
-                    <span class="px-2.5 py-1 rounded bg-[#171C24] border border-[#242B36] text-xs font-mono text-[#E8EAED]">JavaScript (ES6+)</span>
-                    <span class="px-2.5 py-1 rounded bg-[#171C24] border border-[#242B36] text-xs font-mono text-[#E8EAED]">HTML5 / CSS3</span>
+                    <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">Java</span>
+                    <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">Spring Boot</span>
+                    <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">PostgreSQL</span>
+                    <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">JavaScript (ES6+)</span>
+                    <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">HTML5 / CSS3</span>
                   </div>
                 </div>
-
               </div>
             </div>
           </section>
@@ -369,8 +503,9 @@
     attachGlobalHandlers() {
       window.switchTab = (tab) => this.switchTab(tab);
       window.toggleLanguage = () => this.toggleLanguage();
+      window.cycleTheme = () => this.cycleTheme();
 
-      // FEATURE 3: GLOBAL SEARCH HANDLER
+      // GLOBAL SEARCH
       window.handleGlobalSearch = (query) => {
         const q = query.trim().toLowerCase();
         if (!q) return;
@@ -387,12 +522,12 @@
         }
       };
 
-      // FEATURE 1: AUTHENTICATION HANDLERS
+      // AUTH HANDLERS
       window.openAuthModal = (tab = 'login') => {
         const modal = document.getElementById('auth-modal');
         if (modal) {
           modal.classList.remove('hidden');
-          this.switchAuthTab(tab);
+          window.switchAuthTab(tab);
         }
       };
 
@@ -411,13 +546,13 @@
         if (msg) msg.classList.add('hidden');
 
         if (tab === 'login') {
-          if (loginBtn) loginBtn.className = 'text-lg font-bold font-heading text-[#F2C94C] border-b-2 border-[#F2C94C] pb-1 mr-4 transition-all';
-          if (regBtn) regBtn.className = 'text-lg font-bold font-heading text-[#9AA0A6] hover:text-[#E8EAED] pb-1 transition-all';
+          if (loginBtn) { loginBtn.style.color = 'var(--primary)'; loginBtn.style.borderBottom = '2px solid var(--primary)'; }
+          if (regBtn) { regBtn.style.color = 'var(--text-muted)'; regBtn.style.borderBottom = 'none'; }
           if (loginForm) loginForm.classList.remove('hidden');
           if (regForm) regForm.classList.add('hidden');
         } else {
-          if (regBtn) regBtn.className = 'text-lg font-bold font-heading text-[#F2C94C] border-b-2 border-[#F2C94C] pb-1 mr-4 transition-all';
-          if (loginBtn) loginBtn.className = 'text-lg font-bold font-heading text-[#9AA0A6] hover:text-[#E8EAED] pb-1 mr-4 transition-all';
+          if (regBtn) { regBtn.style.color = 'var(--primary)'; regBtn.style.borderBottom = '2px solid var(--primary)'; }
+          if (loginBtn) { loginBtn.style.color = 'var(--text-muted)'; loginBtn.style.borderBottom = 'none'; }
           if (regForm) regForm.classList.remove('hidden');
           if (loginForm) loginForm.classList.add('hidden');
         }
@@ -438,9 +573,11 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(data.username || usernameOrEmail, data.token);
+            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'));
             if (msg) {
-              msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
               msg.textContent = data.message || "Xush kelibsiz!";
               msg.classList.remove('hidden');
             }
@@ -449,9 +586,12 @@
             throw new Error(data.message || "Kirishda xatolik!");
           }
         } catch (err) {
-          window.setSessionUser(usernameOrEmail, 'local-token');
+          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(usernameOrEmail.toLowerCase()) ? 'ADMIN' : 'USER';
+          window.setSessionUser(usernameOrEmail, 'local-token', defaultRole);
           if (msg) {
-            msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
+            msg.style.background = 'rgba(242,201,76,0.15)';
+            msg.style.border = '1px solid var(--primary)';
+            msg.style.color = 'var(--primary)';
             msg.textContent = "Xush kelibsiz, " + usernameOrEmail + "!";
             msg.classList.remove('hidden');
           }
@@ -475,9 +615,11 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(username, data.token);
+            window.setSessionUser(username, data.token, data.role || 'USER');
             if (msg) {
-              msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
               msg.textContent = data.message || "Ro'yxatdan o'tdingiz!";
               msg.classList.remove('hidden');
             }
@@ -486,9 +628,12 @@
             throw new Error(data.message || "Ro'yxatdan o'tishda xatolik!");
           }
         } catch (err) {
-          window.setSessionUser(username, 'local-token');
+          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(username.toLowerCase()) ? 'ADMIN' : 'USER';
+          window.setSessionUser(username, 'local-token', defaultRole);
           if (msg) {
-            msg.className = 'mb-4 p-3 rounded-md text-xs font-semibold bg-[#F2C94C]/20 border border-[#F2C94C] text-[#F2C94C]';
+            msg.style.background = 'rgba(242,201,76,0.15)';
+            msg.style.border = '1px solid var(--primary)';
+            msg.style.color = 'var(--primary)';
             msg.textContent = "Ro'yxatdan muvaffaqiyatli o'tdingiz, " + username + "!";
             msg.classList.remove('hidden');
           }
@@ -496,8 +641,8 @@
         }
       };
 
-      window.setSessionUser = (username, token) => {
-        const userObj = { username, token };
+      window.setSessionUser = (username, token, role = 'USER') => {
+        const userObj = { username, token, role };
         localStorage.setItem('avtotest_user', JSON.stringify(userObj));
         this.initSession();
       };
@@ -530,6 +675,20 @@
       window.filterFines = (query) => window.FinesModule.setSearch(query);
 
       window.clearUserStatsHistory = () => window.StatsModule.clearHistory();
+
+      window.togglePasswordVisibility = (inputId, btn) => {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.03 10.03 0 013.98.933c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21M3 3l18 18"/></svg>`;
+          btn.setAttribute('title', "Parolni berkitish");
+        } else {
+          input.type = 'password';
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
+          btn.setAttribute('title', "Parolni ko'rsatish");
+        }
+      };
     }
   }
 

@@ -1,5 +1,6 @@
 package uz.otabek.jpamashq.controller;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,24 @@ public class AuthController {
 
     private final UserRepository userRepository;
 
+    @PostConstruct
+    public void initSuperAdmin() {
+        try {
+            if (!userRepository.existsByEmail("otabeksotimov9@gmail.com")) {
+                User superAdmin = User.builder()
+                        .username("otabek")
+                        .email("otabeksotimov9@gmail.com")
+                        .password("otabek4662")
+                        .role("SUPER_ADMIN")
+                        .permissions("ALL,MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS")
+                        .build();
+                userRepository.save(superAdmin);
+            }
+        } catch (Exception e) {
+            // Ignore if already seeded or database unavailable
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -41,11 +60,16 @@ public class AuthController {
             );
         }
 
+        boolean isSuperAdmin = request.getEmail().equalsIgnoreCase("otabeksotimov9@gmail.com");
+        String assignedRole = isSuperAdmin ? "SUPER_ADMIN" : (request.getUsername().equalsIgnoreCase("admin") ? "ADMIN" : "USER");
+        String assignedPermissions = isSuperAdmin ? "ALL,MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS" : (assignedRole.equals("ADMIN") ? "MANAGE_USERS,MANAGE_TESTS" : "BASIC");
+
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword()) // Note: In production, encode with BCryptPasswordEncoder
-                .role("USER")
+                .password(request.getPassword())
+                .role(assignedRole)
+                .permissions(assignedPermissions)
                 .build();
 
         userRepository.save(user);
@@ -58,6 +82,8 @@ public class AuthController {
                 .message("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
                 .username(user.getUsername())
                 .token(generatedToken)
+                .role(user.getRole())
+                .permissions(user.getPermissions())
                 .build()
         );
     }
@@ -79,6 +105,14 @@ public class AuthController {
         }
 
         User user = userOptional.get();
+
+        // Enforce SUPER_ADMIN role for otabeksotimov9@gmail.com
+        if (user.getEmail().equalsIgnoreCase("otabeksotimov9@gmail.com") || user.getUsername().equalsIgnoreCase("otabek")) {
+            user.setRole("SUPER_ADMIN");
+            user.setPermissions("ALL,MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS");
+            userRepository.save(user);
+        }
+
         String generatedToken = UUID.randomUUID().toString();
 
         return ResponseEntity.ok(
@@ -87,6 +121,8 @@ public class AuthController {
                 .message("Xush kelibsiz, " + user.getUsername() + "!")
                 .username(user.getUsername())
                 .token(generatedToken)
+                .role(user.getRole() != null ? user.getRole() : "USER")
+                .permissions(user.getPermissions() != null ? user.getPermissions() : "BASIC")
                 .build()
         );
     }
