@@ -21,6 +21,8 @@ import java.util.UUID;
 @SuppressWarnings("null")
 public class AuthController {
 
+    private final UserRepository userRepository;
+
     @org.springframework.beans.factory.annotation.Value("${superadmin.password:otabek4662}")
     private String superAdminPassword;
 

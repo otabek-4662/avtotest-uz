@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class AuthControllerTest {
 
     @Mock
@@ -54,9 +55,10 @@ class AuthControllerTest {
         ResponseEntity<AuthResponse> response = authController.login(request);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("testuser", response.getBody().getUsername());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("testuser", body.getUsername());
     }
 
     @Test
@@ -69,10 +71,10 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponse> response = authController.login(request);
 
-        // Controller returns 400 BAD_REQUEST for wrong credentials
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -87,8 +89,9 @@ class AuthControllerTest {
         ResponseEntity<AuthResponse> response = authController.login(request);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -106,8 +109,9 @@ class AuthControllerTest {
 
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
     }
 
     @Test
@@ -122,8 +126,9 @@ class AuthControllerTest {
         ResponseEntity<AuthResponse> response = authController.register(request);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -140,8 +145,9 @@ class AuthControllerTest {
         ResponseEntity<AuthResponse> response = authController.register(request);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -160,7 +166,8 @@ class AuthControllerTest {
 
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
+        AuthResponse body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
     }
 }
