@@ -144,4 +144,23 @@ class AuthControllerTest {
         assertFalse(response.getBody().isSuccess());
         verify(userRepository, never()).save(any(User.class));
     }
+
+    @Test
+    void testRegister_Success_WithPhone() {
+        when(userRepository.existsByUsername("phoneuser")).thenReturn(false);
+        when(userRepository.existsByTelegramPhone("+998901234567")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenReturn(testUser);
+
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("phoneuser");
+        request.setPhone("+998901234567");
+        request.setPassword("pass123");
+
+        ResponseEntity<AuthResponse> response = authController.register(request);
+
+        verify(userRepository, times(1)).save(any(User.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isSuccess());
+    }
 }

@@ -285,8 +285,14 @@
       <!-- LOGIN FORM -->
       <form id="login-form" onsubmit="window.handleLoginSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-username-email">Foydalanuvchi nomi yoki Email</label>
-          <input type="text" id="login-username" required placeholder="masalan: otabek" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
+          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-username-phone">Foydalanuvchi nomi yoki Telefon raqam</label>
+          <input 
+            type="text" 
+            id="login-username" 
+            required 
+            placeholder="masalan: otabek yoki +998901234567" 
+            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
+          />
         </div>
         <div>
           <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>
@@ -305,12 +311,24 @@
       <!-- REGISTER FORM -->
       <form id="register-form" onsubmit="window.handleRegisterSubmit(event)" class="space-y-4 hidden">
         <div>
-          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-username">Foydalanuvchi nomi</label>
-          <input type="text" id="reg-username" required placeholder="masalan: otabek" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
+          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-username">Foydalanuvchi nomi</label>
+          <input 
+            type="text" 
+            id="reg-username" 
+            required 
+            placeholder="masalan: otabek" 
+            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
+          />
         </div>
         <div>
-          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-email">Email Manzil</label>
-          <input type="email" id="reg-email" required placeholder="otabek@example.com" class="w-full px-4 py-2.5 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
+          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-phone">Telefon Raqami</label>
+          <input 
+            type="tel" 
+            id="reg-phone" 
+            required 
+            placeholder="+998 90 123 45 67" 
+            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
+          />
         </div>
         <div>
           <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>

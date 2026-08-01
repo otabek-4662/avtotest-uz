@@ -16,10 +16,12 @@
       'btn-logout': 'Chiqish',
       'auth-login': 'Kirish',
       'auth-register': "Ro'yxatdan o'tish",
-      'label-username-email': 'Foydalanuvchi nomi yoki Email',
+      'label-username-phone': 'Foydalanuvchi nomi yoki Telefon raqam',
+      'label-username-email': 'Foydalanuvchi nomi yoki Telefon raqam',
       'label-password': 'Parol',
       'label-username': 'Foydalanuvchi nomi',
-      'label-email': 'Email Manzil',
+      'label-phone': 'Telefon Raqami',
+      'label-email': 'Telefon Raqami',
       'footer-desc': "O'zbekiston Yo'l Harakati Qoidalari va Imtihon Portali",
       'footer-privacy': 'Maxfiylik Siyosati',
       'footer-terms': 'Foydalanish Shartlari',
@@ -74,10 +76,12 @@
       'btn-logout': 'Выйти',
       'auth-login': 'Войти',
       'auth-register': 'Регистрация',
-      'label-username-email': 'Имя пользователя или Email',
+      'label-username-phone': 'Имя пользователя или Номер телефона',
+      'label-username-email': 'Имя пользователя или Номер телефона',
       'label-password': 'Пароль',
       'label-username': 'Имя пользователя',
-      'label-email': 'Email Адрес',
+      'label-phone': 'Номер телефона',
+      'label-email': 'Номер телефона',
       'footer-desc': 'Портал Правил Дорожного Движения и Экзаменов Узбекистана',
       'footer-privacy': 'Политика конфиденциальности',
       'footer-terms': 'Условия использования',
@@ -201,12 +205,8 @@
             }
           }
 
-          const isAdmin = user && (
-            user.role === 'ADMIN' || 
-            user.role === 'SUPER_ADMIN' || 
-            (user.role && user.role.includes('ADMIN')) || 
-            ['otabek', 'bekmurod', 'admin', 'xusan'].includes((user.username || '').toLowerCase())
-          );
+          const isSuperAdminUser = (user.username || '').toLowerCase().includes('otabek') || (user.username || '').includes('504554662');
+          const isAdmin = user && (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' || isSuperAdminUser || ['otabek', 'bekmurod', 'admin', '504554662', '+998504554662'].includes((user.username || '').toLowerCase()));
           if (adminNavBtn) {
             if (isAdmin) {
               adminNavBtn.classList.remove('hidden');
