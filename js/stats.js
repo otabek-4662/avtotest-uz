@@ -76,6 +76,30 @@
             </div>
       `;
 
+      let userObj = null;
+      try {
+          userObj = JSON.parse(localStorage.getItem('avtotest_user'));
+      } catch(e) {}
+      
+      if (userObj && userObj.isPro && history.length > 0) {
+          html += `
+          <div class="tech-card p-6 mb-6">
+            <h3 class="text-lg font-bold text-[#E8EAED] font-heading mb-4">📈 O'sish Dinamikasi (PRO)</h3>
+            <div class="w-full h-64 relative">
+                <canvas id="statsChart"></canvas>
+            </div>
+          </div>
+          `;
+      } else if (!userObj || !userObj.isPro) {
+          html += `
+          <div class="tech-card p-6 mb-6 flex flex-col items-center justify-center text-center bg-gradient-to-r from-[rgba(242,201,76,0.05)] to-transparent border-[#F2C94C]/20">
+            <h3 class="text-lg font-bold text-[#F2C94C] font-heading mb-2">📈 O'sish Dinamikasi Grafiklari</h3>
+            <p class="text-sm text-[#9AA0A6] mb-3">Imtihon natijalaringizni chuqur tahlil qilish uchun PRO obunani faollashtiring.</p>
+            <button onclick="window.openAuthModal('login')" class="btn-primary text-xs py-2 px-4 shadow-[0_0_10px_rgba(242,201,76,0.2)]">PRO Obuna Olish</button>
+          </div>
+          `;
+      }
+
       if (history.length === 0) {
         html += `
           <div class="py-12 text-center">
@@ -137,6 +161,69 @@
       `;
 
       this.container.innerHTML = html;
+      
+      // Render Chart for PRO users
+      let userObj = null;
+      try {
+          userObj = JSON.parse(localStorage.getItem('avtotest_user'));
+      } catch(e) {}
+      
+      if (userObj && userObj.isPro && history.length > 0) {
+          this.renderChart(history);
+      }
+    },
+    
+    renderChart(history) {
+        const chartCanvas = document.getElementById('statsChart');
+        if (!chartCanvas) return;
+        
+        // Reverse history to show oldest to newest on X axis
+        const chartData = [...history].reverse().slice(0, 10); // Last 10 attempts
+        
+        const labels = chartData.map(item => {
+            const date = new Date(item.date);
+            return `${date.getDate()}.${date.getMonth()+1} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        });
+        const data = chartData.map(item => item.score);
+        
+        new Chart(chartCanvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Test Natijasi (20 dan)',
+                    data: data,
+                    borderColor: '#F2C94C',
+                    backgroundColor: 'rgba(242, 201, 76, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#0B0F14',
+                    pointBorderColor: '#F2C94C',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 20,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#9AA0A6' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#9AA0A6' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
     }
   };
 })();

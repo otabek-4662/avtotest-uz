@@ -37,6 +37,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
 
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./css/style.css" />
 </head>
@@ -119,8 +122,9 @@
           </div>
 
           <!-- Logged In User Pill (Hidden by default) -->
-          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs">
+          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs relative overflow-hidden glass-panel hover-glow">
             <span id="user-display-name" class="font-mono font-bold text-[#F2C94C]">Foydalanuvchi</span>
+            <span id="pro-badge" class="hidden bg-gradient-to-r from-yellow-400 to-yellow-600 text-[#0B0F14] text-[10px] font-bold px-1.5 py-0.5 rounded pro-badge-glow ml-1">👑 PRO</span>
             <button onclick="window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold ml-1">Chiqish</button>
           </div>
 

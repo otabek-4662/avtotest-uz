@@ -67,6 +67,34 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
         </div>
+      `;
+
+      let userObj = null;
+      try {
+          userObj = JSON.parse(localStorage.getItem('avtotest_user'));
+      } catch(e) {}
+
+      if (userObj && userObj.isPro) {
+          html += `
+          <div class="tech-card flex flex-col justify-between cursor-pointer group mt-6 border-[#EB5757]/50 bg-gradient-to-r from-[rgba(235,87,87,0.05)] to-transparent" onclick="window.startMistakesTest()">
+            <div>
+              <div class="w-10 h-10 rounded-md bg-[#171C24] border border-[#242B36] text-[#EB5757] flex items-center justify-center font-mono font-bold text-sm mb-4">
+                <svg class="w-5 h-5 text-[#EB5757]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+              <h3 class="text-lg font-bold text-[#E8EAED] mb-1 font-heading flex items-center gap-2">
+                Xatolar ustida ishlash
+                <span class="text-[10px] bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-1.5 py-0.5 rounded font-bold">PRO</span>
+              </h3>
+              <p class="text-xs text-[#9AA0A6] mb-4">Oldingi testlarda xato qilingan savollarni qayta ishlash</p>
+            </div>
+            <button class="btn-secondary w-full text-xs py-2 text-[#EB5757] border-[#EB5757]/30 hover:bg-[#EB5757] hover:text-white">
+              <span>Xatolarni to'g'irlash</span>
+            </button>
+          </div>
+          `;
+      }
+
+      html += `
       </div>
       `;
 
@@ -120,6 +148,45 @@
 
       this.startTimer();
       this.renderQuestionView();
+    },
+
+    startMistakesTest() {
+        const history = window.StorageManager.getHistory();
+        let mistakes = [];
+        
+        history.forEach(item => {
+            if(item.ticketId === 'Random' || item.ticketId === 'Mistakes') return;
+            const ticket = this.questionsData.find(t => t.ticketId === item.ticketId);
+            if(!ticket) return;
+            
+            Object.keys(item.answers).forEach(idxStr => {
+                const idx = parseInt(idxStr);
+                const userAns = item.answers[idx];
+                const q = ticket.questions[idx];
+                if(q && userAns !== q.correctIndex) {
+                    if(!mistakes.find(mq => mq.text === q.text)) {
+                        mistakes.push(q);
+                    }
+                }
+            });
+        });
+        
+        if (mistakes.length === 0) {
+            alert("Sizda xatolar tarixi topilmadi. Juda zo'r natija!");
+            return;
+        }
+        
+        mistakes = mistakes.sort(() => 0.5 - Math.random()).slice(0, 20);
+        
+        this.currentTicket = 'Mistakes';
+        this.currentQuestions = mistakes;
+        this.currentIndex = 0;
+        this.userAnswers = {};
+        this.timeLeft = 1200;
+        this.isExamFinished = false;
+
+        this.startTimer();
+        this.renderQuestionView();
     },
 
     startTimer() {

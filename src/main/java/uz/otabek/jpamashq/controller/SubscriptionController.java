@@ -1,6 +1,8 @@
 package uz.otabek.jpamashq.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.otabek.jpamashq.entity.Promocode;
@@ -24,6 +26,7 @@ public class SubscriptionController {
     private final PromocodeRepository promocodeRepository;
 
     @PostMapping("/activate-promo")
+    @CacheEvict(value = "subscriptionStatus", key = "#payload.get('username')")
     public ResponseEntity<Map<String, Object>> activatePromoCode(@RequestBody Map<String, String> payload) {
         String username = payload.get("username");
         String code = payload.get("code");
@@ -96,6 +99,7 @@ public class SubscriptionController {
 
     @GetMapping("/status/{username}")
     @Transactional(readOnly = true)
+    @Cacheable(value = "subscriptionStatus", key = "#username")
     public ResponseEntity<Map<String, Object>> getSubscriptionStatus(@PathVariable String username) {
         Map<String, Object> response = new HashMap<>();
 

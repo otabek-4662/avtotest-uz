@@ -181,6 +181,15 @@
           }
           if (userDisplayName) userDisplayName.textContent = user.username;
           
+          const proBadge = document.getElementById('pro-badge');
+          if (proBadge) {
+            if (user.isPro) {
+              proBadge.classList.remove('hidden');
+            } else {
+              proBadge.classList.add('hidden');
+            }
+          }
+          
           if (mobileAuth) {
             mobileAuth.classList.add('hidden');
             mobileAuth.style.display = 'none';
@@ -594,6 +603,11 @@
         const usernameOrEmail = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
         const msg = document.getElementById('auth-status-msg');
+        const btn = e.target.querySelector('button[type="submit"]');
+        const origText = btn.innerHTML;
+        
+        btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px;"></div>';
+        btn.disabled = true;
 
         try {
           const res = await fetch('/api/auth/login', {
@@ -604,7 +618,16 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'));
+            let isPro = false;
+            try {
+              const subRes = await fetch(`/api/subscription/status/${data.username || usernameOrEmail}`);
+              if (subRes.ok) {
+                const subData = await subRes.json();
+                isPro = subData.isPro || false;
+              }
+            } catch(e) { console.error("Failed to fetch sub status", e); }
+            
+            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'), isPro);
             if (msg) {
               msg.style.background = 'rgba(242,201,76,0.15)';
               msg.style.border = '1px solid var(--primary)';
@@ -627,6 +650,9 @@
             msg.classList.remove('hidden');
           }
           setTimeout(() => window.closeAuthModal(), 1000);
+        } finally {
+          btn.innerHTML = origText;
+          btn.disabled = false;
         }
       };
 
@@ -636,6 +662,11 @@
         const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
         const msg = document.getElementById('auth-status-msg');
+        const btn = e.target.querySelector('button[type="submit"]');
+        const origText = btn.innerHTML;
+        
+        btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px;"></div>';
+        btn.disabled = true;
 
         try {
           const res = await fetch('/api/auth/register', {
@@ -669,11 +700,14 @@
             msg.classList.remove('hidden');
           }
           setTimeout(() => window.closeAuthModal(), 1000);
+        } finally {
+          btn.innerHTML = origText;
+          btn.disabled = false;
         }
       };
 
-      window.setSessionUser = (username, token, role = 'USER') => {
-        const userObj = { username, token, role };
+      window.setSessionUser = (username, token, role = 'USER', isPro = false) => {
+        const userObj = { username, token, role, isPro };
         localStorage.setItem('avtotest_user', JSON.stringify(userObj));
         this.initSession();
       };
