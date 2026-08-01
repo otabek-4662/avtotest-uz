@@ -3,108 +3,156 @@ window.FINES_DATA = [
     "id": "f1",
     "article": "128-modda",
     "title": "Xavfsizlik kamarini taqmaslik",
+    "titleRu": "Нерегнутый ремень безопасности",
     "category": "xavfsizlik",
     "bhm": "0.5 baravar",
+    "bhmRu": "0.5 БРВ",
     "amount": "170 000 so'm",
-    "desc": "Haydovchilarning xavfsizlik kamaridan foydalanish qoidalariga rioya etmasligi."
+    "amountRu": "170 000 сум",
+    "desc": "Haydovchilarning xavfsizlik kamaridan foydalanish qoidalariga rioya etmasligi.",
+    "descRu": "Несоблюдение водителями правил пользования ремнями безопасности."
   },
   {
     "id": "f2",
     "article": "128-1-modda",
     "title": "Boshqaruv paytida telefondan foydalanish",
+    "titleRu": "Использование телефона за рулем",
     "category": "qoida",
     "bhm": "3 baravar",
+    "bhmRu": "3 БРВ",
     "amount": "1 020 000 so'm",
-    "desc": "Transport vositasini boshqarishda telefondan qo'lda foydalanish (Hands-free bundan mustasno)."
+    "amountRu": "1 020 000 сум",
+    "desc": "Transport vositasini boshqarishda telefondan qo'lda foydalanish (Hands-free bundan mustasno).",
+    "descRu": "Пользование телефоном во время управления транспортным средством (за исключением Hands-free)."
   },
   {
     "id": "f3",
     "article": "128-3-modda",
     "title": "Tezlikni oshirish (20 km/s gacha)",
+    "titleRu": "Превышение скорости (до 20 км/ч)",
     "category": "tezlik",
     "bhm": "1 baravar",
+    "bhmRu": "1 БРВ",
     "amount": "340 000 so'm",
-    "desc": "Belgilangan tezlikni soatiga 20 km dan oshmaydigan kattalikda oshirish."
+    "amountRu": "340 000 сум",
+    "desc": "Belgilangan tezlikni soatiga 20 km dan oshmaydigan kattalikda oshirish.",
+    "descRu": "Превышение установленной скорости движения на величину не более 20 км/ч."
   },
   {
     "id": "f4",
     "article": "128-3-modda",
     "title": "Tezlikni oshirish (20 dan 40 km/s gacha)",
+    "titleRu": "Превышение скорости (от 20 до 40 км/ч)",
     "category": "tezlik",
     "bhm": "5 baravar",
+    "bhmRu": "5 БРВ",
     "amount": "1 700 000 so'm",
-    "desc": "Belgilangan tezlikni soatiga 20 km dan ortiq, lekin 40 km dan oshmaydigan kattalikda oshirish."
+    "amountRu": "1 700 000 сум",
+    "desc": "Belgilangan tezlikni soatiga 20 km dan ortiq, lekin 40 km dan oshmaydigan kattalikda oshirish.",
+    "descRu": "Превышение установленной скорости движения более 20, но не более 40 км/ч."
   },
   {
     "id": "f5",
     "article": "128-3-modda",
     "title": "Tezlikni oshirish (40 km/s dan ortiq)",
+    "titleRu": "Превышение скорости (более 40 км/ч)",
     "category": "tezlik",
     "bhm": "9 baravar",
+    "bhmRu": "9 БРВ",
     "amount": "3 060 000 so'm",
-    "desc": "Belgilangan harakat tezligini soatiga 40 km dan ortiq kattalikda oshirish."
+    "amountRu": "3 060 000 сум",
+    "desc": "Belgilangan harakat tezligini soatiga 40 km dan ortiq kattalikda oshirish.",
+    "descRu": "Превышение установленной скорости движения более чем на 40 км/ч."
   },
   {
     "id": "f6",
     "article": "128-4-modda",
     "title": "Svetoforning taqiqlovchi ishorasiga (qizilga) o'tish",
+    "titleRu": "Проезд на запрещающий сигнал светофора (красный)",
     "category": "svetofor",
     "bhm": "2 baravar",
+    "bhmRu": "2 БРВ",
     "amount": "680 000 so'm",
-    "desc": "Svetoforning taqiqlovchi ishorasiga yoki tartibga soluvchining taqiqlovchi ishorasiga bo me'yoriy o'tish."
+    "amountRu": "680 000 сум",
+    "desc": "Svetoforning taqiqlovchi ishorasiga yoki tartibga soluvchining taqiqlovchi ishorasiga bo me'yoriy o'tish.",
+    "descRu": "Проезд на запрещающий сигнал светофора или жест регулировщика."
   },
   {
     "id": "f7",
     "article": "128-5-modda",
     "title": "Piyodalarga yo'l bermaslik",
+    "titleRu": "Непредоставление преимущества пешеходам",
     "category": "piyoda",
     "bhm": "0.5 baravar",
+    "bhmRu": "0.5 БРВ",
     "amount": "170 000 so'm",
-    "desc": "Piyodalar o'tish joyida piyodalarga yo'l bermaslik."
+    "amountRu": "170 000 сум",
+    "desc": "Piyodalar o'tish joyida piyodalarga yo'l bermaslik.",
+    "descRu": "Непредоставление преимущества пешеходам на пешеходных переходах."
   },
   {
     "id": "f8",
     "article": "128-6-modda",
     "title": "To'xtash yoki to'xtab turish qoidalarini buzish",
+    "titleRu": "Нарушение правил остановки или стоянки",
     "category": "parkovka",
     "bhm": "2 baravar",
+    "bhmRu": "2 БРВ",
     "amount": "680 000 so'm",
-    "desc": "To'xtash yoki to'xtab turish (parkovka) qoidalarini buzish."
+    "amountRu": "680 000 сум",
+    "desc": "To'xtash yoki to'xtab turish (parkovka) qoidalarini buzish.",
+    "descRu": "Нарушение правил остановки или стоянки (парковки) транспортных средств."
   },
   {
     "id": "f9",
     "article": "131-modda",
     "title": "Transport vositasini mast holda boshqarish",
+    "titleRu": "Управление ТС в состоянии опьянения",
     "category": "ogir",
     "bhm": "25 baravar + 1.5-3 yil guvohnomadan mahrum qilish",
+    "bhmRu": "25 БРВ + лишение прав на 1.5-3 года",
     "amount": "8 500 000 so'm",
-    "desc": "Alkogolli ichimlik, giyohvandlik vositasi ta'sirida avtomobil boshqarish."
+    "amountRu": "8 500 000 сум",
+    "desc": "Alkogolli ichimlik, giyohvandlik vositasi ta'sirida avtomobil boshqarish.",
+    "descRu": "Управление транспортным средством в состоянии алкогольного или наркотического опьянения."
   },
   {
     "id": "f10",
     "article": "135-modda",
     "title": "Hujjatlarsiz (prava, texpasport) boshqarish",
+    "titleRu": "Управление без документов (права, техпаспорт)",
     "category": "hujjat",
     "bhm": "1 baravar",
+    "bhmRu": "1 БРВ",
     "amount": "340 000 so'm",
-    "desc": "Haydovchilik guvohnomasi yoki texnik pasport yonida bo'lmasdan avtomobil boshqarish."
+    "amountRu": "340 000 сум",
+    "desc": "Haydovchilik guvohnomasi yoki texnik pasport yonida bo'lmasdan avtomobil boshqarish.",
+    "descRu": "Управление транспортным средством при отсутствии водительского удостоверения или техпаспорта."
   },
   {
     "id": "f11",
     "article": "126-modda",
     "title": "Noqonuniy tonirovka (Oynalarni tusuini o'zgartirish)",
+    "titleRu": "Незаконная тонировка стекол",
     "category": "qoida",
     "bhm": "25 baravar",
+    "bhmRu": "25 БРВ",
     "amount": "8 500 000 so'm",
-    "desc": "Tegishli ruxsatnomasi bo'lmagan holda avtomobil oynalarining tusini o'zgartirish (tonirovka)."
+    "amountRu": "8 500 000 сум",
+    "desc": "Tegishli ruxsatnomasi bo'lmagan holda avtomobil oynalarining tusini o'zgartirish (tonirovka).",
+    "descRu": "Управление ТС с зеркальными и (или) затонированными стеклами без соответствующего разрешения."
   },
   {
     "id": "f12",
     "article": "138-modda",
     "title": "Piyodalar tomonidan yo'l qoidalarini buzish",
+    "titleRu": "Нарушение ПДД пешеходами",
     "category": "piyoda",
     "bhm": "0.3 baravar",
+    "bhmRu": "0.3 БРВ",
     "amount": "102 000 so'm",
-    "desc": "Piyodalarning svetofor qoidalariga rioya etmasligi, yo'lni belgilanmagan joydan kesib o'tishi yoki telefondan foydalanishi."
+    "amountRu": "102 000 сум",
+    "desc": "Piyodalarning svetofor qoidalariga rioya etmasligi, yo'lni belgilanmagan joydan kesib o'tishi yoki telefondan foydalanishi.",
+    "descRu": "Неподчинение пешеходов сигналам светофора, переход дороги в неустановленных местах."
   }
 ];

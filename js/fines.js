@@ -10,6 +10,10 @@
       this.renderInitialLayout();
     },
 
+    isRu() {
+      return (localStorage.getItem('avtotest_lang') || 'UZ') === 'RU';
+    },
+
     setSearch(query) {
       this.searchQuery = query.toLowerCase().trim();
       this.renderFinesGrid();
@@ -29,15 +33,16 @@
     },
 
     renderInitialLayout() {
+      const ru = this.isRu();
       let html = `
         <div class="fade-in max-w-5xl mx-auto py-4 space-y-8">
           <div class="text-left">
             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-medium bg-[#171C24] text-[#EB5757] border border-[#242B36] mb-3">
-              MJtK JADVALI
+              ${ru ? 'ТАБЛИЦА КоАП' : 'MJtK JADVALI'}
             </span>
-            <h2 class="section-title text-[#E8EAED] mb-2">Yo'l Qoidabuzarlik Jarimalari</h2>
+            <h2 class="section-title text-[#E8EAED] mb-2">${ru ? 'Штрафы за Нарушения ПДД' : "Yo'l Qoidabuzarlik Jarimalari"}</h2>
             <p class="muted-text max-w-xl">
-              O'zbekiston Respublikasi Ma'muriy javobgarlik to'g'risidagi kodeksi bo'yicha amaldagi jarima miqdorlari va moddalari.
+              ${ru ? 'Действующие статьи и суммы штрафов Кодексы об административной ответственности Республики Узбекистан.' : "O'zbekiston Respublikasi Ma'muriy javobgarlik to'g'risidagi kodeksi bo'yicha amaldagi jarima miqdorlari va moddalari."}
             </p>
           </div>
 
@@ -47,7 +52,7 @@
               <input 
                 id="fine-search-input"
                 type="text" 
-                placeholder="Modda yoki qoidabuzarlik turi bo'yicha..." 
+                placeholder="${ru ? 'Поиск по статье или нарушению...' : "Modda yoki qoidabuzarlik turi bo'yicha..."}" 
                 value="${this.searchQuery}"
                 oninput="window.filterFines(this.value)"
                 class="w-full pl-10 pr-4 py-2 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#EB5757] transition-colors"
@@ -56,22 +61,22 @@
 
             <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
               <button data-category="all" onclick="window.selectFineCategory('all')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#EB5757] text-[#0B0F14]">
-                Barchasi
+                ${ru ? 'Все' : 'Barchasi'}
               </button>
               <button data-category="tezlik" onclick="window.selectFineCategory('tezlik')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#171C24] text-[#9AA0A6] border border-[#242B36]">
-                Tezlik
+                ${ru ? 'Скорость' : 'Tezlik'}
               </button>
               <button data-category="svetofor" onclick="window.selectFineCategory('svetofor')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#171C24] text-[#9AA0A6] border border-[#242B36]">
-                Svetofor
+                ${ru ? 'Светофор' : 'Svetofor'}
               </button>
               <button data-category="piyoda" onclick="window.selectFineCategory('piyoda')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#171C24] text-[#9AA0A6] border border-[#242B36]">
-                Piyodalar
+                ${ru ? 'Пешеходы' : 'Piyodalar'}
               </button>
               <button data-category="parkovka" onclick="window.selectFineCategory('parkovka')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#171C24] text-[#9AA0A6] border border-[#242B36]">
-                Parkovka
+                ${ru ? 'Парковка' : 'Parkovka'}
               </button>
               <button data-category="ogir" onclick="window.selectFineCategory('ogir')" class="fine-cat-btn px-4 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-all bg-[#171C24] text-[#9AA0A6] border border-[#242B36]">
-                Og'ir qoidabuzarliklar
+                ${ru ? 'Тяжкие нарушения' : "Og'ir qoidabuzarliklar"}
               </button>
             </div>
           </div>
@@ -88,13 +93,16 @@
     renderFinesGrid() {
       const gridEl = document.getElementById('fines-grid-container');
       if (!gridEl) return;
+      const ru = this.isRu();
 
       const filtered = this.finesData.filter(item => {
+        const titleText = (ru && item.titleRu ? item.titleRu : item.title).toLowerCase();
+        const descText = (ru && item.descRu ? item.descRu : item.desc).toLowerCase();
         const matchesCat = this.activeCategory === 'all' || item.category === this.activeCategory;
         const matchesQuery = !this.searchQuery || 
-          item.title.toLowerCase().includes(this.searchQuery) ||
+          titleText.includes(this.searchQuery) ||
           item.article.toLowerCase().includes(this.searchQuery) ||
-          item.desc.toLowerCase().includes(this.searchQuery);
+          descText.includes(this.searchQuery);
         return matchesCat && matchesQuery;
       });
 
@@ -106,28 +114,33 @@
             <div class="w-12 h-12 mx-auto rounded-full bg-[#171C24] text-[#9AA0A6] flex items-center justify-center mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
-            <h3 class="text-base font-bold text-[#E8EAED] mb-1 font-heading">Natija topilmadi</h3>
-            <p class="text-xs text-[#9AA0A6]">Siz kiritgan so'rov bo'yicha mos jarimalar mavjud emas.</p>
+            <h3 class="text-base font-bold text-[#E8EAED] mb-1 font-heading">${ru ? 'Результаты не найдены' : 'Natija topilmadi'}</h3>
+            <p class="text-xs text-[#9AA0A6]">${ru ? 'По вашему запросу штрафов не найдено.' : "Siz kiritgan so'rov bo'yicha mos jarimalar mavjud emas."}</p>
           </div>
         `;
       } else {
         filtered.forEach(fine => {
+          const title = ru && fine.titleRu ? fine.titleRu : fine.title;
+          const desc = ru && fine.descRu ? fine.descRu : fine.desc;
+          const bhm = ru && fine.bhmRu ? fine.bhmRu : fine.bhm;
+          const amount = ru && fine.amountRu ? fine.amountRu : fine.amount;
+
           html += `
             <div class="tech-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div class="space-y-1">
                 <div class="flex items-center gap-2">
                   <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-[#171C24] text-[#EB5757] border border-[#242B36]">
-                    MJtK ${fine.article}
+                    ${ru ? 'Статья' : 'MJtK'} ${fine.article}
                   </span>
-                  <span class="text-xs text-[#9AA0A6]">• ${fine.bhm}</span>
+                  <span class="text-xs text-[#9AA0A6]">• ${bhm}</span>
                 </div>
-                <h3 class="text-base font-bold text-[#E8EAED] font-heading">${fine.title}</h3>
-                <p class="text-xs text-[#9AA0A6] max-w-2xl leading-relaxed">${fine.desc}</p>
+                <h3 class="text-base font-bold text-[#E8EAED] font-heading">${title}</h3>
+                <p class="text-xs text-[#9AA0A6] max-w-2xl leading-relaxed">${desc}</p>
               </div>
 
               <div class="shrink-0 bg-[#0B0F14] px-4 py-3 rounded-md border border-[#242B36] text-right min-w-[160px]">
-                <span class="text-xs text-[#9AA0A6] block">Jarima summasi</span>
-                <span class="text-base font-mono font-extrabold text-[#EB5757]">${fine.amount}</span>
+                <span class="text-xs text-[#9AA0A6] block">${ru ? 'Сумма штрафа' : 'Jarima summasi'}</span>
+                <span class="text-base font-mono font-extrabold text-[#EB5757]">${amount}</span>
               </div>
             </div>
           `;
