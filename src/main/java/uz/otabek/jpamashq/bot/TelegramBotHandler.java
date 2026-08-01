@@ -19,27 +19,36 @@ import uz.otabek.jpamashq.entity.Promocode;
 import uz.otabek.jpamashq.entity.TelegramUser;
 import uz.otabek.jpamashq.repository.PromocodeRepository;
 import uz.otabek.jpamashq.repository.TelegramUserRepository;
+import uz.otabek.jpamashq.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@Lazy(false)
 public class TelegramBotHandler extends TelegramLongPollingBot {
 
     private final TelegramUserRepository telegramUserRepository;
     private final PromocodeRepository promocodeRepository;
+    private final UserRepository userRepository;
     private final String botUsername;
     private final String botToken;
     private final Long adminId;
 
+    // Track user session state
+    private final Map<Long, String> userStateMap = new ConcurrentHashMap<>();
+
     public TelegramBotHandler(
             TelegramUserRepository telegramUserRepository,
             PromocodeRepository promocodeRepository,
-            @Value("${telegram.bot.username:avtotest_uz_bot}") String botUsername,
+            UserRepository userRepository,
+            @Value("${telegram.bot.username:testautouz_bot}") String botUsername,
             @Value("${telegram.bot.token:dummy_token}") String botToken,
-            @Value("${telegram.bot.admin-id:123456789}") Long adminId) {
+            @Value("${telegram.bot.admin-id:8212838308}") Long adminId) {
         this.telegramUserRepository = telegramUserRepository;
         this.promocodeRepository = promocodeRepository;
+        this.userRepository = userRepository;
         this.botUsername = botUsername;
         this.botToken = botToken;
         this.adminId = adminId;
@@ -70,6 +79,34 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
         }
     }
 
+    private ReplyKeyboardMarkup buildMainMenu(Long telegramId) {
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        // Row 1
+        KeyboardRow row1 = new KeyboardRow();
+        row1.add(new KeyboardButton("📲 Kontaktni Ulashish"));
+        row1.add(new KeyboardButton("💳 PRO Obuna Olish"));
+        keyboard.add(row1);
+
+        // Row 2
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add(new KeyboardButton("🔑 Promokodni Faollashtirish"));
+        row2.add(new KeyboardButton("🌐 Saytga O'tish"));
+        keyboard.add(row2);
+
+        // Row 3 (Exclusive for Super Admin)
+        if (adminId != null && adminId.equals(telegramId)) {
+            KeyboardRow adminRow = new KeyboardRow();
+            adminRow.add(new KeyboardButton("👑 Admin Panel"));
+            keyboard.add(adminRow);
+        }
+
+        return ReplyKeyboardMarkup.builder()
+                .keyboard(keyboard)
+                .resizeKeyboard(true)
+                .build();
+    }
+
     private void handlePhotoReceived(Message message) {
         Long telegramId = message.getFrom().getId();
         String firstName = message.getFrom().getFirstName();
@@ -83,11 +120,11 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
 
         if (photo != null && adminId != null) {
             String caption = String.format(
-                "💳 **YANGI TO'LOV CHEKI!**\n\n" +
+                "💳 **YANGI TO'LOV CHEKI KELDI!**\n\n" +
                 "👤 Foydalanuvchi: %s (@%s)\n" +
                 "📲 Tel: %s\n" +
                 "🆔 Telegram ID: `%d`\n\n" +
-                "👉 Promokod berish uchun: `/create_promo` deb yozing.",
+                "⚡ Promokod yaratish uchun: `/create_promo` deb yozing.",
                 firstName != null ? firstName : "Foydalanuvchi",
                 username != null ? username : "username_yoq",
                 phoneNumber,
@@ -110,7 +147,8 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
         // Reply to user
         SendMessage replyMsg = new SendMessage();
         replyMsg.setChatId(message.getChatId().toString());
-        replyMsg.setText("✅ To'lov chekingiz Super Adminga muvaffaqiyatli yuborildi!\n\nTez orada to'lovingiz tasdiqlanib, sizga 1 oylik PRO-KOD taqdim etiladi.");
+        replyMsg.setText("✅ To'lov chekingiz Super Adminga muvaffaqiyatli yuborildi!\n\nTez orada to'lovingiz tasdiqlanib, sizga 1 oylik PROMO-KOD taqdim etiladi.");
+        replyMsg.setReplyMarkup(buildMainMenu(telegramId));
         try {
             execute(replyMsg);
         } catch (TelegramApiException e) {
@@ -155,8 +193,8 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
 
         SendMessage sendMsg = new SendMessage();
         sendMsg.setChatId(message.getChatId().toString());
-        sendMsg.setText("✅ Rahmat, " + (firstName != null ? firstName : "foydalanuvchi") + "! Telefon raqamingiz muvaffaqiyatli saqlandi: " + phoneNumber + "\n\nPRO Obuna sotib olish uchun to'lov cheki (skrinshot/rasm) yuboring!");
-        sendMsg.setReplyMarkup(new ReplyKeyboardRemove(true));
+        sendMsg.setText("✅ Rahmat, " + (firstName != null ? firstName : "foydalanuvchi") + "! Raqamingiz muvaffaqiyatli saqlandi: " + phoneNumber + "\n\nEndi bot imkoniyatlaridan to'liq foydalanishingiz mumkin 👇");
+        sendMsg.setReplyMarkup(buildMainMenu(telegramId));
 
         try {
             execute(sendMsg);
@@ -170,9 +208,9 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
         String chatId = message.getChatId().toString();
         String text = message.getText().trim();
 
-        // Check if admin command /create_promo
+        // 1. Admin command /create_promo
         if (text.startsWith("/create_promo")) {
-            if (telegramId.equals(adminId)) {
+            if (adminId != null && telegramId.equals(adminId)) {
                 String code = "PROMO-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
                 Promocode promo = Promocode.builder()
                         .code(code)
@@ -186,8 +224,9 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
 
                 SendMessage adminMsg = new SendMessage();
                 adminMsg.setChatId(chatId);
-                adminMsg.setText("👑 **YANGI 1 OYLIK PRO-KOD YARATILDI:**\n\n`" + code + "`\n\nUshbu kodni foydalanuvchiga yuborishingiz mumkin.");
+                adminMsg.setText("👑 **YANGI 1 OYLIK PROMO-KOD YARATILDI:**\n\n`" + code + "`\n\nUshbu kodni foydalanuvchiga yuborishingiz mumkin. Foydalanuvchi uni botda yoki saytda kiritishi mumkin!");
                 adminMsg.setParseMode("Markdown");
+                adminMsg.setReplyMarkup(buildMainMenu(telegramId));
 
                 try {
                     execute(adminMsg);
@@ -208,32 +247,170 @@ public class TelegramBotHandler extends TelegramLongPollingBot {
             }
         }
 
-        Optional<TelegramUser> optionalUser = telegramUserRepository.findByTelegramId(telegramId);
-        SendMessage sendMsg = new SendMessage();
-        sendMsg.setChatId(chatId);
-
-        if (optionalUser.isPresent()) {
-            TelegramUser u = optionalUser.get();
-            sendMsg.setText("👋 Assalomu alaykum, " + (u.getFirstName() != null ? u.getFirstName() : "foydalanuvchi") + "!\nSiz allaqachon ro'yxatdan o'tgansiz.\n📲 Tel: " + u.getPhoneNumber() + "\n\n💳 PRO obuna olish uchun to'lov cheki rasmini ushbu botga yuboring!");
-        } else {
-            sendMsg.setText("👋 Assalomu alaykum! AvtoTest UZ botiga xush kelibsiz.\n\nDavom etish uchun pastdagi '📲 Kontaktni ulashish' tugmasini bosing:");
+        // 2. Menu option: 📲 Kontaktni Ulashish
+        if (text.equalsIgnoreCase("📲 Kontaktni Ulashish") || text.equalsIgnoreCase("/contact")) {
+            SendMessage sendMsg = new SendMessage();
+            sendMsg.setChatId(chatId);
+            sendMsg.setText("📲 Pastdagi '📲 Kontaktni ulashish' tugmasini bosing:");
 
             KeyboardButton contactButton = KeyboardButton.builder()
                     .text("📲 Kontaktni ulashish")
                     .requestContact(true)
                     .build();
 
-            KeyboardRow row = new KeyboardRow();
-            row.add(contactButton);
-
             ReplyKeyboardMarkup keyboardMarkup = ReplyKeyboardMarkup.builder()
-                    .keyboard(Collections.singletonList(row))
+                    .keyboard(Collections.singletonList(new KeyboardRow(Collections.singletonList(contactButton))))
                     .resizeKeyboard(true)
                     .oneTimeKeyboard(true)
                     .build();
 
             sendMsg.setReplyMarkup(keyboardMarkup);
+            try {
+                execute(sendMsg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
         }
+
+        // 3. Menu option: 💳 PRO Obuna Olish
+        if (text.equalsIgnoreCase("💳 PRO Obuna Olish")) {
+            String infoText = 
+                "⭐ **AVTOTEST UZ — PRO OBUNA**\n\n" +
+                "PRO obuna imkoniyatlari:\n" +
+                "✅ 1000+ barcha PDD biletlariga cheksiz kirish\n" +
+                "✅ Barcha qoidalar va yo'l belgilariga batafsil izohlar\n" +
+                "✅ Shaxsiy statistika va xatolar ustida ishlash\n" +
+                "✅ Super-tezkor va reklamasiz portal\n\n" +
+                "💰 Obuna narxi: **15,000 so'm / 1 oy**\n\n" +
+                "💳 **To'lov uchun karta raqami:**\n" +
+                "`8600 1234 5678 9012` (AvtoTest UZ / Bekmurod)\n\n" +
+                "📸 **Qanday faollashtiriladi?**\n" +
+                "1. To'lovni amalga oshiring.\n" +
+                "2. Ushbu botga to'lov cheki (rasm/skrinshot) yuboring.\n" +
+                "3. Chek Super Admin tomonidan tasdiqlanib, sizga PROMO-KOD taqdim etiladi!";
+
+            SendMessage sendMsg = new SendMessage();
+            sendMsg.setChatId(chatId);
+            sendMsg.setText(infoText);
+            sendMsg.setParseMode("Markdown");
+            sendMsg.setReplyMarkup(buildMainMenu(telegramId));
+            try {
+                execute(sendMsg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // 4. Menu option: 🔑 Promokodni Faollashtirish
+        if (text.equalsIgnoreCase("🔑 Promokodni Faollashtirish")) {
+            userStateMap.put(telegramId, "WAITING_PROMOCODE");
+            SendMessage sendMsg = new SendMessage();
+            sendMsg.setChatId(chatId);
+            sendMsg.setText("🔑 **Iltimos, sizga berilgan PROMO-KODNI kiriting:**\n\n(Masalan: `PROMO-A8X9K2`)");
+            sendMsg.setParseMode("Markdown");
+            try {
+                execute(sendMsg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // 5. Menu option: 🌐 Saytga O'tish
+        if (text.equalsIgnoreCase("🌐 Saytga O'tish")) {
+            SendMessage sendMsg = new SendMessage();
+            sendMsg.setChatId(chatId);
+            sendMsg.setText("🌐 **AvtoTest UZ Rasmiy Portali:**\nhttps://avtotest-uz.onrender.com\n\nSaytga tashrif buyuring va PDD imtihonlarini topshirishni boshlang!");
+            sendMsg.setReplyMarkup(buildMainMenu(telegramId));
+            try {
+                execute(sendMsg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // 6. Menu option: 👑 Admin Panel (Super Admin Exclusive)
+        if (text.equalsIgnoreCase("👑 Admin Panel")) {
+            if (adminId != null && telegramId.equals(adminId)) {
+                long botUsersCount = telegramUserRepository.count();
+                long sysUsersCount = userRepository.count();
+                long totalPromos = promocodeRepository.count();
+                long activeProCount = userRepository.findAll().stream().filter(u -> Boolean.TRUE.equals(u.getIsPro())).count();
+
+                String adminText = String.format(
+                    "👑 **SUPER ADMIN BOSHGARUV KONSOLI**\n\n" +
+                    "👥 Botdagi foydalanuvchilar: **%d ta**\n" +
+                    "👤 Saytdagi a'zolar: **%d ta**\n" +
+                    "🔑 Yaratilgan promokodlar: **%d ta**\n" +
+                    "⭐ Aktiv PRO obunachilar: **%d ta**\n\n" +
+                    "⚡ Yangi 1 oylik promokod yaratish uchun buyruq: `/create_promo`",
+                    botUsersCount, sysUsersCount, totalPromos, activeProCount
+                );
+
+                SendMessage sendMsg = new SendMessage();
+                sendMsg.setChatId(chatId);
+                sendMsg.setText(adminText);
+                sendMsg.setParseMode("Markdown");
+                sendMsg.setReplyMarkup(buildMainMenu(telegramId));
+                try {
+                    execute(sendMsg);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+        }
+
+        // 7. Handle Promocode Input
+        String currentState = userStateMap.getOrDefault(telegramId, "");
+        if ("WAITING_PROMOCODE".equals(currentState) || text.toUpperCase().startsWith("PROMO-")) {
+            userStateMap.remove(telegramId);
+            String code = text.trim().toUpperCase();
+
+            Optional<Promocode> optPromo = promocodeRepository.findByCode(code);
+            SendMessage sendMsg = new SendMessage();
+            sendMsg.setChatId(chatId);
+            sendMsg.setReplyMarkup(buildMainMenu(telegramId));
+
+            if (optPromo.isEmpty()) {
+                sendMsg.setText("⚠️ **Kiritilgan promokod noto'g'ri yoki mavjud emas!**\nIltimos, kodni qayta tekshirib kiriting.");
+                sendMsg.setParseMode("Markdown");
+            } else {
+                Promocode promo = optPromo.get();
+                if (Boolean.TRUE.equals(promo.getIsUsed())) {
+                    sendMsg.setText("⚠️ **Ushbu promokod allaqachon ishlatilgan!**");
+                } else {
+                    promo.setIsUsed(true);
+                    promo.setUsedAt(LocalDateTime.now());
+                    promo.setUsedByUsername("TelegramID:" + telegramId);
+                    promocodeRepository.save(promo);
+
+                    sendMsg.setText("🎉 **TABRIKLAYMIZ!**\n\n`" + code + "` promokodi muvaffaqiyatli tekshirildi va 30 kunlik PRO status berildi!\n\nSaytdagi profilingizda ham ushbu kodni faollashtirishingiz mumkin.");
+                    sendMsg.setParseMode("Markdown");
+                }
+            }
+
+            try {
+                execute(sendMsg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // Default Welcome / /start message
+        SendMessage sendMsg = new SendMessage();
+        sendMsg.setChatId(chatId);
+        sendMsg.setText(
+            "🚗 **AvtoTest UZ — PDD Imtihon va PRO Obuna Boti**\n\n" +
+            "Xush kelibsiz! Ushbu bot orqali PDD imtihoniga tayyorlanishingiz, PRO obuna xarid qilishingiz hamda promokodlarni faollashtirishingiz mumkin.\n\n" +
+            "Kerakli bo'limni tanlang 👇"
+        );
+        sendMsg.setParseMode("Markdown");
+        sendMsg.setReplyMarkup(buildMainMenu(telegramId));
 
         try {
             execute(sendMsg);
