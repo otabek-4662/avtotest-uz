@@ -7,11 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import uz.otabek.jpamashq.dto.LoginRequest;
+import uz.otabek.jpamashq.dto.RegisterRequest;
 import uz.otabek.jpamashq.entity.User;
 import uz.otabek.jpamashq.repository.UserRepository;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,11 +42,11 @@ class AuthControllerTest {
     void testLogin_Success() {
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(testUser));
         
-        Map<String, String> payload = new HashMap<>();
-        payload.put("usernameOrEmail", "testuser");
-        payload.put("password", "password123");
+        LoginRequest request = new LoginRequest();
+        request.setUsernameOrEmail("testuser");
+        request.setPassword("password123");
         
-        ResponseEntity<?> response = authController.login(payload);
+        ResponseEntity<?> response = authController.login(request);
         
         assertEquals(200, response.getStatusCodeValue());
         assertTrue(response.getBody().toString().contains("success=true"));
@@ -56,11 +56,11 @@ class AuthControllerTest {
     void testLogin_Failure_WrongPassword() {
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(testUser));
         
-        Map<String, String> payload = new HashMap<>();
-        payload.put("usernameOrEmail", "testuser");
-        payload.put("password", "wrongpass");
+        LoginRequest request = new LoginRequest();
+        request.setUsernameOrEmail("testuser");
+        request.setPassword("wrongpass");
         
-        ResponseEntity<?> response = authController.login(payload);
+        ResponseEntity<?> response = authController.login(request);
         
         assertEquals(401, response.getStatusCodeValue());
         assertTrue(response.getBody().toString().contains("success=false"));
@@ -71,12 +71,12 @@ class AuthControllerTest {
         when(userRepository.existsByUsername("newuser")).thenReturn(false);
         when(userRepository.existsByEmail("new@test.com")).thenReturn(false);
         
-        Map<String, String> payload = new HashMap<>();
-        payload.put("username", "newuser");
-        payload.put("email", "new@test.com");
-        payload.put("password", "pass123");
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("newuser");
+        request.setEmail("new@test.com");
+        request.setPassword("pass123");
         
-        ResponseEntity<?> response = authController.register(payload);
+        ResponseEntity<?> response = authController.register(request);
         
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals(200, response.getStatusCodeValue());
