@@ -6,13 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uz.otabek.jpamashq.entity.Promocode;
 import uz.otabek.jpamashq.entity.User;
 import uz.otabek.jpamashq.repository.PromocodeRepository;
 import uz.otabek.jpamashq.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class SubscriptionControllerTest {
 
     @Mock
@@ -61,10 +62,12 @@ class SubscriptionControllerTest {
 
         ResponseEntity<Map<String, Object>> response = subscriptionController.activatePromoCode(payload);
 
-        assertEquals(200, response.getStatusCodeValue());
-        assertTrue((Boolean) response.getBody().get("success"));
-        assertTrue(testUser.getIsPro());
-        assertTrue(testPromo.getIsUsed());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> body = response.getBody();
+        assertNotNull(body);
+        assertTrue((Boolean) body.get("success"));
+        assertTrue(Boolean.TRUE.equals(testUser.getIsPro()));
+        assertTrue(Boolean.TRUE.equals(testPromo.getIsUsed()));
         assertNotNull(testUser.getProExpiresAt());
 
         verify(userRepository, times(1)).save(testUser);
@@ -83,9 +86,11 @@ class SubscriptionControllerTest {
 
         ResponseEntity<Map<String, Object>> response = subscriptionController.activatePromoCode(payload);
 
-        assertEquals(400, response.getStatusCodeValue());
-        assertFalse((Boolean) response.getBody().get("success"));
-        assertEquals("Ushbu promokod allaqachon ishlatilgan!", response.getBody().get("message"));
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Map<String, Object> body = response.getBody();
+        assertNotNull(body);
+        assertFalse((Boolean) body.get("success"));
+        assertEquals("Ushbu promokod allaqachon ishlatilgan!", body.get("message"));
 
         verify(userRepository, never()).save(any());
         verify(promocodeRepository, never()).save(any());

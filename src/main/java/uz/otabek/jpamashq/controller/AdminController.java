@@ -14,6 +14,7 @@ import java.util.*;
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@SuppressWarnings("null")
 public class AdminController {
 
     private final UserRepository userRepository;

@@ -13,7 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -30,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class TelegramUpdateProcessor {
 
     private final TelegramUserRepository telegramUserRepository;
@@ -91,10 +91,12 @@ public class TelegramUpdateProcessor {
         Long telegramId = message.getFrom().getId();
         String firstName = message.getFrom().getFirstName();
         String username = message.getFrom().getUserName();
+        @SuppressWarnings("null")
         Optional<TelegramUser> optUser = telegramUserRepository.findByTelegramId(telegramId);
         String phoneNumber = optUser.map(TelegramUser::getPhoneNumber).orElse("Noma'lum");
 
         List<PhotoSize> photos = message.getPhoto();
+        @SuppressWarnings("null")
         PhotoSize photo = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).orElse(null);
 
         if (photo != null && adminId != null) {
@@ -160,6 +162,7 @@ public class TelegramUpdateProcessor {
         if (text.startsWith("/create_promo")) {
             if (adminId != null && telegramId.equals(adminId)) {
                 String code = "PROMO-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+                @SuppressWarnings("null")
                 Promocode promo = Promocode.builder()
                         .code(code)
                         .durationDays(30)

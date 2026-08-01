@@ -23,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class TelegramUpdateProcessorTest {
 
     @Mock
@@ -63,7 +64,7 @@ class TelegramUpdateProcessorTest {
         verify(promocodeRepository, times(1)).save(any(Promocode.class));
         ArgumentCaptor<SendMessage> captor = ArgumentCaptor.forClass(SendMessage.class);
         verify(sender, times(1)).execute(captor.capture());
-        
+
         SendMessage sentMsg = captor.getValue();
         assertTrue(sentMsg.getText().contains("YANGI 1 OYLIK PROMO-KOD YARATILDI"));
     }
@@ -86,7 +87,7 @@ class TelegramUpdateProcessorTest {
         verify(promocodeRepository, never()).save(any(Promocode.class));
         ArgumentCaptor<SendMessage> captor = ArgumentCaptor.forClass(SendMessage.class);
         verify(sender, times(1)).execute(captor.capture());
-        
+
         SendMessage sentMsg = captor.getValue();
         assertTrue(sentMsg.getText().contains("Ushbu komanda faqat Super Admin uchun ajratilgan"));
     }
