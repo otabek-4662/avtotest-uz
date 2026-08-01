@@ -8,6 +8,8 @@ import uz.otabek.jpamashq.entity.User;
 import uz.otabek.jpamashq.repository.PromocodeRepository;
 import uz.otabek.jpamashq.repository.UserRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -93,6 +95,7 @@ public class SubscriptionController {
     }
 
     @GetMapping("/status/{username}")
+    @Transactional(readOnly = true)
     public ResponseEntity<Map<String, Object>> getSubscriptionStatus(@PathVariable String username) {
         Map<String, Object> response = new HashMap<>();
 
