@@ -175,7 +175,7 @@
     
     renderChart(history) {
         const chartCanvas = document.getElementById('statsChart');
-        if (!chartCanvas) return;
+        if (!chartCanvas || typeof Chart === 'undefined') return;
         
         // Reverse history to show oldest to newest on X axis
         const chartData = [...history].reverse().slice(0, 10); // Last 10 attempts

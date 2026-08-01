@@ -159,7 +159,7 @@
             const ticket = this.questionsData.find(t => t.ticketId === item.ticketId);
             if(!ticket) return;
             
-            Object.keys(item.answers).forEach(idxStr => {
+            Object.keys(item.answers || {}).forEach(idxStr => {
                 const idx = parseInt(idxStr);
                 const userAns = item.answers[idx];
                 const q = ticket.questions[idx];
