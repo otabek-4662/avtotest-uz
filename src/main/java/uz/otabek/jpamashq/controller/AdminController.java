@@ -3,7 +3,9 @@ package uz.otabek.jpamashq.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.otabek.jpamashq.entity.TelegramUser;
 import uz.otabek.jpamashq.entity.User;
+import uz.otabek.jpamashq.repository.TelegramUserRepository;
 import uz.otabek.jpamashq.repository.UserRepository;
 
 import java.util.*;
@@ -15,6 +17,12 @@ import java.util.*;
 public class AdminController {
 
     private final UserRepository userRepository;
+    private final TelegramUserRepository telegramUserRepository;
+
+    @GetMapping("/telegram-users")
+    public ResponseEntity<List<TelegramUser>> getTelegramUsers() {
+        return ResponseEntity.ok(telegramUserRepository.findAll());
+    }
 
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getAdminStats() {

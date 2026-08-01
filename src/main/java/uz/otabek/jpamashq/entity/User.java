@@ -3,6 +3,8 @@ package uz.otabek.jpamashq.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -30,4 +32,10 @@ public class User {
 
     @Column(nullable = true)
     private String permissions; // e.g. "MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS,ALL"
+
+    @Column(name = "is_pro")
+    private Boolean isPro;
+
+    @Column(name = "pro_expires_at")
+    private LocalDateTime proExpiresAt;
 }
