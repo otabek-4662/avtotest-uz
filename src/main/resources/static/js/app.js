@@ -166,36 +166,67 @@
       const mobileAuth = document.getElementById('mobile-auth-container');
       const mobileUser = document.getElementById('mobile-user-container');
       const mobileUserName = document.getElementById('mobile-user-name');
+      const adminNavBtn = document.getElementById('nav-btn-admin');
 
       if (storedUser) {
         try {
           const user = JSON.parse(storedUser);
-          if (authBtns) authBtns.classList.add('hidden');
-          if (userPill) userPill.classList.remove('hidden');
+          if (authBtns) {
+            authBtns.classList.add('hidden');
+            authBtns.style.display = 'none';
+          }
+          if (userPill) {
+            userPill.classList.remove('hidden');
+            userPill.style.display = 'flex';
+          }
           if (userDisplayName) userDisplayName.textContent = user.username;
           
-          if (mobileAuth) mobileAuth.classList.add('hidden');
+          if (mobileAuth) {
+            mobileAuth.classList.add('hidden');
+            mobileAuth.style.display = 'none';
+          }
           if (mobileUser) {
             mobileUser.classList.remove('hidden');
             mobileUser.classList.add('flex');
+            mobileUser.style.display = 'flex';
           }
           if (mobileUserName) mobileUserName.textContent = user.username;
 
-          const adminNavBtn = document.getElementById('nav-btn-admin');
-          const isAdmin = user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes(user.username.toLowerCase());
+          const isAdmin = user && (user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes((user.username || '').toLowerCase()));
           if (adminNavBtn) {
-            if (isAdmin) adminNavBtn.classList.remove('hidden');
-            else adminNavBtn.classList.add('hidden');
+            if (isAdmin) {
+              adminNavBtn.classList.remove('hidden');
+              adminNavBtn.style.display = 'inline-flex';
+            } else {
+              adminNavBtn.classList.add('hidden');
+              adminNavBtn.style.display = 'none';
+            }
           }
-        } catch(e) {}
+        } catch(e) {
+          console.error(e);
+        }
       } else {
-        if (authBtns) authBtns.classList.remove('hidden');
-        if (userPill) userPill.classList.add('hidden');
+        if (authBtns) {
+          authBtns.classList.remove('hidden');
+          authBtns.style.display = '';
+        }
+        if (userPill) {
+          userPill.classList.add('hidden');
+          userPill.style.display = 'none';
+        }
         
-        if (mobileAuth) mobileAuth.classList.remove('hidden');
+        if (mobileAuth) {
+          mobileAuth.classList.remove('hidden');
+          mobileAuth.style.display = '';
+        }
         if (mobileUser) {
           mobileUser.classList.add('hidden');
           mobileUser.classList.remove('flex');
+          mobileUser.style.display = 'none';
+        }
+        if (adminNavBtn) {
+          adminNavBtn.classList.add('hidden');
+          adminNavBtn.style.display = 'none';
         }
       }
     }
