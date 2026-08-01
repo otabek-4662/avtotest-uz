@@ -267,10 +267,28 @@ public class TelegramUpdateProcessor {
             return;
         }
 
+        Optional<TelegramUser> optUser = telegramUserRepository.findByTelegramId(telegramId);
+        if (optUser.isEmpty() || optUser.get().getPhoneNumber() == null) {
+            SendMessage requestContactMsg = new SendMessage();
+            requestContactMsg.setChatId(chatId);
+            requestContactMsg.setText("🚗 **AvtoTest UZ botiga xush kelibsiz!**\n\nBot imkoniyatlaridan to'liq foydalanish uchun iltimos, pastdagi **'📲 Kontaktni ulashish'** tugmasini bosing:");
+            requestContactMsg.setParseMode("Markdown");
+            
+            KeyboardButton contactButton = KeyboardButton.builder().text("📲 Kontaktni ulashish").requestContact(true).build();
+            ReplyKeyboardMarkup keyboardMarkup = ReplyKeyboardMarkup.builder()
+                    .keyboard(Collections.singletonList(new KeyboardRow(Collections.singletonList(contactButton))))
+                    .resizeKeyboard(true)
+                    .oneTimeKeyboard(true)
+                    .build();
+            requestContactMsg.setReplyMarkup(keyboardMarkup);
+            sender.execute(requestContactMsg);
+            return;
+        }
+
         SendMessage sendMsg = new SendMessage();
         sendMsg.setChatId(chatId);
         sendMsg.setText("🚗 **AvtoTest UZ — PDD Imtihon va PRO Obuna Boti**\n\n" +
-            "Xush kelibsiz! Ushbu bot orqali PDD imtihoniga tayyorlanishingiz, PRO obuna xarid qilishingiz hamda promokodlarni faollashtirishingiz mumkin.\n\n" +
+            "Xush kelibsiz, " + (optUser.get().getFirstName() != null ? optUser.get().getFirstName() : "") + "! Ushbu bot orqali PDD imtihoniga tayyorlanishingiz, PRO obuna xarid qilishingiz hamda promokodlarni faollashtirishingiz mumkin.\n\n" +
             "Kerakli bo'limni tanlang 👇");
         sendMsg.setParseMode("Markdown");
         sendMsg.setReplyMarkup(buildMainMenu(telegramId));

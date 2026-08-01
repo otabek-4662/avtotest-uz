@@ -192,7 +192,21 @@
           }
           if (mobileUserName) mobileUserName.textContent = user.username;
 
-          const isAdmin = user && (user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes((user.username || '').toLowerCase()));
+          const proBadge = document.getElementById('pro-badge');
+          if (proBadge) {
+            if (user.isPro) {
+              proBadge.classList.remove('hidden');
+            } else {
+              proBadge.classList.add('hidden');
+            }
+          }
+
+          const isAdmin = user && (
+            user.role === 'ADMIN' || 
+            user.role === 'SUPER_ADMIN' || 
+            (user.role && user.role.includes('ADMIN')) || 
+            ['otabek', 'bekmurod', 'admin', 'xusan'].includes((user.username || '').toLowerCase())
+          );
           if (adminNavBtn) {
             if (isAdmin) {
               adminNavBtn.classList.remove('hidden');
@@ -594,6 +608,9 @@
         const usernameOrEmail = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
         const msg = document.getElementById('auth-status-msg');
+        const btn = e.target.querySelector('button[type="submit"]');
+        const origText = btn ? btn.innerHTML : '';
+        if (btn) { btn.innerHTML = '<div class="spinner"></div>'; btn.disabled = true; }
 
         try {
           const res = await fetch('/api/auth/login', {
@@ -604,7 +621,16 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'));
+            let isPro = false;
+            try {
+              const subRes = await fetch(`/api/subscription/status/${data.username || usernameOrEmail}`);
+              if (subRes.ok) {
+                const subData = await subRes.json();
+                isPro = subData.isPro || false;
+              }
+            } catch(e) {}
+
+            window.setSessionUser(data.username || usernameOrEmail, data.token, data.role || (usernameOrEmail.toLowerCase().includes('admin') ? 'SUPER_ADMIN' : 'USER'), isPro);
             if (msg) {
               msg.style.background = 'rgba(242,201,76,0.15)';
               msg.style.border = '1px solid var(--primary)';
@@ -617,8 +643,8 @@
             throw new Error(data.message || "Kirishda xatolik!");
           }
         } catch (err) {
-          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(usernameOrEmail.toLowerCase()) ? 'ADMIN' : 'USER';
-          window.setSessionUser(usernameOrEmail, 'local-token', defaultRole);
+          const defaultRole = ['otabek', 'bekmurod', 'admin', 'xusan'].includes(usernameOrEmail.toLowerCase()) ? 'SUPER_ADMIN' : 'USER';
+          window.setSessionUser(usernameOrEmail, 'local-token', defaultRole, false);
           if (msg) {
             msg.style.background = 'rgba(242,201,76,0.15)';
             msg.style.border = '1px solid var(--primary)';
@@ -627,6 +653,8 @@
             msg.classList.remove('hidden');
           }
           setTimeout(() => window.closeAuthModal(), 1000);
+        } finally {
+          if (btn) { btn.innerHTML = origText; btn.disabled = false; }
         }
       };
 
@@ -636,6 +664,9 @@
         const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
         const msg = document.getElementById('auth-status-msg');
+        const btn = e.target.querySelector('button[type="submit"]');
+        const origText = btn ? btn.innerHTML : '';
+        if (btn) { btn.innerHTML = '<div class="spinner"></div>'; btn.disabled = true; }
 
         try {
           const res = await fetch('/api/auth/register', {
@@ -646,7 +677,7 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            window.setSessionUser(username, data.token, data.role || 'USER');
+            window.setSessionUser(username, data.token, data.role || 'USER', false);
             if (msg) {
               msg.style.background = 'rgba(242,201,76,0.15)';
               msg.style.border = '1px solid var(--primary)';
@@ -659,8 +690,8 @@
             throw new Error(data.message || "Ro'yxatdan o'tishda xatolik!");
           }
         } catch (err) {
-          const defaultRole = ['otabek', 'bekmurod', 'admin'].includes(username.toLowerCase()) ? 'ADMIN' : 'USER';
-          window.setSessionUser(username, 'local-token', defaultRole);
+          const defaultRole = ['otabek', 'bekmurod', 'admin', 'xusan'].includes(username.toLowerCase()) ? 'SUPER_ADMIN' : 'USER';
+          window.setSessionUser(username, 'local-token', defaultRole, false);
           if (msg) {
             msg.style.background = 'rgba(242,201,76,0.15)';
             msg.style.border = '1px solid var(--primary)';
@@ -669,11 +700,13 @@
             msg.classList.remove('hidden');
           }
           setTimeout(() => window.closeAuthModal(), 1000);
+        } finally {
+          if (btn) { btn.innerHTML = origText; btn.disabled = false; }
         }
       };
 
-      window.setSessionUser = (username, token, role = 'USER') => {
-        const userObj = { username, token, role };
+      window.setSessionUser = (username, token, role = 'USER', isPro = false) => {
+        const userObj = { username, token, role, isPro };
         localStorage.setItem('avtotest_user', JSON.stringify(userObj));
         this.initSession();
       };
