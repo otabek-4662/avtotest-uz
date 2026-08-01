@@ -41,4 +41,7 @@ public class User {
 
     @Column(name = "pro_expires_at")
     private LocalDateTime proExpiresAt;
+
+    @Column(name = "telegram_phone")
+    private String telegramPhone;
 }

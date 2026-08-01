@@ -126,4 +126,30 @@ public class AuthController {
                 .build()
         );
     }
+
+    @PostMapping("/link-telegram")
+    public ResponseEntity<AuthResponse> linkTelegram(@RequestBody java.util.Map<String, String> request) {
+        String username = request.get("username");
+        String code = request.get("code");
+        
+        if (username == null || code == null) {
+            return ResponseEntity.badRequest().body(AuthResponse.builder().success(false).message("Ma'lumotlar to'liq emas!").build());
+        }
+        
+        String phone = uz.otabek.jpamashq.bot.TelegramUpdateProcessor.LINK_CODES.remove(code.toUpperCase());
+        if (phone == null) {
+            return ResponseEntity.badRequest().body(AuthResponse.builder().success(false).message("Kod noto'g'ri yoki muddati o'tgan!").build());
+        }
+        
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body(AuthResponse.builder().success(false).message("Foydalanuvchi topilmadi!").build());
+        }
+        
+        User user = userOpt.get();
+        user.setTelegramPhone(phone);
+        userRepository.save(user);
+        
+        return ResponseEntity.ok(AuthResponse.builder().success(true).message("Telegram akkauntingiz muvaffaqiyatli ulandi!").build());
+    }
 }

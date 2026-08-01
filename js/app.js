@@ -201,7 +201,7 @@
           }
           if (mobileUserName) mobileUserName.textContent = user.username;
 
-          const isAdmin = user && (user.role === 'ADMIN' || ['otabek', 'bekmurod', 'admin'].includes((user.username || '').toLowerCase()));
+          const isAdmin = user && (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' || ['otabek', 'bekmurod', 'admin'].includes((user.username || '').toLowerCase()));
           if (adminNavBtn) {
             if (isAdmin) {
               adminNavBtn.classList.remove('hidden');
@@ -211,6 +211,12 @@
               adminNavBtn.style.display = 'none';
             }
           }
+
+          // Show profile nav button for logged in users
+          const profileNavBtn = document.getElementById('nav-btn-profile');
+          const mobileProfileBtn = document.getElementById('mobile-nav-profile');
+          if (profileNavBtn) { profileNavBtn.classList.remove('hidden'); profileNavBtn.style.display = 'inline-flex'; }
+          if (mobileProfileBtn) { mobileProfileBtn.classList.remove('hidden'); mobileProfileBtn.style.display = 'block'; }
         } catch(e) {
           console.error(e);
         }
@@ -237,6 +243,11 @@
           adminNavBtn.classList.add('hidden');
           adminNavBtn.style.display = 'none';
         }
+        // Hide profile nav button for guest users
+        const profileNavBtnGuest = document.getElementById('nav-btn-profile');
+        const mobileProfileBtnGuest = document.getElementById('mobile-nav-profile');
+        if (profileNavBtnGuest) { profileNavBtnGuest.classList.add('hidden'); profileNavBtnGuest.style.display = 'none'; }
+        if (mobileProfileBtnGuest) { mobileProfileBtnGuest.classList.add('hidden'); mobileProfileBtnGuest.style.display = 'none'; }
       }
     }
 
@@ -336,6 +347,13 @@
           break;
         case 'admin':
           window.AdminModule.init(this.mainContainer);
+          break;
+        case 'profile':
+          if (window.ProfileModule) {
+            window.ProfileModule.init(this.mainContainer);
+          } else {
+            this.renderHome();
+          }
           break;
         default:
           this.renderHome();
@@ -715,6 +733,7 @@
       window.logoutUser = () => {
         localStorage.removeItem('avtotest_user');
         this.initSession();
+        this.switchTab('home');
       };
 
       window.startTest = (ticketId) => window.TestEngine.startTicket(ticketId);

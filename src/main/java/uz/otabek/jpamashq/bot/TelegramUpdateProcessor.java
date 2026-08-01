@@ -42,6 +42,9 @@ public class TelegramUpdateProcessor {
     // Track user session state
     private final Map<Long, String> userStateMap = new ConcurrentHashMap<>();
 
+    // Temporary storage for link codes (Code -> Phone Number)
+    public static final Map<String, String> LINK_CODES = new ConcurrentHashMap<>();
+
     @Async("telegramBotTaskExecutor")
     public void processUpdate(Update update, TelegramBotSender sender) {
         try {
@@ -177,6 +180,25 @@ public class TelegramUpdateProcessor {
                 err.setChatId(chatId);
                 err.setText("⚠️ Ushbu komanda faqat Super Admin uchun ajratilgan!");
                 sender.execute(err);
+            }
+            return;
+        }
+
+        if (text.equalsIgnoreCase("/link") || text.equalsIgnoreCase("🔗 Profilni ulashish")) {
+            Optional<TelegramUser> optUser = telegramUserRepository.findByTelegramId(telegramId);
+            if (optUser.isPresent() && optUser.get().getPhoneNumber() != null) {
+                String code = UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+                LINK_CODES.put(code, optUser.get().getPhoneNumber());
+                SendMessage sendMsg = new SendMessage();
+                sendMsg.setChatId(chatId);
+                sendMsg.setText("🔗 **Sizning ulashish kodingiz:** `" + code + "`\n\nUshbu kodni saytdagi profilingizga (Telegram ulashish) kiritib, akkauntingizni ulashing!");
+                sendMsg.setParseMode("Markdown");
+                sender.execute(sendMsg);
+            } else {
+                SendMessage sendMsg = new SendMessage();
+                sendMsg.setChatId(chatId);
+                sendMsg.setText("⚠️ Oldin kontaktingizni ulashingiz kerak! Pastdagi tugmani bosing:");
+                sender.execute(sendMsg);
             }
             return;
         }

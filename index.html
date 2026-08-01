@@ -86,6 +86,12 @@
           <button data-tab="stats" onclick="window.switchTab('stats')" class="nav-link nav-btn">
             Statistika
           </button>
+          <button data-tab="profile" onclick="window.switchTab('profile')" id="nav-btn-profile" class="nav-link nav-btn hidden">
+            Profil
+          </button>
+          <button data-tab="admin" onclick="window.switchTab('admin')" id="nav-btn-admin" class="nav-link nav-btn hidden text-[#EB5757]">
+            Admin
+          </button>
         </nav>
 
         <!-- Right Side Actions: GLOBAL SEARCH, LANGUAGE SWITCHER, AUTH & CTA -->
@@ -122,10 +128,10 @@
           </div>
 
           <!-- Logged In User Pill (Hidden by default) -->
-          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs relative overflow-hidden glass-panel hover-glow">
+          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs relative overflow-hidden glass-panel hover-glow cursor-pointer" onclick="window.switchTab('profile')">
             <span id="user-display-name" class="font-mono font-bold text-[#F2C94C]">Foydalanuvchi</span>
             <span id="pro-badge" class="hidden bg-gradient-to-r from-yellow-400 to-yellow-600 text-[#0B0F14] text-[10px] font-bold px-1.5 py-0.5 rounded pro-badge-glow ml-1">👑 PRO</span>
-            <button onclick="window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold ml-1">Chiqish</button>
+            <button onclick="event.stopPropagation(); window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold ml-1">Chiqish</button>
           </div>
 
           <!-- Mobile Hamburger Menu Button -->
@@ -158,9 +164,16 @@
         <button onclick="window.switchTab('stats')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
           Statistika va Progress
         </button>
-        <div class="pt-2 border-t border-[#242B36] flex gap-2">
+        <button id="mobile-nav-profile" onclick="window.switchTab('profile')" class="hidden text-left px-4 py-3 rounded-lg text-sm font-semibold text-[#E8EAED] hover:bg-[#171C24]">
+          Mening Profilim
+        </button>
+        <div id="mobile-auth-container" class="pt-2 border-t border-[#242B36] flex gap-2">
           <button onclick="window.openAuthModal('login')" class="btn-secondary w-full text-xs py-2">Kirish</button>
           <button onclick="window.openAuthModal('register')" class="btn-primary w-full text-xs py-2">Ro'yxatdan o'tish</button>
+        </div>
+        <div id="mobile-user-container" class="hidden pt-2 border-t border-[#242B36] flex-col gap-2">
+          <span class="text-xs text-[#9AA0A6] px-4 font-mono">Tizimga kirilgan: <span id="mobile-user-name" class="text-[#F2C94C] font-bold"></span></span>
+          <button onclick="window.logoutUser()" class="btn-secondary w-full text-xs py-2 text-[#EB5757] border-[#EB5757]">Chiqish</button>
         </div>
       </div>
     </div>
@@ -318,6 +331,8 @@
   <script src="./js/theory.js"></script>
   <script src="./js/fines.js"></script>
   <script src="./js/stats.js"></script>
+  <script src="./js/pro-games.js"></script>
+  <script src="./js/profile.js"></script>
   <script src="./js/app.js"></script>
 </body>
 </html>

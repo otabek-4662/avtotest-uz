@@ -418,6 +418,15 @@
               <button onclick="window.renderTicketSelection()" class="btn-secondary text-xs">
                 Boshqa bilet tanlash
               </button>
+              ${window.ProfileModule && window.ProfileModule.user && window.ProfileModule.user.isPro ? `
+                <button onclick="window.TestEngine.downloadPDF()" class="btn-secondary text-xs border-[#2D9CDB] text-[#2D9CDB]">
+                  📥 PDF Yuklab olish
+                </button>
+              ` : `
+                <button onclick="alert('PDF yuklab olish faqat PRO obunachilar uchun!')" class="btn-secondary text-xs border-[#242B36] text-[#9AA0A6]">
+                  📥 PDF (PRO)
+                </button>
+              `}
             </div>
           </div>
 
@@ -425,7 +434,7 @@
             <span>Javoblar Tahlili</span>
           </h3>
 
-          <div class="space-y-4">
+          <div id="test-results-container" class="space-y-4">
       `;
 
       details.forEach((item, idx) => {
@@ -468,8 +477,21 @@
         html += `
             </div>
 
-            <div class="p-4 rounded-md bg-[#0B0F14] border border-[#242B36] text-xs text-[#9AA0A6]">
-              <span class="font-bold text-[#F2C94C] block mb-1">Qoida tushuntirishi:</span>
+            <div class="p-4 rounded-md bg-[#0B0F14] border border-[#242B36] text-xs text-[#9AA0A6] relative">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-[#F2C94C]">Qoida tushuntirishi:</span>
+                ${window.ProfileModule && window.ProfileModule.user && window.ProfileModule.user.isPro ? `
+                  <button onclick="window.TestEngine.speakExplanation(\`${q.explanation.replace(/'/g, "\\'").replace(/"/g, '&quot;')}\`)" class="text-[#2D9CDB] hover:text-[#E8EAED] flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5 19h4.586a2 2 0 001.414-.586l4.829-4.829A2 2 0 0016 12.172V7.828a2 2 0 00-.586-1.414L10.586 1.586A2 2 0 009.172 1H5a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Eshitish
+                  </button>
+                ` : `
+                  <button onclick="alert('Ovozli tushuntirish faqat PRO obunachilar uchun!')" class="text-[#9AA0A6] flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5 19h4.586a2 2 0 001.414-.586l4.829-4.829A2 2 0 0016 12.172V7.828a2 2 0 00-.586-1.414L10.586 1.586A2 2 0 009.172 1H5a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    PRO
+                  </button>
+                `}
+              </div>
               <p>${q.explanation}</p>
             </div>
           </div>
@@ -482,6 +504,24 @@
       `;
 
       this.container.innerHTML = html;
+    },
+    
+    speakExplanation(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop any ongoing speech
+        const utterance = new SpeechSynthesisUtterance(text);
+        const lang = localStorage.getItem('avtotest_lang') || 'UZ';
+        utterance.lang = lang === 'RU' ? 'ru-RU' : 'uz-UZ';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Brauzeringiz ovozli o'qishni qo'llab-quvvatlamaydi.");
+      }
+    },
+    
+    downloadPDF() {
+      // Very simple print-to-PDF approach using CSS print media query
+      window.print();
     }
   };
 })();
