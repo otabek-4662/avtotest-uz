@@ -21,7 +21,8 @@ import java.util.UUID;
 @SuppressWarnings("null")
 public class AuthController {
 
-    private final UserRepository userRepository;
+    @org.springframework.beans.factory.annotation.Value("${superadmin.password:otabek4662}")
+    private String superAdminPassword;
 
     private String normalizePhone(String raw) {
         if (raw == null) return null;
@@ -39,12 +40,14 @@ public class AuthController {
                 superAdminOpt = userRepository.findByTelegramPhone("+998504554662");
             }
 
+            String adminPass = (superAdminPassword != null && !superAdminPassword.isEmpty()) ? superAdminPassword : "otabek4662";
+
             if (superAdminOpt.isEmpty()) {
                 User superAdmin = User.builder()
                         .username("otabek")
                         .email("otabeksotimov9@gmail.com")
                         .telegramPhone("+998504554662")
-                        .password("otabek4662")
+                        .password(adminPass)
                         .role("SUPER_ADMIN")
                         .permissions("ALL,MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS")
                         .build();
@@ -52,7 +55,7 @@ public class AuthController {
             } else {
                 User superAdmin = superAdminOpt.get();
                 superAdmin.setTelegramPhone("+998504554662");
-                superAdmin.setPassword("otabek4662");
+                superAdmin.setPassword(adminPass);
                 superAdmin.setRole("SUPER_ADMIN");
                 superAdmin.setPermissions("ALL,MANAGE_USERS,MANAGE_TESTS,ANNOUNCEMENTS");
                 userRepository.save(superAdmin);
