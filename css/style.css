@@ -111,7 +111,7 @@ h2, .section-title {
 /* Button System (Technical, strictly no rounded-full, no glass effect) */
 .btn-primary {
   display: inline-flex;
-  items-center: center;
+  align-items: center;
   justify-content: center;
   gap: 8px;
   background-color: var(--primary);
@@ -134,7 +134,7 @@ h2, .section-title {
 
 .btn-secondary {
   display: inline-flex;
-  items-center: center;
+  align-items: center;
   justify-content: center;
   gap: 8px;
   background-color: var(--surface-2);

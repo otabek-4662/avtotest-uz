@@ -300,7 +300,7 @@
     },
 
     showLinkModal() {
-      const modalHtml = \`
+      const modalHtml = `
         <div id="link-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0B0F14]/90 backdrop-blur-md fade-in">
           <div class="tech-card p-8 max-w-sm w-full relative border border-[#242B36] shadow-2xl">
             <button onclick="document.getElementById('link-modal').remove()" class="absolute top-4 right-4 w-8 h-8 rounded-md bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] flex items-center justify-center text-sm font-bold border border-[#242B36]">✕</button>
@@ -310,7 +310,7 @@
             <button onclick="window.ProfileModule.submitLinkCode()" class="btn-primary w-full py-3 text-xs">Ulashishni Tasdiqlash</button>
           </div>
         </div>
-      \`;
+      `;
       document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
@@ -330,7 +330,7 @@
           document.getElementById('link-modal').remove();
         }
       } catch (err) {
-        alert('Server bilan ulanishda xatolik yoki internet yo\\'q!');
+        alert('Server bilan ulanishda xatolik yoki internet yo\'q!');
       }
     }
   };
