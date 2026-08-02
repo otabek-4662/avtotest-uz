@@ -28,7 +28,6 @@
       'footer-telegram': 'Telegram Aloqa',
       'footer-copyright': '© 2026 AvtoTest UZ. Barcha huquqlar himoyalangan.',
       'footer-tagline': 'Tayyorgarlik tizimi va PDD simulyatsiyasi.',
-      // Home page translations
       'standart': "O'ZBEKISTON PDD 2026 STANDARTI",
       'heroH1': 'Haydovchilik Imtihoniga <span style="color:var(--primary)">Professional</span> Tayyorgarlik Tizimi',
       'heroDesc': "Rasmiy YPX PDD imtihon biletlari, yo'l belgilari katalogi, qoidalar nazariyasi hamda MJtK jarimalari bo'yicha yagona texnik platforma.",
@@ -61,6 +60,124 @@
       'loyihaDesc': 'Platformaning yaratilishi hamda ishlatilgan texnologiyalar',
       'otabekDesc': "Ushbu AvtoTest UZ platformasi O'zbekiston PDD imtihoniga tayyorlanish hamda yo'l harakati qoidalarini interaktiv tarzda o'rganish maqsadida yaratildi.",
       'steki': 'Texnologiyalar Steki:'
+    },
+    UZ_CYR: {
+      'logo-sub': 'ПДД Имтиҳон Портали',
+      'nav-home': 'Бош Саҳифа',
+      'nav-test': 'Тест Режими',
+      'nav-signs': "Йўл Белгилари",
+      'nav-theory': 'Назария',
+      'nav-fines': 'Жарималар',
+      'nav-stats': 'Статистика',
+      'search-placeholder': 'Қидирув...',
+      'btn-login': 'Кириш',
+      'btn-register': "Рўйхатдан ўтиш",
+      'btn-logout': 'Чиқиш',
+      'auth-login': 'Кириш',
+      'auth-register': "Рўйхатдан ўтиш",
+      'label-username-phone': 'Фойдаланувчи номи ёки Телефон рақам',
+      'label-username-email': 'Фойдаланувчи номи ёки Телефон рақам',
+      'label-password': 'Парол',
+      'label-username': 'Фойдаланувчи номи',
+      'label-phone': 'Телефон Рақами',
+      'label-email': 'Телефон Рақами',
+      'footer-desc': "Ўзбекистон Йўл Ҳаракати Қоидалари ва Имтиҳон Портали",
+      'footer-privacy': 'Махфийлик Сиёсати',
+      'footer-terms': 'Фойдаланиш Шартлари',
+      'footer-telegram': 'Telegram Алоқа',
+      'footer-copyright': '© 2026 AvtoTest UZ. Барча ҳуқуқлар ҳимояланган.',
+      'footer-tagline': 'Тайёргарлик тизими ва ПДД симуляцияси.',
+      'standart': "ЎЗБЕКИСТОН ПДД 2026 СТАНДАРТИ",
+      'heroH1': 'Ҳайдовчилик Имтиҳонига <span style="color:var(--primary)">Профессионал</span> Тайёргарлик Тизими',
+      'heroDesc': "Расмий ЙПХ ПДД имтиҳон билетлари, йўл белгилари каталоги, қоидалар назарияси ҳамда МЖтК жарималари бўйича ягона техник платформа.",
+      'btnStart': 'Имтиҳон Тестини Бошлаш',
+      'btnSigns': "Йўл Белгиларини Кўриш",
+      'savollarBazasi': 'Саволлар Базаси',
+      'rasmiyManba': 'Расмий ЙПХ манбаси',
+      'taymer': '20 Дақ',
+      'taymerStandarti': 'Таймер Стандарти',
+      'vaqtNazorati': 'Вақт назорати',
+      'muvaffaqiyat': 'Муваффақият',
+      'otishKorsatkich': "Ўтиш кўрсаткич",
+      'ishlanganTestlar': 'Ишланган Тестлар',
+      'shaxsiyNatija': 'Шахсий натижангиз',
+      'asosiyBolimlar': "Асосий Бўлимлар",
+      'interaktivImkoniyatlar': 'Платформанинг барча интерактив имкониятлари',
+      'testRejimi': 'Тест Режими',
+      'testDesc': '20 та савол, вақт ва хатолар таҳлили билан ПДД расмий имтиҳон симуляцияси.',
+      'boshlash': 'Бошлаш',
+      'yolBelgilari': "Йўл Белгилари",
+      'signsDesc': "6 та категория бўйича белгиларни излаш, номи ва қоидалари билан каталог.",
+      'kataloggaOtish': "Каталогга ўтиш",
+      'pddNazariya': 'ПДД Назария',
+      'theoryDesc': "Чорраҳалар, светофор, ҳаракатланиш ва хавфсизлик қоидаларининг тўлиқ назарияси.",
+      'qoidalarniOqish': "Қоидаларни ўқиш",
+      'jarimalarJadvali': 'Жарималар Жадвали',
+      'finesDesc': "Ўзбекистон МЖтК моддалари бўйича амалдаги жарима миқдорлари ва қидирув.",
+      'jadvalniKorish': "Жадвални кўриш",
+      'loyihaHaqida': 'Лойиҳа ва Дастурчи Ҳақида',
+      'loyihaDesc': 'Платформанинг яратилиши ҳамда ишлатилган технологиялар',
+      'otabekDesc': "Ушбу AvtoTest UZ платформаси Ўзбекистон ПДД имтиҳонига тайёргарлик ва йўл ҳаракати қоидаларини интерактив тарзда ўрганиш мақсадида яратилди.",
+      'steki': 'Технологиялар Стеки:'
+    },
+    RU: {
+      'logo-sub': 'Портал Экзаменов ПДД',
+      'nav-home': 'Главная',
+      'nav-test': 'Режим Теста',
+      'nav-signs': 'Дорожные Знаки',
+      'nav-theory': 'Теория',
+      'nav-fines': 'Штрафы',
+      'nav-stats': 'Статистика',
+      'search-placeholder': 'Поиск...',
+      'btn-login': 'Войти',
+      'btn-register': 'Регистрация',
+      'btn-logout': 'Выйти',
+      'auth-login': 'Войти',
+      'auth-register': 'Регистрация',
+      'label-username-phone': 'Имя пользователя или Телефон',
+      'label-username-email': 'Имя пользователя или Телефон',
+      'label-password': 'Пароль',
+      'label-username': 'Имя пользователя',
+      'label-phone': 'Номер телефона',
+      'label-email': 'Номер телефона',
+      'footer-desc': 'Портал ПДД и Экзаменов Узбекистана',
+      'footer-privacy': 'Политика Конфиденциальности',
+      'footer-terms': 'Условия Использования',
+      'footer-telegram': 'Telegram Контакт',
+      'footer-copyright': '© 2026 AvtoTest UZ. Все права защищены.',
+      'footer-tagline': 'Система подготовки и симуляции ПДД.',
+      'standart': 'СТАНДАРТ ПДД УЗБЕКИСТАНА 2026',
+      'heroH1': '<span style="color:var(--primary)">Профессиональная</span> Система Подготовки к Экзаменам',
+      'heroDesc': 'Официальные билеты ПДД ГСБДД, каталог дорожных знаков, теория правил и штрафы в единой технической платформе.',
+      'btnStart': 'Начать Экзамен',
+      'btnSigns': 'Смотреть Дорожные Знаки',
+      'savollarBazasi': 'База Вопросов',
+      'rasmiyManba': 'Официальный источник ГСБДД',
+      'taymer': '20 Мин',
+      'taymerStandarti': 'Стандарт Времени',
+      'vaqtNazorati': 'Контроль времени',
+      'muvaffaqiyat': 'Успеваемость',
+      'otishKorsatkich': 'Процент прохождения',
+      'ishlanganTestlar': 'Решённые Тесты',
+      'shaxsiyNatija': 'Ваш личный результат',
+      'asosiyBolimlar': 'Основные Разделы',
+      'interaktivImkoniyatlar': 'Все интерактивные возможности платформы',
+      'testRejimi': 'Режим Теста',
+      'testDesc': 'Симуляция официального экзамена ПДД с 20 вопросами, таймером и анализом ошибок.',
+      'boshlash': 'Начать',
+      'yolBelgilari': 'Дорожные Знаки',
+      'signsDesc': 'Каталог знаков по 6 категориям с поиском, названиями и правилами.',
+      'kataloggaOtish': 'Перейти в каталог',
+      'pddNazariya': 'Теория ПДД',
+      'theoryDesc': 'Полная теория правил дорожного движения, перекрестков и безопасности.',
+      'qoidalarniOqish': 'Читать правила',
+      'jarimalarJadvali': 'Таблица Штрафов',
+      'finesDesc': 'Актуальные размеры штрафов и поиск по статьям КоАО Узбекистана.',
+      'jadvalniKorish': 'Смотреть таблицу',
+      'loyihaHaqida': 'О Проекте и Разработчике',
+      'loyihaDesc': 'Создание платформы и используемые технологии',
+      'otabekDesc': 'Эта платформа AvtoTest UZ создана для интерактивного изучения ПДД Узбекистана и подготовки к экзамену.',
+      'steki': 'Стек Технологий:'
     }
   };
 
@@ -72,9 +189,8 @@
   class AppController {
     constructor() {
       this.currentTab = 'home';
-      this.currentLang = 'UZ';
+      this.currentLang = localStorage.getItem('avtotest_lang') || 'UZ';
       this.currentTheme = localStorage.getItem('avtotest_theme') || 'dark';
-      localStorage.setItem('avtotest_lang', 'UZ');
       this.mainContainer = document.getElementById('app-main-content');
       this.bindEvents();
       this.attachGlobalHandlers();
@@ -124,7 +240,21 @@
             userPill.classList.remove('hidden');
             userPill.style.display = 'flex';
           }
-          if (userDisplayName) userDisplayName.textContent = user.username;
+          // Display name: OAuth displayName > username
+          const displayLabel = user.displayName || user.username;
+          if (userDisplayName) userDisplayName.textContent = displayLabel;
+
+          // Avatar: Telegram/Google profil rasmi ko'rsatish
+          const avatarImg  = document.getElementById('user-avatar-img');
+          const avatarIcon = document.getElementById('user-avatar-icon');
+          if (avatarImg && user.avatarUrl) {
+            avatarImg.src = user.avatarUrl;
+            avatarImg.style.display = 'block';
+            if (avatarIcon) avatarIcon.style.display = 'none';
+          } else if (avatarIcon) {
+            if (avatarImg) avatarImg.style.display = 'none';
+            avatarIcon.style.display = 'block';
+          }
           
           if (mobileAuth) {
             mobileAuth.classList.add('hidden');
@@ -215,17 +345,41 @@
       });
     }
 
-    toggleLanguage() {
-      this.currentLang = 'UZ';
-      localStorage.setItem('avtotest_lang', 'UZ');
-      this.applyI18n();
-      this.renderTab(this.currentTab);
+    setLanguage(lang) {
+      if (['UZ', 'UZ_CYR', 'RU'].includes(lang)) {
+        this.currentLang = lang;
+        localStorage.setItem('avtotest_lang', lang);
+        
+        // UI dagi barcha lang dropdown buttonlarni yangilash
+        document.querySelectorAll('.lang-selector-btn').forEach(btn => {
+          btn.classList.remove('active', 'text-[var(--primary)]');
+          if (btn.dataset.lang === lang) {
+            btn.classList.add('active', 'text-[var(--primary)]');
+          }
+        });
+        
+        // Hozirgi tanlangan til labelni yangilash
+        const langLabels = { 'UZ': "O'Z", 'UZ_CYR': 'ЎЗ', 'RU': 'РУ' };
+        const displayLabel = document.getElementById('current-lang-display');
+        if (displayLabel) displayLabel.textContent = langLabels[lang];
+
+        this.applyI18n();
+        this.renderTab(this.currentTab);
+      }
     }
 
     // ========== THEME SYSTEM ==========
     applyTheme(theme) {
       this.currentTheme = theme;
       document.documentElement.setAttribute('data-theme', theme);
+      
+      // Tailwind CSS dark mode integratsiyasi
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
       localStorage.setItem('avtotest_theme', theme);
 
       const icon = document.getElementById('theme-icon');
@@ -315,33 +469,43 @@
 
       const html = `
         <div class="fade-in space-y-20 py-4">
-          <!-- HERO SECTION -->
-          <section class="relative py-12 text-left max-w-4xl">
-            <div class="space-y-6">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
-                <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
-                ${t('standart')}
+          <!-- HERO SECTION (WITH FUTURISTIC ANIMATED SVG) -->
+          <section class="relative py-8 text-left max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              <!-- Left Content -->
+              <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
+                  <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
+                  ${t('standart')}
+                </div>
+
+                <h1 class="hero-h1" style="color:var(--text)">
+                  ${t('heroH1')}
+                </h1>
+
+                <p class="body-text max-w-2xl" style="color:var(--text-muted)">
+                  ${t('heroDesc')}
+                </p>
+
+                <div class="pt-4 flex flex-wrap items-center gap-4">
+                  <button onclick="window.switchTab('test')" class="btn-primary">
+                    <span>${t('btnStart')}</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </button>
+
+                  <button onclick="window.switchTab('signs')" class="btn-secondary">
+                    <span>${t('btnSigns')}</span>
+                    <svg class="w-4 h-4" style="color:var(--text-muted)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
               </div>
 
-              <h1 class="hero-h1" style="color:var(--text)">
-                ${t('heroH1')}
-              </h1>
-
-              <p class="body-text max-w-2xl" style="color:var(--text-muted)">
-                ${t('heroDesc')}
-              </p>
-
-              <div class="pt-4 flex flex-wrap items-center gap-4">
-                <button onclick="window.switchTab('test')" class="btn-primary">
-                  <span>${t('btnStart')}</span>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </button>
-
-                <button onclick="window.switchTab('signs')" class="btn-secondary">
-                  <span>${t('btnSigns')}</span>
-                  <svg class="w-4 h-4" style="color:var(--text-muted)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                </button>
+              <!-- Right Column: Futuristic Anime.js SVG Animation -->
+              <div class="lg:col-span-5 flex justify-center items-center">
+                <div id="futuristic-car-container" class="w-full"></div>
               </div>
+
             </div>
           </section>
 
@@ -387,7 +551,7 @@
               <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 36 36">
                   <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="60, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="${Math.min(stats.passRate, 100)}, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
                 <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">${stats.totalTests}</span>
               </div>
@@ -396,15 +560,14 @@
             </div>
           </section>
 
-          <!-- SECTIONS / CARDS -->
+          <!-- ASOSIY BO'LIMLAR -->
           <section class="space-y-6">
             <div class="space-y-1">
               <h2 class="section-title" style="color:var(--text)">${t('asosiyBolimlar')}</h2>
               <p class="muted-text">${t('interaktivImkoniyatlar')}</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div onclick="window.switchTab('test')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
                   <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
@@ -422,7 +585,7 @@
               <div onclick="window.switchTab('signs')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
                   <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                   </div>
                   <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('yolBelgilari')}</h3>
                   <p class="muted-text mb-4 leading-relaxed">${t('signsDesc')}</p>
@@ -484,11 +647,6 @@
                       <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded" style="background:var(--surface-2);color:var(--primary);border:1px solid var(--border)">Full-Stack / Java Backend Developer</span>
                       <span class="text-xs font-mono" style="color:var(--text-muted)">(21.09.2006)</span>
                     </div>
-                    <p class="text-sm leading-relaxed max-w-xl" style="color:var(--text-muted)">${t('otabekDesc')}</p>
-                  </div>
-                </div>
-
-                <div class="w-full md:w-auto pt-4 md:pt-0 md:border-t-0 flex flex-col gap-2 shrink-0" style="border-top:1px solid var(--border)">
                   <span class="text-xs font-mono uppercase font-bold tracking-wider" style="color:var(--text-muted)">${t('steki')}</span>
                   <div class="flex flex-wrap gap-2 max-w-xs">
                     <span class="px-2.5 py-1 rounded text-xs font-mono" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text)">Java</span>
@@ -505,6 +663,12 @@
       `;
 
       this.mainContainer.innerHTML = html;
+
+      if (window.FuturisticCar && typeof window.FuturisticCar.init === 'function') {
+        setTimeout(() => {
+          window.FuturisticCar.init('futuristic-car-container');
+        }, 50);
+      }
     }
 
     attachGlobalHandlers() {
@@ -755,8 +919,8 @@
         }
       };
 
-      window.setSessionUser = (username, token, role = 'USER', isPro = false) => {
-        const userObj = { username, token, role, isPro };
+      window.setSessionUser = (username, token, role = 'USER', isPro = false, avatarUrl = null, displayName = null) => {
+        const userObj = { username, token, role, isPro, avatarUrl, displayName };
         localStorage.setItem('avtotest_user', JSON.stringify(userObj));
         this.initSession();
       };
@@ -765,6 +929,254 @@
         localStorage.removeItem('avtotest_user');
         this.initSession();
       };
+
+      // ====================================================================
+      // TELEGRAM LOGIN WIDGET
+      // ====================================================================
+
+      /**
+       * Telegram Login Widget ni ishga tushiradi.
+       * oauth.telegram.org saytida popup ochiladi va callback qaytaradi.
+       * Bot nomi: testautouz_bot (application.properties dan)
+       */
+      window.handleTelegramLogin = () => {
+        const BOT_USERNAME = 'testautouz_bot'; // BotFather dagi bot username
+        const CALLBACK_FN  = 'onTelegramAuthCallback';
+        const SIZE         = 'large'; // small | medium | large
+
+        // Telegram widget script ni dinamik yuklash
+        const existingScript = document.getElementById('telegram-widget-script');
+        if (existingScript) existingScript.remove();
+
+        const script = document.createElement('script');
+        script.id = 'telegram-widget-script';
+        script.src = 'https://telegram.org/js/telegram-widget.js?22';
+        script.setAttribute('data-telegram-login', BOT_USERNAME);
+        script.setAttribute('data-size', SIZE);
+        script.setAttribute('data-onauth', CALLBACK_FN);
+        script.setAttribute('data-request-access', 'write');
+        script.async = true;
+
+        // Callback funksiyasini global qilib o'rnatamiz
+        window[CALLBACK_FN] = async (telegramData) => {
+          await window._sendTelegramDataToBackend(telegramData);
+        };
+
+        // Widget ni yashirin container ga yuklaymiz
+        let widgetContainer = document.getElementById('telegram-widget-container');
+        if (!widgetContainer) {
+          widgetContainer = document.createElement('div');
+          widgetContainer.id = 'telegram-widget-container';
+          widgetContainer.style.cssText = 'position:fixed;opacity:0;pointer-events:none;z-index:-1;top:-999px;left:-999px';
+          document.body.appendChild(widgetContainer);
+        }
+        widgetContainer.innerHTML = '';
+        widgetContainer.appendChild(script);
+
+        // Script yuklangach tugmani avtomatik bosish
+        script.onload = () => {
+          setTimeout(() => {
+            const tgBtn = widgetContainer.querySelector('iframe');
+            if (tgBtn) {
+              // iframe orqali tugma bosiladi
+              tgBtn.contentWindow && tgBtn.contentWindow.document &&
+                tgBtn.contentWindow.document.querySelector('button') &&
+                tgBtn.contentWindow.document.querySelector('button').click();
+            }
+            // Muqobil: to'g'ridan-to'g'ri Telegram auth URL ni ochish
+            const authUrl = `https://oauth.telegram.org/auth?bot_id=${BOT_USERNAME.replace('_bot','').toLowerCase()}&origin=${encodeURIComponent(window.location.origin)}&embed=1&request_access=write&callback_url=${encodeURIComponent(window.location.href)}`;
+            // Popup ochish
+            const popup = window.open(
+              `https://oauth.telegram.org/auth?bot_id=${BOT_USERNAME}&origin=${encodeURIComponent(window.location.origin)}&embed=0`,
+              'telegram_oauth',
+              'width=480,height=600,scrollbars=yes,resizable=yes'
+            );
+
+            // Popup dan xabar kutish
+            const messageHandler = async (event) => {
+              if (event.origin !== 'https://oauth.telegram.org') return;
+              window.removeEventListener('message', messageHandler);
+              if (popup && !popup.closed) popup.close();
+              if (event.data && event.data.id) {
+                await window._sendTelegramDataToBackend(event.data);
+              }
+            };
+            window.addEventListener('message', messageHandler);
+          }, 800);
+        };
+      };
+
+      /**
+       * Telegram dan olingan ma'lumotlarni backendga yuboradi.
+       */
+      window._sendTelegramDataToBackend = async (telegramData) => {
+        const msg = document.getElementById('auth-status-msg');
+        try {
+          // Loading holati
+          if (msg) {
+            msg.style.background = 'rgba(34,158,217,0.12)';
+            msg.style.border = '1px solid #229ED9';
+            msg.style.color = '#229ED9';
+            msg.textContent = 'Telegram orqali kirilmoqda...';
+            msg.classList.remove('hidden');
+          }
+
+          const res = await fetch('/api/auth/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(telegramData)
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            let isPro = false;
+            try {
+              const subRes = await fetch(`/api/subscription/status/${data.username}`);
+              if (subRes.ok) { const s = await subRes.json(); isPro = s.isPro || false; }
+            } catch(e) {}
+
+            window.setSessionUser(
+              data.username,
+              data.token,
+              data.role || 'USER',
+              isPro,
+              data.avatarUrl || null,
+              data.displayName || null
+            );
+
+            if (msg) {
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
+              msg.textContent = data.message || 'Xush kelibsiz!';
+            }
+            setTimeout(() => window.closeAuthModal(), 1200);
+          } else {
+            throw new Error(data.message || 'Telegram orqali kirishda xatolik!');
+          }
+        } catch (err) {
+          if (msg) {
+            msg.style.background = 'rgba(239,68,68,0.12)';
+            msg.style.border = '1px solid #ef4444';
+            msg.style.color = '#ef4444';
+            msg.textContent = err.message || 'Telegram orqali kirishda xatolik yuz berdi!';
+            msg.classList.remove('hidden');
+          }
+        }
+      };
+
+      // ====================================================================
+      // GOOGLE OAUTH (Google Identity Services — GSI)
+      // ====================================================================
+
+      /**
+       * Google Sign-In popup ni ishga tushiradi.
+       * Google GSI library dan foydalaniladi.
+       */
+      window.handleGoogleLogin = () => {
+        const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID_HERE'; // Google Cloud Console dan oling
+
+        if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
+          const msg = document.getElementById('auth-status-msg');
+          if (msg) {
+            msg.style.background = 'rgba(239,68,68,0.12)';
+            msg.style.border = '1px solid #ef4444';
+            msg.style.color = '#ef4444';
+            msg.textContent = 'Google Client ID sozlanmagan. index.html da YOUR_GOOGLE_CLIENT_ID_HERE ni o\'zgartiring.';
+            msg.classList.remove('hidden');
+          }
+          return;
+        }
+
+        // GSI library yuklangan bo'lsa — popup ochish
+        if (window.google && window.google.accounts) {
+          window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: window.onGoogleCredentialResponse,
+            ux_mode: 'popup'
+          });
+          window.google.accounts.id.prompt();
+        } else {
+          // GSI yuklanmagan bo'lsa — OAuth redirect URL orqali
+          const redirectUri = encodeURIComponent(window.location.origin);
+          const scope = encodeURIComponent('openid email profile');
+          const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+          const popup = window.open(oauthUrl, 'google_oauth', 'width=500,height=600,scrollbars=yes');
+          const msg = document.getElementById('auth-status-msg');
+          if (msg) {
+            msg.style.background = 'rgba(66,133,244,0.12)';
+            msg.style.border = '1px solid #4285F4';
+            msg.style.color = '#4285F4';
+            msg.textContent = 'Google oynasini tekshiring...';
+            msg.classList.remove('hidden');
+          }
+        }
+      };
+
+      /**
+       * Google GSI dan olingan credential JWT tokenni backendga yuboradi.
+       * Bu funksiya Google tomonidan chaqiriladi (global callback).
+       */
+      window.onGoogleCredentialResponse = async (response) => {
+        // Bu funksiya Google GSI tomonidan chaqiriladi
+        const idToken = response.credential;
+        const msg = document.getElementById('auth-status-msg');
+        
+        try {
+          if (msg) {
+            msg.style.background = 'rgba(66,133,244,0.12)';
+            msg.style.border = '1px solid #4285F4';
+            msg.style.color = '#4285F4';
+            msg.textContent = 'Google orqali kirilmoqda...';
+            msg.classList.remove('hidden');
+          }
+
+          const res = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            let isPro = false;
+            try {
+              const subRes = await fetch(`/api/subscription/status/${data.username}`);
+              if (subRes.ok) { const s = await subRes.json(); isPro = s.isPro || false; }
+            } catch(e) {}
+
+            window.setSessionUser(
+              data.username,
+              data.token,
+              data.role || 'USER',
+              isPro,
+              data.avatarUrl || null,
+              data.displayName || null
+            );
+
+            if (msg) {
+              msg.style.background = 'rgba(242,201,76,0.15)';
+              msg.style.border = '1px solid var(--primary)';
+              msg.style.color = 'var(--primary)';
+              msg.textContent = data.message || 'Xush kelibsiz!';
+            }
+            setTimeout(() => window.closeAuthModal(), 1200);
+          } else {
+            throw new Error(data.message || 'Google orqali kirishda xatolik!');
+          }
+        } catch (err) {
+          if (msg) {
+            msg.style.background = 'rgba(239,68,68,0.12)';
+            msg.style.border = '1px solid #ef4444';
+            msg.style.color = '#ef4444';
+            msg.textContent = err.message || 'Google orqali kirishda xatolik yuz berdi!';
+            msg.classList.remove('hidden');
+          }
+        }
+      };
+
+      // Global callback — Google GSI data-callback="onGoogleCredentialResponse" uchun
+      window.onGoogleCredentialResponse = window.onGoogleCredentialResponse;
 
       window.startTest = (ticketId) => window.TestEngine.startTicket(ticketId);
       window.startRandomTest = () => window.TestEngine.startRandom();

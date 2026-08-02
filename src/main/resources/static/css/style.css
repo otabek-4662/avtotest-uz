@@ -372,3 +372,74 @@ h2, .section-title {
   to { transform: rotate(360deg); }
 }
 
+/* =========================================
+   AUTH MODAL ANIMATIONS (SVG & GLASSMORPHISM)
+   ========================================= */
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob {
+  animation: blob 7s infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes road-move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40px); }
+}
+.animate-road-lines {
+  animation: road-move 0.8s linear infinite;
+}
+
+@keyframes traffic-red {
+  0%, 33% { fill: #fc8181; opacity: 1; filter: drop-shadow(0 0 10px #fc8181); }
+  34%, 100% { fill: #4a5568; opacity: 0.5; filter: none; }
+}
+@keyframes traffic-yellow {
+  0%, 33% { fill: #4a5568; opacity: 0.5; filter: none; }
+  34%, 66% { fill: #fbd38d; opacity: 1; filter: drop-shadow(0 0 10px #fbd38d); }
+  67%, 100% { fill: #4a5568; opacity: 0.5; filter: none; }
+}
+@keyframes traffic-green {
+  0%, 66% { fill: #4a5568; opacity: 0.5; filter: none; }
+  67%, 100% { fill: #68d391; opacity: 1; filter: drop-shadow(0 0 10px #68d391); }
+}
+.animate-traffic-red { animation: traffic-red 6s infinite; }
+.animate-traffic-yellow { animation: traffic-yellow 6s infinite; }
+.animate-traffic-green { animation: traffic-green 6s infinite; }
+
+@keyframes car-bounce {
+  0%, 100% { transform: translate(60px, 100px); }
+  50% { transform: translate(60px, 98px); }
+}
+.animate-car-bounce {
+  animation: car-bounce 0.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 1s linear infinite;
+}
+
+/* Custom scrollbar for Auth Modal right panel */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

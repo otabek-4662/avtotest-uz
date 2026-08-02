@@ -15,29 +15,36 @@
     },
 
     render() {
-      let summary = null;
-      let history = null;
+      let stats = [];
+      let safeSummary = {
+        totalTests: 0,
+        averageScore: 0,
+        passRate: 0,
+        bestScore: 0
+      };
+
       try {
-        summary = (window.StorageManager && typeof window.StorageManager.getStatsSummary === 'function')
-          ? window.StorageManager.getStatsSummary()
-          : null;
-        history = (window.StorageManager && typeof window.StorageManager.getHistory === 'function')
-          ? window.StorageManager.getHistory()
-          : null;
+        if (window.StorageManager) {
+          const historyData = window.StorageManager.getHistory();
+          if (Array.isArray(historyData)) {
+            stats = historyData;
+          }
+          const summaryData = window.StorageManager.getStatsSummary();
+          if (summaryData) {
+            safeSummary = {
+              totalTests: summaryData.totalTests || 0,
+              averageScore: summaryData.averageScore || 0,
+              passRate: summaryData.passRate || 0,
+              bestScore: summaryData.bestScore || 0
+            };
+          }
+        }
       } catch (e) {
         console.error('[StatsModule] StorageManager error:', e);
       }
 
-      const safeSummary = {
-        totalTests:   summary ? (summary.totalTests ?? 0) : 0,
-        averageScore: summary ? (summary.averageScore ?? 0) : 0,
-        passRate:     summary ? (summary.passRate ?? 0) : 0,
-        bestScore:    summary ? (summary.bestScore ?? 0) : 0,
-      };
-      const safeHistory = Array.isArray(history) ? history : [];
-
-      // ✅ 1-VAZIFA: Empty State (If no tests completed or history is empty)
-      if (safeSummary.totalTests === 0 || safeHistory.length === 0) {
+      // ✅ 1-VAZIFA: Empty State (If no tests completed)
+      if (stats.length === 0) {
         this.container.innerHTML = `
           <div class="fade-in max-w-4xl mx-auto py-12 px-4 text-center">
             <div class="tech-card p-8 sm:p-12 max-w-lg mx-auto space-y-6 border border-[#242B36] shadow-2xl relative overflow-hidden" style="background:var(--surface,#11161D);">
@@ -48,7 +55,7 @@
               </div>
 
               <div class="space-y-2">
-                <h3 class="text-2xl font-bold font-heading text-[#E8EAED]">Statistika Hali Mavjud Emas</h3>
+                <h3 class="text-2xl font-bold font-heading text-[#E8EAED]">Statistika hali mavjud emas</h3>
                 <p class="text-xs sm:text-sm text-[#9AA0A6] leading-relaxed max-w-md mx-auto">
                   Siz hali biror marta test ishlamagansiz. Natijalar va tahlillar ko'rinishi uchun test yechishni boshlang!
                 </p>
@@ -56,7 +63,7 @@
 
               <div class="pt-2">
                 <button onclick="window.switchTab('test')" class="btn-primary py-3 px-8 text-xs font-bold inline-flex items-center gap-2">
-                  <span>Test Yechishni Boshlash</span>
+                  <span>Testni boshlash</span>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </button>
               </div>
@@ -101,7 +108,7 @@
           <div class="tech-card p-6 border border-[#242B36] space-y-4">
             <h3 class="text-lg font-bold font-heading text-[#E8EAED]">Oxirgi Imtihonlar Tarixi</h3>
             <div class="space-y-3">
-              ${safeHistory.map(item => `
+              ${stats.map(item => `
                 <div class="p-4 rounded-lg bg-[#0B0F14] border border-[#242B36] flex items-center justify-between flex-wrap gap-4">
                   <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${item.passed ? 'bg-[#27AE60]/20 text-[#27AE60] border border-[#27AE60]/40' : 'bg-[#EB5757]/20 text-[#EB5757] border border-[#EB5757]/40'}">

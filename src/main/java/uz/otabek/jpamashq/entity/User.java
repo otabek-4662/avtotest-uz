@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 @Table(name = "users", indexes = {
     @Index(name = "idx_user_username", columnList = "username"),
     @Index(name = "idx_user_email", columnList = "email"),
-    @Index(name = "idx_user_phone", columnList = "telegram_phone")
+    @Index(name = "idx_user_phone", columnList = "telegram_phone"),
+    @Index(name = "idx_user_telegram_id", columnList = "telegram_id"),
+    @Index(name = "idx_user_google_id", columnList = "google_id")
 })
 @Getter
 @Setter
@@ -28,7 +30,8 @@ public class User {
     @Column(nullable = true)
     private String email;
 
-    @Column(nullable = false)
+    // nullable=true: Telegram/Google orqali kirgan foydalanuvchilar uchun parol shart emas
+    @Column(nullable = true)
     private String password;
 
     @Column(nullable = false)
@@ -45,4 +48,26 @@ public class User {
 
     @Column(name = "telegram_phone")
     private String telegramPhone;
+
+    // === OAuth maydonlari ===
+
+    /** Telegram Login Widget orqali olingan Telegram foydalanuvchi ID si */
+    @Column(name = "telegram_id", nullable = true, unique = true)
+    private Long telegramId;
+
+    /** Google OAuth orqali olingan Google foydalanuvchi ID (sub) */
+    @Column(name = "google_id", nullable = true, unique = true)
+    private String googleId;
+
+    /** Telegram yoki Google dan olingan profil rasm URL */
+    @Column(name = "avatar_url", nullable = true, length = 512)
+    private String avatarUrl;
+
+    /** Telegram/Google dan olingan to'liq ism (first_name + last_name yoki name) */
+    @Column(name = "display_name", nullable = true, length = 200)
+    private String displayName;
+
+    /** Foydalanuvchi qaysi usul bilan ro'yxatdan o'tgan: "LOCAL", "TELEGRAM", "GOOGLE" */
+    @Column(name = "auth_provider", nullable = true)
+    private String authProvider;
 }

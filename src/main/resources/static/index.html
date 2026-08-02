@@ -43,6 +43,12 @@
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- Anime.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <!-- Google Identity Services (GSI) — OAuth 2.0 -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./css/style.css" />
 </head>
@@ -146,6 +152,19 @@
             </button>
           </div>
 
+          <!-- LANGUAGE SWITCHER (Dropdown) -->
+          <div class="relative group hidden sm:block">
+            <button class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1" title="Tilni almashtirish">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              <span id="current-lang-display">O'Z</span>
+            </button>
+            <div class="absolute right-0 mt-2 w-32 rounded-md shadow-lg py-1 bg-[var(--surface-2)] border border-[var(--border)] hidden group-hover:block z-50">
+              <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors active">O'zbek (Latin)</button>
+              <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors">Ўзбек (Кир)</button>
+              <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors">Русский</button>
+            </div>
+          </div>
+
           <!-- AUTH BUTTONS -->
           <div id="auth-nav-buttons" class="hidden sm:flex items-center gap-2">
             <button onclick="window.openAuthModal('login')" class="btn-secondary text-xs py-2 px-3" data-i18n="btn-login">
@@ -162,8 +181,10 @@
                class="hidden px-3 py-1.5 rounded-md border transition-colors hover-surface glass-panel hover-glow"
                style="background:var(--surface-2);border-color:var(--border);align-items:center;gap:8px;cursor:pointer"
                title="Profil va xizmatlar menyusini ochish">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <svg style="width:16px;height:16px" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <!-- Avatar: OAuth dan rasm bo'lsa ko'rsatiladi, aks holda ikon -->
+            <div id="user-avatar-wrapper" style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--primary);display:flex;align-items:center;justify-content:center">
+              <img id="user-avatar-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%" />
+              <svg id="user-avatar-icon" style="width:16px;height:16px;color:var(--bg)" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
             <span id="user-display-name" class="font-mono font-bold text-xs" style="color:var(--text)">User</span>
             <span id="pro-badge" class="hidden text-[10px] font-bold px-1.5 py-0.5 rounded pro-badge-glow" style="background:linear-gradient(to right,#facc15,#ca8a04);color:#0B0F14">👑 PRO</span>
@@ -190,6 +211,17 @@
         <button onclick="window.switchTab('theory')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-theory">Nazariya</button>
         <button onclick="window.switchTab('fines')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-fines">Jarimalar</button>
         <button onclick="window.switchTab('stats')" class="text-left px-4 py-3 rounded-lg text-sm font-semibold" style="color:var(--text)" data-i18n="nav-stats">Statistika</button>
+        
+        <!-- Mobile Language Selector -->
+        <div class="px-4 py-2 flex items-center gap-2" style="border-top:1px solid var(--border)">
+          <span class="text-xs font-bold text-[var(--text-muted)]">Til:</span>
+          <div class="flex gap-2">
+            <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">O'Z</button>
+            <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">ЎЗ</button>
+            <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">РУ</button>
+          </div>
+        </div>
+
         <div id="mobile-auth-container" class="pt-2 flex gap-2" style="border-top:1px solid var(--border)">
           <button onclick="window.openAuthModal('login')" class="btn-secondary w-full text-xs py-2" data-i18n="btn-login">Kirish</button>
           <button onclick="window.openAuthModal('register')" class="btn-primary w-full text-xs py-2" data-i18n="btn-register">Ro'yxatdan o'tish</button>
@@ -264,88 +296,236 @@
     </div>
   </footer>
 
-  <!-- AUTH MODAL WINDOW -->
-  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden fade-in" style="background:rgba(0,0,0,0.7);backdrop-filter:blur(8px)">
-    <div class="tech-card p-8 max-w-md w-full relative shadow-2xl" style="border:1px solid var(--border)">
+  <!-- AUTH MODAL WINDOW (MODERN GLASSMORPHISM & SPLIT-SCREEN) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 hidden fade-in" style="background:rgba(0,0,0,0.65);backdrop-filter:blur(16px)" onclick="if(event.target===this)window.closeAuthModal()">
+    
+    <!-- Modal Container -->
+    <div class="flex max-w-5xl w-full h-[650px] rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.4)] border border-white/10 relative transform scale-95 transition-all duration-300" id="auth-modal-content">
       
-      <button onclick="window.closeAuthModal()" class="absolute top-4 right-4 w-8 h-8 rounded-md flex items-center justify-center text-sm font-bold" style="background:var(--surface-2);color:var(--text-muted);border:1px solid var(--border)">
-        ✕
+      <!-- Close Button (Floating) -->
+      <button onclick="window.closeAuthModal()" id="auth-modal-close-btn" class="absolute top-5 right-5 z-50 w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md transition-all border border-white/10 shadow-lg">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
 
-      <div class="flex items-center gap-2 mb-6 pb-3" style="border-bottom:1px solid var(--border)">
-        <button id="tab-login-btn" onclick="window.switchAuthTab('login')" class="text-lg font-bold font-heading pb-1 mr-4 transition-all" style="color:var(--primary);border-bottom:2px solid var(--primary)" data-i18n="auth-login">
-          Kirish
-        </button>
-        <button id="tab-register-btn" onclick="window.switchAuthTab('register')" class="text-lg font-bold font-heading pb-1 transition-all" style="color:var(--text-muted)" data-i18n="auth-register">
-          Ro'yxatdan o'tish
-        </button>
+      <!-- LEFT PANEL: ILLUSTRATION & BRANDING -->
+      <div class="hidden lg:flex w-1/2 relative bg-gradient-to-br from-[#0a111a] via-[#111827] to-[#1e1b4b] flex-col items-center justify-center p-12 overflow-hidden border-r border-white/5">
+        <!-- Floating abstract shapes background -->
+        <div class="absolute inset-0 overflow-hidden">
+          <div class="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full mix-blend-screen filter blur-3xl opacity-50 animate-blob"></div>
+          <div class="absolute top-1/2 right-10 w-32 h-32 bg-blue-500/20 rounded-full mix-blend-screen filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+          <div class="absolute -bottom-8 left-20 w-40 h-40 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
+        </div>
+
+        <!-- SVG Illustration -->
+        <div class="relative w-full max-w-sm mb-12 flex justify-center perspective-1000">
+          <svg width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-2xl z-10 auth-illustration">
+            <!-- Road -->
+            <path d="M0 180 L280 180 L320 220 L-40 220 Z" fill="#2d3748" opacity="0.8"/>
+            <path d="M20 180 L20 220" stroke="#4a5568" stroke-width="2" stroke-dasharray="8 8"/>
+            <path d="M260 180 L260 220" stroke="#4a5568" stroke-width="2" stroke-dasharray="8 8"/>
+            <!-- Road lines -->
+            <line x1="20" y1="200" x2="260" y2="200" stroke="#cbd5e0" stroke-width="4" stroke-dasharray="16 12" class="animate-road-lines"/>
+            
+            <!-- Traffic Light (Animated) -->
+            <g transform="translate(30, 60)">
+              <rect x="0" y="0" width="30" height="80" rx="8" fill="#1a202c" stroke="#4a5568" stroke-width="2"/>
+              <circle cx="15" cy="20" r="8" fill="#4a5568" class="animate-traffic-red"/>
+              <circle cx="15" cy="40" r="8" fill="#4a5568" class="animate-traffic-yellow"/>
+              <circle cx="15" cy="60" r="8" fill="#4a5568" class="animate-traffic-green"/>
+              <rect x="12" y="80" width="6" height="40" fill="#4a5568"/>
+            </g>
+
+            <!-- Stop Sign -->
+            <g transform="translate(220, 90)">
+              <polygon points="15,0 35,0 50,15 50,35 35,50 15,50 0,35 0,15" fill="#e53e3e" stroke="#fff" stroke-width="2"/>
+              <text x="25" y="30" font-family="sans-serif" font-weight="900" font-size="12" fill="#fff" text-anchor="middle">STOP</text>
+              <rect x="22" y="50" width="6" height="40" fill="#4a5568"/>
+            </g>
+
+            <!-- Car Body (Floating/Suspension effect) -->
+            <g class="animate-car-bounce" transform="translate(60, 100)">
+              <!-- Shadow -->
+              <ellipse cx="80" cy="80" rx="75" ry="10" fill="#000" opacity="0.3"/>
+              <!-- Body Bottom -->
+              <path d="M10,70 L150,70 Q160,70 160,60 L160,50 L0,50 L0,60 Q0,70 10,70 Z" fill="#F2C94C"/>
+              <!-- Body Top -->
+              <path d="M20,50 L40,25 Q45,20 50,20 L110,20 Q115,20 120,25 L140,50 Z" fill="#D4A017"/>
+              <!-- Window -->
+              <path d="M45,45 L50,25 L110,25 L115,45 Z" fill="#2d3748"/>
+              <path d="M80,25 L80,45" stroke="#1a202c" stroke-width="3"/>
+              <!-- Lights -->
+              <circle cx="10" cy="55" r="4" fill="#fc8181" opacity="0.8"/>
+              <circle cx="150" cy="55" r="4" fill="#fefcbf" opacity="0.9">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Wheels (Spinning) -->
+              <g transform="translate(35, 70)">
+                <circle cx="0" cy="0" r="14" fill="#1a202c" stroke="#e2e8f0" stroke-width="2"/>
+                <circle cx="0" cy="0" r="6" fill="#cbd5e0" stroke="#718096" stroke-width="1" stroke-dasharray="3 3" class="animate-spin-slow"/>
+              </g>
+              <g transform="translate(125, 70)">
+                <circle cx="0" cy="0" r="14" fill="#1a202c" stroke="#e2e8f0" stroke-width="2"/>
+                <circle cx="0" cy="0" r="6" fill="#cbd5e0" stroke="#718096" stroke-width="1" stroke-dasharray="3 3" class="animate-spin-slow"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <h2 class="text-3xl font-heading font-extrabold text-white mb-3 text-center tracking-tight leading-tight z-10">
+          Haydovchilik sirlarini<br/><span class="text-[#F2C94C]">kashf eting</span>
+        </h2>
+        <p class="text-[#9AA0A6] text-sm text-center max-w-xs z-10" style="line-height:1.6">
+          AvtoTest UZ orqali imtihonga mukammal tayyorlaning va yangi marralarni zabt eting.
+        </p>
       </div>
 
-      <div id="auth-status-msg" class="hidden mb-4 p-3 rounded-md text-xs font-semibold"></div>
-
-      <!-- LOGIN FORM -->
-      <form id="login-form" onsubmit="window.handleLoginSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-username-phone">Foydalanuvchi nomi yoki Telefon raqam</label>
-          <input 
-            type="text" 
-            id="login-username" 
-            required 
-            placeholder="masalan: otabek yoki +998901234567" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
-        </div>
-        <div>
-          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>
-          <div class="relative">
-            <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-2.5 pr-10 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
-            <button type="button" onclick="window.togglePasswordVisibility('login-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 focus:outline-none p-1 transition-colors hover:opacity-80" style="color:var(--text-muted)" title="Parolni ko'rsatish">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+      <!-- RIGHT PANEL: FORMS -->
+      <div class="w-full lg:w-1/2 relative flex flex-col p-8 sm:p-12 overflow-y-auto custom-scrollbar" style="background:rgba(11,15,20,0.85);backdrop-filter:blur(24px)">
+        
+        <div class="w-full max-w-md mx-auto my-auto">
+          
+          <!-- Tab Switcher (Modern Pill) -->
+          <div class="flex items-center justify-between p-1 mb-8 rounded-xl bg-white/5 border border-white/10 shadow-inner relative">
+            <div id="auth-tab-indicator" class="absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-white/10 rounded-lg shadow-sm border border-white/5 transition-transform duration-300 ease-in-out"></div>
+            <button id="tab-login-btn" onclick="window.switchAuthTab('login')" class="relative z-10 w-1/2 py-2.5 text-sm font-bold text-white transition-colors" data-i18n="auth-login">
+              Kirish
+            </button>
+            <button id="tab-register-btn" onclick="window.switchAuthTab('register')" class="relative z-10 w-1/2 py-2.5 text-sm font-bold text-white/50 hover:text-white transition-colors" data-i18n="auth-register">
+              Ro'yxatdan o'tish
             </button>
           </div>
-        </div>
-        <button type="submit" class="btn-primary w-full py-3 text-sm mt-2">
-          <span data-i18n="btn-login">Kirish</span>
-        </button>
-      </form>
 
-      <!-- REGISTER FORM -->
-      <form id="register-form" onsubmit="window.handleRegisterSubmit(event)" class="space-y-4 hidden">
-        <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-username">Foydalanuvchi nomi</label>
-          <input 
-            type="text" 
-            id="reg-username" 
-            required 
-            placeholder="masalan: otabek" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
-        </div>
-        <div>
-          <label class="block text-xs font-mono font-bold text-[#9AA0A6] uppercase mb-1" data-i18n="label-phone">Telefon Raqami</label>
-          <input 
-            type="tel" 
-            id="reg-phone" 
-            required 
-            placeholder="+998 90 123 45 67" 
-            class="w-full px-4 py-2.5 rounded-md bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-sm focus:outline-none focus:border-[#F2C94C] transition-colors"
-          />
-        </div>
-        <div>
-          <label class="block text-xs font-mono font-bold uppercase mb-1" style="color:var(--text-muted)" data-i18n="label-password">Parol</label>
-          <div class="relative">
-            <input type="password" id="reg-password" required placeholder="••••••••" class="w-full px-4 py-2.5 pr-10 rounded-md text-sm focus:outline-none transition-colors" style="background:var(--bg);border:1px solid var(--border);color:var(--text)" />
-            <button type="button" onclick="window.togglePasswordVisibility('reg-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 focus:outline-none p-1 transition-colors hover:opacity-80" style="color:var(--text-muted)" title="Parolni ko'rsatish">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          <!-- Status Message -->
+          <div id="auth-status-msg" class="hidden mb-6 p-4 rounded-xl text-xs font-semibold border backdrop-blur-md"></div>
+
+          <!-- ===================== LOGIN FORM ===================== -->
+          <form id="login-form" onsubmit="window.handleLoginSubmit(event)" class="space-y-5">
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1" data-i18n="label-username-phone">Foydalanuvchi nomi yoki Telefon</label>
+              <input 
+                type="text" 
+                id="login-username" 
+                required 
+                placeholder="masalan: otabek yoki +998901234567" 
+                class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1" data-i18n="label-password">Parol</label>
+              <div class="relative">
+                <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-5 py-3.5 pr-12 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30" />
+                <button type="button" onclick="window.togglePasswordVisibility('login-password', this)" class="absolute right-4 top-1/2 -translate-y-1/2 focus:outline-none p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </button>
+              </div>
+            </div>
+            
+            <button type="submit" id="login-submit-btn" class="w-full py-3.5 mt-4 rounded-xl text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_15px_rgba(242,201,76,0.4)]" style="background:#F2C94C" data-i18n="btn-login">
+              Kirish
             </button>
-          </div>
-        </div>
-        <button type="submit" class="btn-primary w-full py-3 text-sm mt-2">
-          <span data-i18n="btn-register">Ro'yxatdan o'tish</span>
-        </button>
-      </form>
 
+            <!-- Divider -->
+            <div class="flex items-center gap-3 my-6">
+              <div class="flex-1 h-px bg-white/10"></div>
+              <span class="text-[10px] font-mono text-white/40 uppercase tracking-widest">Yoki</span>
+              <div class="flex-1 h-px bg-white/10"></div>
+            </div>
+
+            <!-- Social Buttons -->
+            <div class="grid grid-cols-2 gap-4">
+              <button type="button" id="btn-telegram-login" onclick="window.handleTelegramLogin()" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm text-white transition-all hover:bg-white/10 bg-white/5 border border-white/10 hover:border-[#229ED9]/50 hover:shadow-[0_0_15px_rgba(34,158,217,0.2)]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.65-.53.81-1.07.5l-3-2.21-1.45 1.39c-.16.16-.3.3-.61.3l.21-3.05 5.56-5.02c.24-.22-.05-.34-.37-.13l-6.87 4.33-2.96-.92c-.64-.2-.65-.64.13-.95l11.57-4.46c.54-.19 1.01.13.84.95z"/></svg>
+                <span>Telegram</span>
+              </button>
+              <button type="button" id="btn-google-login" onclick="window.handleGoogleLogin()" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm text-white transition-all hover:bg-white/10 bg-white/5 border border-white/10 hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                <span>Google</span>
+              </button>
+            </div>
+
+            <!-- Terms -->
+            <p class="text-center text-[10px] mt-6 text-white/40">
+              Davom etish orqali bizning
+              <a href="/terms" class="text-white/70 hover:text-white underline decoration-white/30 hover:decoration-white transition-colors">Foydalanish shartlari</a>
+              va 
+              <a href="/privacy" class="text-white/70 hover:text-white underline decoration-white/30 hover:decoration-white transition-colors">Maxfiylik siyosati</a>ni qabul qilasiz.
+            </p>
+          </form>
+
+          <!-- ===================== REGISTER FORM ===================== -->
+          <form id="register-form" onsubmit="window.handleRegisterSubmit(event)" class="space-y-4 hidden">
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1" data-i18n="label-username">Foydalanuvchi nomi</label>
+              <input 
+                type="text" 
+                id="reg-username" 
+                required 
+                placeholder="masalan: otabek" 
+                class="w-full px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1">Email (ixtiyoriy)</label>
+              <input 
+                type="email" 
+                id="reg-email" 
+                placeholder="example@gmail.com" 
+                class="w-full px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1" data-i18n="label-phone">Telefon Raqami</label>
+              <input 
+                type="tel" 
+                id="reg-phone" 
+                placeholder="+998 90 123 45 67" 
+                class="w-full px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-mono font-bold text-white/60 uppercase mb-1.5 ml-1" data-i18n="label-password">Parol</label>
+              <div class="relative">
+                <input type="password" id="reg-password" required placeholder="••••••••" class="w-full px-5 py-3 pr-12 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#F2C94C] focus:bg-white/10 transition-all placeholder-white/30" />
+                <button type="button" onclick="window.togglePasswordVisibility('reg-password', this)" class="absolute right-4 top-1/2 -translate-y-1/2 focus:outline-none p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </button>
+              </div>
+            </div>
+            
+            <button type="submit" id="register-submit-btn" class="w-full py-3.5 mt-2 rounded-xl text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_15px_rgba(242,201,76,0.4)]" style="background:#F2C94C" data-i18n="btn-register">
+              Ro'yxatdan o'tish
+            </button>
+
+            <!-- Divider -->
+            <div class="flex items-center gap-3 my-4">
+              <div class="flex-1 h-px bg-white/10"></div>
+              <span class="text-[10px] font-mono text-white/40 uppercase tracking-widest">Yoki</span>
+              <div class="flex-1 h-px bg-white/10"></div>
+            </div>
+
+            <!-- Social Buttons -->
+            <div class="grid grid-cols-2 gap-4">
+              <button type="button" id="btn-telegram-register" onclick="window.handleTelegramLogin()" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm text-white transition-all hover:bg-white/10 bg-white/5 border border-white/10 hover:border-[#229ED9]/50 hover:shadow-[0_0_15px_rgba(34,158,217,0.2)]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.65-.53.81-1.07.5l-3-2.21-1.45 1.39c-.16.16-.3.3-.61.3l.21-3.05 5.56-5.02c.24-.22-.05-.34-.37-.13l-6.87 4.33-2.96-.92c-.64-.2-.65-.64.13-.95l11.57-4.46c.54-.19 1.01.13.84.95z"/></svg>
+                <span>Telegram</span>
+              </button>
+              <button type="button" id="btn-google-register" onclick="window.handleGoogleLogin()" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm text-white transition-all hover:bg-white/10 bg-white/5 border border-white/10 hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                <span>Google</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Hidden Google GSI container (renders Google One Tap) -->
+  <div id="g_id_onload"
+       data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+       data-callback="onGoogleCredentialResponse"
+       data-auto_prompt="false">
   </div>
 
   <!-- Scripts -->
@@ -362,6 +542,7 @@
   <script src="./js/profile.js"></script>
   <script src="./js/pro-games.js"></script>
   <script src="./js/admin.js"></script>
+  <script src="./js/futuristic-car.js"></script>
   <script src="./js/app.js"></script>
 </body>
 </html>

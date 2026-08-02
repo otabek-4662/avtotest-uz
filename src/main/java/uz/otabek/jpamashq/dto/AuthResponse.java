@@ -16,4 +16,10 @@ public class AuthResponse {
     private String token;
     private String role;
     private String permissions;
+
+    /** Telegram yoki Google dan olingan profil rasm URL */
+    private String avatarUrl;
+
+    /** To'liq ism (Telegram/Google dan) */
+    private String displayName;
 }

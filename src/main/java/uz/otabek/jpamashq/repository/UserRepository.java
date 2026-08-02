@@ -14,4 +14,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     boolean existsByTelegramPhone(String telegramPhone);
+
+    // === OAuth metodlari ===
+
+    /** Telegram Login Widget dan kelgan telegramId bo'yicha foydalanuvchi topish */
+    Optional<User> findByTelegramId(Long telegramId);
+
+    /** Google OAuth dan kelgan googleId (sub) bo'yicha foydalanuvchi topish */
+    Optional<User> findByGoogleId(String googleId);
+
+    /** Telegram ID mavjudligini tekshirish */
+    boolean existsByTelegramId(Long telegramId);
+
+    /** Google ID mavjudligini tekshirish */
+    boolean existsByGoogleId(String googleId);
 }
