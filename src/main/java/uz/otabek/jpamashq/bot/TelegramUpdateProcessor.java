@@ -159,21 +159,30 @@ public class TelegramUpdateProcessor {
         String chatId = message.getChatId().toString();
         String text = message.getText().trim();
 
+        // ========== ADMIN COMMANDS ==========
         if (text.startsWith("/create_promo")) {
             if (adminId != null && telegramId.equals(adminId)) {
-                String code = "PROMO-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
-                Promocode promo = Promocode.builder()
-                        .code(code)
-                        .durationDays(30)
-                        .isUsed(false)
-                        .createdAt(LocalDateTime.now())
-                        .createdBy("SUPER_ADMIN")
-                        .build();
-                promocodeRepository.save(promo);
+                String[] parts = text.split("\\s+");
+                int days = (parts.length > 1) ? Integer.parseInt(parts[1]) : 30;
+                int count = (parts.length > 2) ? Integer.parseInt(parts[2]) : 1;
+
+                StringBuilder sb = new StringBuilder("👑 **YANGI PROMO-KOD(LAR) YARATILDI:**\n\n");
+                for (int i = 0; i < count; i++) {
+                    String code = "PROMO-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+                    Promocode promo = Promocode.builder()
+                            .code(code)
+                            .durationDays(days)
+                            .isUsed(false)
+                            .createdAt(LocalDateTime.now())
+                            .createdBy("SUPER_ADMIN")
+                            .build();
+                    promocodeRepository.save(promo);
+                    sb.append("• `").append(code).append("` (").append(days).append(" kunlik)\n");
+                }
 
                 SendMessage adminMsg = new SendMessage();
                 adminMsg.setChatId(chatId);
-                adminMsg.setText("👑 **YANGI 1 OYLIK PROMO-KOD YARATILDI:**\n\n`" + code + "`\n\nUshbu kodni foydalanuvchiga yuborishingiz mumkin. Foydalanuvchi uni botda yoki saytda kiritishi mumkin!");
+                adminMsg.setText(sb.toString());
                 adminMsg.setParseMode("Markdown");
                 adminMsg.setReplyMarkup(buildMainMenu(telegramId));
                 sender.execute(adminMsg);
@@ -182,6 +191,120 @@ public class TelegramUpdateProcessor {
                 err.setChatId(chatId);
                 err.setText("⚠️ Ushbu komanda faqat Super Admin uchun ajratilgan!");
                 sender.execute(err);
+            }
+            return;
+        }
+
+        if (text.startsWith("/promos")) {
+            if (adminId != null && telegramId.equals(adminId)) {
+                List<Promocode> unusedPromos = promocodeRepository.findAll().stream()
+                        .filter(p -> !Boolean.TRUE.equals(p.getIsUsed()))
+                        .limit(20)
+                        .toList();
+
+                StringBuilder sb = new StringBuilder("🔑 **ISHLATILMAGAN AKTIV PROMO-KODLAR (" + unusedPromos.size() + " ta):**\n\n");
+                if (unusedPromos.isEmpty()) {
+                    sb.append("Hali yaratilgan aktiv promokodlar yo'q. Yaratish: `/create_promo`");
+                } else {
+                    for (Promocode p : unusedPromos) {
+                        sb.append("• `").append(p.getCode()).append("` — ").append(p.getDurationDays() != null ? p.getDurationDays() : 30).append(" kunlik\n");
+                    }
+                }
+
+                SendMessage adminMsg = new SendMessage();
+                adminMsg.setChatId(chatId);
+                adminMsg.setText(sb.toString());
+                adminMsg.setParseMode("Markdown");
+                sender.execute(adminMsg);
+            }
+            return;
+        }
+
+        if (text.startsWith("/grantpro")) {
+            if (adminId != null && telegramId.equals(adminId)) {
+                String[] parts = text.split("\\s+");
+                if (parts.length < 2) {
+                    SendMessage err = new SendMessage(chatId, "⚠️ Foydalanish: `/grantpro <username_yoki_phone> [kun]`");
+                    err.setParseMode("Markdown");
+                    sender.execute(err);
+                    return;
+                }
+                String target = parts[1];
+                int days = parts.length > 2 ? Integer.parseInt(parts[2]) : 30;
+
+                Optional<uz.otabek.jpamashq.entity.User> optUser = userRepository.findByUsername(target);
+                if (optUser.isEmpty()) optUser = userRepository.findByTelegramPhone(target);
+
+                SendMessage msg = new SendMessage();
+                msg.setChatId(chatId);
+                if (optUser.isPresent()) {
+                    uz.otabek.jpamashq.entity.User u = optUser.get();
+                    u.setIsPro(true);
+                    u.setProExpiresAt(LocalDateTime.now().plusDays(days));
+                    userRepository.save(u);
+                    msg.setText("👑 **PRO STATUS BERILDI!**\n\nFoydalanuvchi: @" + u.getUsername() + "\nMuddat: " + days + " kun");
+                } else {
+                    msg.setText("⚠️ Foydalanuvchi topilmadi: " + target);
+                }
+                msg.setParseMode("Markdown");
+                sender.execute(msg);
+            }
+            return;
+        }
+
+        if (text.startsWith("/revokepro")) {
+            if (adminId != null && telegramId.equals(adminId)) {
+                String[] parts = text.split("\\s+");
+                if (parts.length < 2) {
+                    SendMessage err = new SendMessage(chatId, "⚠️ Foydalanish: `/revokepro <username_yoki_phone>`");
+                    err.setParseMode("Markdown");
+                    sender.execute(err);
+                    return;
+                }
+                String target = parts[1];
+
+                Optional<uz.otabek.jpamashq.entity.User> optUser = userRepository.findByUsername(target);
+                if (optUser.isEmpty()) optUser = userRepository.findByTelegramPhone(target);
+
+                SendMessage msg = new SendMessage();
+                msg.setChatId(chatId);
+                if (optUser.isPresent()) {
+                    uz.otabek.jpamashq.entity.User u = optUser.get();
+                    u.setIsPro(false);
+                    userRepository.save(u);
+                    msg.setText("❌ **PRO STATUS BEKOR QILINDI!**\n\nFoydalanuvchi: @" + u.getUsername());
+                } else {
+                    msg.setText("⚠️ Foydalanuvchi topilmadi: " + target);
+                }
+                msg.setParseMode("Markdown");
+                sender.execute(msg);
+            }
+            return;
+        }
+
+        if (text.startsWith("/broadcast")) {
+            if (adminId != null && telegramId.equals(adminId)) {
+                String announcementText = text.substring(text.indexOf(" ") + 1).trim();
+                if (announcementText.isEmpty()) {
+                    SendMessage err = new SendMessage(chatId, "⚠️ Xabar matnini kiriting: `/broadcast Xabar matni`");
+                    err.setParseMode("Markdown");
+                    sender.execute(err);
+                    return;
+                }
+
+                List<TelegramUser> allBotUsers = telegramUserRepository.findAll();
+                int count = 0;
+                for (TelegramUser u : allBotUsers) {
+                    try {
+                        SendMessage bMsg = new SendMessage(u.getTelegramId().toString(), "📢 **AVTOTEST UZ — RASMIY E'LON:**\n\n" + announcementText);
+                        bMsg.setParseMode("Markdown");
+                        sender.execute(bMsg);
+                        count++;
+                    } catch (Exception ignored) {}
+                }
+
+                SendMessage res = new SendMessage(chatId, "✅ E'lon " + count + " ta Telegram bot foydalanuvchilariga yetkazildi!");
+                sender.execute(res);
             }
             return;
         }

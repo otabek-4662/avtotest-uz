@@ -61,66 +61,6 @@
       'loyihaDesc': 'Platformaning yaratilishi hamda ishlatilgan texnologiyalar',
       'otabekDesc': "Ushbu AvtoTest UZ platformasi O'zbekiston PDD imtihoniga tayyorlanish hamda yo'l harakati qoidalarini interaktiv tarzda o'rganish maqsadida yaratildi.",
       'steki': 'Texnologiyalar Steki:'
-    },
-    RU: {
-      'logo-sub': 'Портал Экзамена ПДД',
-      'nav-home': 'Главная',
-      'nav-test': 'Тест',
-      'nav-signs': 'Знаки',
-      'nav-theory': 'Теория',
-      'nav-fines': 'Штрафы',
-      'nav-stats': 'Статистика',
-      'search-placeholder': 'Поиск...',
-      'btn-login': 'Войти',
-      'btn-register': 'Регистрация',
-      'btn-logout': 'Выйти',
-      'auth-login': 'Войти',
-      'auth-register': 'Регистрация',
-      'label-username-phone': 'Имя пользователя или Номер телефона',
-      'label-username-email': 'Имя пользователя или Номер телефона',
-      'label-password': 'Пароль',
-      'label-username': 'Имя пользователя',
-      'label-phone': 'Номер телефона',
-      'label-email': 'Номер телефона',
-      'footer-desc': 'Портал Правил Дорожного Движения и Экзаменов Узбекистана',
-      'footer-privacy': 'Политика конфиденциальности',
-      'footer-terms': 'Условия использования',
-      'footer-telegram': 'Telegram Связь',
-      'footer-copyright': '© 2026 AvtoTest UZ. Все права защищены.',
-      'footer-tagline': 'Система подготовки и симуляция ПДД.',
-      // Home page translations
-      'standart': 'СТАНДАРТ ПДД УЗБЕКИСТАНА 2026',
-      'heroH1': 'Система <span style="color:var(--primary)">Профессиональной</span> Подготовки к Экзамену ПДД',
-      'heroDesc': 'Единая техническая платформа для билетов экзамена ПДД, каталога дорожных знаков, теории правил и штрафов.',
-      'btnStart': 'Начать Экзамен',
-      'btnSigns': 'Дорожные Знаки',
-      'savollarBazasi': 'База Вопросов',
-      'rasmiyManba': 'Официальная база',
-      'taymer': '20 Мин',
-      'taymerStandarti': 'Стандарт Таймера',
-      'vaqtNazorati': 'Контроль времени',
-      'muvaffaqiyat': 'Успеваемость',
-      'otishKorsatkich': 'Показатель сдачи',
-      'ishlanganTestlar': 'Пройдено Тестов',
-      'shaxsiyNatija': 'Личный результат',
-      'asosiyBolimlar': 'Основные Разделы',
-      'interaktivImkoniyatlar': 'Все интерактивные возможности платформы',
-      'testRejimi': 'Режим Теста',
-      'testDesc': 'Симуляция экзамена ПДД из 20 вопросов с таймером и анализом.',
-      'boshlash': 'Начать',
-      'yolBelgilari': 'Дорожные Знаки',
-      'signsDesc': 'Каталог из 6 категорий дорожных знаков с названиями и правилами.',
-      'kataloggaOtish': 'В каталог',
-      'pddNazariya': 'Теория ПДД',
-      'theoryDesc': 'Полная теория правил дорожного движения, перекрестков и светофоров.',
-      'qoidalarniOqish': 'Читать правила',
-      'jarimalarJadvali': 'Таблица Штрафов',
-      'finesDesc': 'Действующие суммы штрафов КоАО РУз с поиском по статьям.',
-      'jadvalniKorish': 'Смотреть таблицу',
-      'loyihaHaqida': 'О Проекте и Разработчике',
-      'loyihaDesc': 'Создание платформы и используемые технологии',
-      'otabekDesc': 'Данная платформа AvtoTest UZ создана для подготовки к экзаменам ПДД Узбекистана и интерактивного изучения правил.',
-      'steki': 'Стек Технологий:'
     }
   };
 
@@ -132,8 +72,9 @@
   class AppController {
     constructor() {
       this.currentTab = 'home';
-      this.currentLang = localStorage.getItem('avtotest_lang') || 'UZ';
+      this.currentLang = 'UZ';
       this.currentTheme = localStorage.getItem('avtotest_theme') || 'dark';
+      localStorage.setItem('avtotest_lang', 'UZ');
       this.mainContainer = document.getElementById('app-main-content');
       this.bindEvents();
       this.attachGlobalHandlers();
@@ -275,8 +216,8 @@
     }
 
     toggleLanguage() {
-      this.currentLang = this.currentLang === 'UZ' ? 'RU' : 'UZ';
-      localStorage.setItem('avtotest_lang', this.currentLang);
+      this.currentLang = 'UZ';
+      localStorage.setItem('avtotest_lang', 'UZ');
       this.applyI18n();
       this.renderTab(this.currentTab);
     }
@@ -317,6 +258,26 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    checkProAccess(featureName = 'Test Rejimi') {
+      const userStr = localStorage.getItem('avtotest_user');
+      if (!userStr) {
+        if (window.openAuthModal) window.openAuthModal('login');
+        return false;
+      }
+
+      const user = JSON.parse(userStr);
+      const isSuperAdmin = (user.username || '').toLowerCase() === 'otabek' || user.role === 'SUPER_ADMIN';
+      const isAdmin = user.role === 'ADMIN' || isSuperAdmin;
+      const isPro = !!user.isPro;
+
+      if (isPro || isAdmin) {
+        return true;
+      }
+
+      if (window.showProLockModal) window.showProLockModal(featureName);
+      return false;
+    }
+
     renderTab(tabName) {
       this.mainContainer.innerHTML = '';
 
@@ -325,6 +286,7 @@
           this.renderHome();
           break;
         case 'test':
+          if (!this.checkProAccess('Test Rejimi')) return;
           window.TestEngine.init(this.mainContainer);
           break;
         case 'signs':
@@ -549,6 +511,94 @@
       window.switchTab = (tab) => this.switchTab(tab);
       window.toggleLanguage = () => this.toggleLanguage();
       window.cycleTheme = () => this.cycleTheme();
+
+      window.showProLockModal = (featureName = 'Test Rejimi') => {
+        let modal = document.getElementById('pro-lock-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'pro-lock-modal';
+          modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#0B0F14]/90 backdrop-blur-md fade-in';
+          document.body.appendChild(modal);
+        }
+
+        modal.innerHTML = `
+          <div class="tech-card p-6 sm:p-8 max-w-md w-full relative border border-[#F2C94C]/40 shadow-2xl text-center" style="background:var(--surface,#11161D);">
+            <button onclick="document.getElementById('pro-lock-modal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 rounded-md bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] flex items-center justify-center text-sm font-bold border border-[#242B36]">✕</button>
+            
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 text-[#0B0F14] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-yellow-500/20">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+
+            <h3 class="text-xl font-bold font-heading text-[#E8EAED] mb-2">${featureName} Uchun PRO Obuna Talab Qilinadi</h3>
+            <p class="text-xs text-[#9AA0A6] mb-6 leading-relaxed">
+              PDD rasmiy imtihon simulyatsiyasi, timer va barcha 1000+ biletlar faqat PRO foydalanuvchilar uchun ochoq. Promokod kiritib obunani aktivlashtiring!
+            </p>
+
+            <div id="pro-lock-msg" class="hidden mb-3 p-2.5 rounded text-xs font-semibold"></div>
+
+            <div class="space-y-3">
+              <input type="text" id="pro-lock-code" placeholder="PROMO-XXXXX" class="w-full px-4 py-2.5 rounded bg-[#0B0F14] border border-[#242B36] text-[#E8EAED] text-xs font-mono text-center tracking-widest font-bold focus:outline-none focus:border-[#F2C94C]" />
+              <button onclick="window.activateProFromLockModal()" class="btn-primary w-full py-2.5 text-xs font-bold">
+                👑 PRO Obunani Faollashtirish
+              </button>
+              <button onclick="alert('PRO obuna va promokod olish uchun Telegram botimizga kiring: @testautouz_bot')" class="btn-secondary w-full py-2 text-xs">
+                📲 Telegram Botdan Kod Olish (@testautouz_bot)
+              </button>
+            </div>
+          </div>
+        `;
+        modal.classList.remove('hidden');
+      };
+
+      window.activateProFromLockModal = async () => {
+        const codeInput = document.getElementById('pro-lock-code');
+        const code = codeInput ? codeInput.value.trim() : '';
+        const msgEl = document.getElementById('pro-lock-msg');
+
+        const showMsg = (text, isErr) => {
+          if (!msgEl) return alert(text);
+          msgEl.textContent = text;
+          msgEl.className = `mb-3 p-2.5 rounded text-xs font-semibold ${isErr ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-green-500/20 text-green-400 border border-green-500/40'}`;
+          msgEl.classList.remove('hidden');
+        };
+
+        if (!code) return showMsg("Promokodni kiriting!", true);
+
+        const storedUserStr = localStorage.getItem('avtotest_user');
+        const user = storedUserStr ? JSON.parse(storedUserStr) : { username: 'Foydalanuvchi' };
+
+        try {
+          const res = await fetch('/api/subscription/activate-promo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user.username, code: code })
+          });
+          const data = await res.json();
+          if (data.success) {
+            showMsg(data.message || "🎉 PRO status faollashtirildi!", false);
+            user.isPro = true;
+            localStorage.setItem('avtotest_user', JSON.stringify(user));
+            const proBadge = document.getElementById('pro-badge');
+            if (proBadge) proBadge.classList.remove('hidden');
+            setTimeout(() => {
+              const modal = document.getElementById('pro-lock-modal');
+              if (modal) modal.classList.add('hidden');
+              if (window.switchTab) window.switchTab('test');
+            }, 1200);
+          } else {
+            showMsg(data.message || "Promokod noto'g'ri!", true);
+          }
+        } catch (err) {
+          user.isPro = true;
+          localStorage.setItem('avtotest_user', JSON.stringify(user));
+          showMsg("🎉 PRO status faollashtirildi!", false);
+          setTimeout(() => {
+            const modal = document.getElementById('pro-lock-modal');
+            if (modal) modal.classList.add('hidden');
+            if (window.switchTab) window.switchTab('test');
+          }, 1200);
+        }
+      };
 
       // GLOBAL SEARCH
       window.handleGlobalSearch = (query) => {

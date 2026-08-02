@@ -264,4 +264,60 @@ public class AdminController {
         );
         return ResponseEntity.ok(logs);
     }
+
+    // PROMOCODE MANAGEMENT & USER PRO TOGGLE
+    private final uz.otabek.jpamashq.repository.PromocodeRepository promocodeRepository;
+
+    @GetMapping("/promocodes")
+    public ResponseEntity<List<uz.otabek.jpamashq.entity.Promocode>> getAllPromocodes() {
+        return ResponseEntity.ok(promocodeRepository.findAll());
+    }
+
+    @PostMapping("/promocodes/generate")
+    public ResponseEntity<Map<String, Object>> generatePromocode(@RequestBody Map<String, Object> payload) {
+        int durationDays = payload.containsKey("days") ? Integer.parseInt(payload.get("days").toString()) : 30;
+        int count = payload.containsKey("count") ? Integer.parseInt(payload.get("count").toString()) : 1;
+
+        List<String> generatedCodes = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            String code = "PROMO-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+            uz.otabek.jpamashq.entity.Promocode promo = uz.otabek.jpamashq.entity.Promocode.builder()
+                    .code(code)
+                    .durationDays(durationDays)
+                    .isUsed(false)
+                    .createdAt(java.time.LocalDateTime.now())
+                    .createdBy("WEB_ADMIN")
+                    .build();
+            promocodeRepository.save(promo);
+            generatedCodes.add(code);
+        }
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("success", true);
+        res.put("message", count + " ta yangi PROMO-KOD muvaffaqiyatli yaratildi!");
+        res.put("codes", generatedCodes);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/users/{id}/toggle-pro")
+    public ResponseEntity<Map<String, Object>> toggleUserPro(@PathVariable Long id) {
+        Optional<User> optUser = userRepository.findById(id);
+        if (optUser.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Foydalanuvchi topilmadi!"));
+        }
+
+        User user = optUser.get();
+        boolean currentPro = Boolean.TRUE.equals(user.getIsPro());
+        user.setIsPro(!currentPro);
+        if (!currentPro) {
+            user.setProExpiresAt(java.time.LocalDateTime.now().plusDays(30));
+        }
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of(
+            "success", true,
+            "message", "Foydalanuvchi PRO obuna holati o'zgartirildi: " + (!currentPro ? "👑 PRO Obuna Berildi" : "ODDIY"),
+            "isPro", !currentPro
+        ));
+    }
 }

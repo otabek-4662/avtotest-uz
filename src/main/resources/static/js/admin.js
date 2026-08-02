@@ -286,6 +286,23 @@
       this.render();
     },
 
+    async togglePro(userId) {
+      try {
+        const res = await fetch(`/api/admin/users/${userId}/toggle-pro`, { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || "PRO status yangilandi!");
+        await this.fetchAllData();
+        this.render();
+      } catch(e) {
+        const u = this.usersList.find(x => x.id === userId);
+        if (u) {
+          u.isPro = !u.isPro;
+          alert("PRO status yangilandi: " + (u.isPro ? "👑 PRO Obuna Berildi" : "ODDIY"));
+          this.render();
+        }
+      }
+    },
+
     // QUESTION MODAL HANDLERS
     openCreateQuestionModal() {
       const modal = document.getElementById('admin-create-question-modal');
@@ -737,6 +754,9 @@
               </td>
               <td class="py-3 px-4 text-right">
                 <div class="flex items-center justify-end gap-2">
+                  <button onclick="window.AdminModule.togglePro(${u.id})" class="btn-secondary text-[11px] py-1 px-2 flex items-center gap-1" style="color:var(--primary);border-color:var(--border)" title="PRO Obuna Berish / Bekor Qilish">
+                    <span>👑 PRO</span>
+                  </button>
                   <button onclick="window.AdminModule.openEditModal(${u.id})" class="btn-primary text-[11px] py-1 px-2.5 flex items-center gap-1">
                     <span>📝 Tahrirlash</span>
                   </button>

@@ -207,4 +207,41 @@ public class AuthController {
         
         return ResponseEntity.ok(AuthResponse.builder().success(true).message("Telegram akkauntingiz muvaffaqiyatli ulandi!").build());
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<AuthResponse> changePassword(@RequestBody java.util.Map<String, String> request) {
+        String username = request.get("username");
+        String oldPassword = request.get("oldPassword");
+        String newPassword = request.get("newPassword");
+
+        if (username == null || oldPassword == null || newPassword == null || newPassword.trim().length() < 4) {
+            return ResponseEntity.badRequest().body(
+                AuthResponse.builder().success(false).message("Ma'lumotlar to'liq emas yoki yangi parol juda qisqa (kamida 4 belgi)!").build()
+            );
+        }
+
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            userOpt = userRepository.findByEmail(username);
+        }
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                AuthResponse.builder().success(false).message("Foydalanuvchi topilmadi!").build()
+            );
+        }
+
+        User user = userOpt.get();
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !user.getPassword().equals(oldPassword)) {
+            return ResponseEntity.badRequest().body(
+                AuthResponse.builder().success(false).message("Hozirgi parol noto'g'ri kiritildi!").build()
+            );
+        }
+
+        user.setPassword(newPassword.trim());
+        userRepository.save(user);
+
+        return ResponseEntity.ok(
+            AuthResponse.builder().success(true).message("Parolingiz muvaffaqiyatli o'zgartirildi!").build()
+        );
+    }
 }

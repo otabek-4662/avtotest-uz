@@ -61,66 +61,6 @@
       'loyihaDesc': 'Platformaning yaratilishi hamda ishlatilgan texnologiyalar',
       'otabekDesc': "Ushbu AvtoTest UZ platformasi O'zbekiston PDD imtihoniga tayyorlanish hamda yo'l harakati qoidalarini interaktiv tarzda o'rganish maqsadida yaratildi.",
       'steki': 'Texnologiyalar Steki:'
-    },
-    RU: {
-      'logo-sub': 'Портал Экзамена ПДД',
-      'nav-home': 'Главная',
-      'nav-test': 'Тест',
-      'nav-signs': 'Знаки',
-      'nav-theory': 'Теория',
-      'nav-fines': 'Штрафы',
-      'nav-stats': 'Статистика',
-      'search-placeholder': 'Поиск...',
-      'btn-login': 'Войти',
-      'btn-register': 'Регистрация',
-      'btn-logout': 'Выйти',
-      'auth-login': 'Войти',
-      'auth-register': 'Регистрация',
-      'label-username-phone': 'Имя пользователя или Номер телефона',
-      'label-username-email': 'Имя пользователя или Номер телефона',
-      'label-password': 'Пароль',
-      'label-username': 'Имя пользователя',
-      'label-phone': 'Номер телефона',
-      'label-email': 'Номер телефона',
-      'footer-desc': 'Портал Правил Дорожного Движения и Экзаменов Узбекистана',
-      'footer-privacy': 'Политика конфиденциальности',
-      'footer-terms': 'Условия использования',
-      'footer-telegram': 'Telegram Связь',
-      'footer-copyright': '© 2026 AvtoTest UZ. Все права защищены.',
-      'footer-tagline': 'Система подготовки и симуляция ПДД.',
-      // Home page translations
-      'standart': 'СТАНДАРТ ПДД УЗБЕКИСТАНА 2026',
-      'heroH1': 'Система <span style="color:var(--primary)">Профессиональной</span> Подготовки к Экзамену ПДД',
-      'heroDesc': 'Единая техническая платформа для билетов экзамена ПДД, каталога дорожных знаков, теории правил и штрафов.',
-      'btnStart': 'Начать Экзамен',
-      'btnSigns': 'Дорожные Знаки',
-      'savollarBazasi': 'База Вопросов',
-      'rasmiyManba': 'Официальная база',
-      'taymer': '20 Мин',
-      'taymerStandarti': 'Стандарт Таймера',
-      'vaqtNazorati': 'Контроль времени',
-      'muvaffaqiyat': 'Успеваемость',
-      'otishKorsatkich': 'Показатель сдачи',
-      'ishlanganTestlar': 'Пройдено Тестов',
-      'shaxsiyNatija': 'Личный результат',
-      'asosiyBolimlar': 'Основные Разделы',
-      'interaktivImkoniyatlar': 'Все интерактивные возможности платформы',
-      'testRejimi': 'Режим Теста',
-      'testDesc': 'Симуляция экзамена ПДД из 20 вопросов с таймером и анализом.',
-      'boshlash': 'Начать',
-      'yolBelgilari': 'Дорожные Знаки',
-      'signsDesc': 'Каталог из 6 категорий дорожных знаков с названиями и правилами.',
-      'kataloggaOtish': 'В каталог',
-      'pddNazariya': 'Теория ПДД',
-      'theoryDesc': 'Полная теория правил дорожного движения, перекрестков и светофоров.',
-      'qoidalarniOqish': 'Читать правила',
-      'jarimalarJadvali': 'Таблица Штрафов',
-      'finesDesc': 'Действующие суммы штрафов КоАО РУз с поиском по статьям.',
-      'jadvalniKorish': 'Смотреть таблицу',
-      'loyihaHaqida': 'О Проекте и Разработчике',
-      'loyihaDesc': 'Создание платформы и используемые технологии',
-      'otabekDesc': 'Данная платформа AvtoTest UZ создана для подготовки к экзаменам ПДД Узбекистана и интерактивного изучения правил.',
-      'steki': 'Стек Технологий:'
     }
   };
 
@@ -132,7 +72,9 @@
   class AppController {
     constructor() {
       this.currentTab = 'home';
-      this.currentLang = localStorage.getItem('avtotest_lang') || 'UZ';
+      this.currentLang = 'UZ';
+      this.currentTheme = localStorage.getItem('avtotest_theme') || 'dark';
+      localStorage.setItem('avtotest_lang', 'UZ');
       this.currentTheme = localStorage.getItem('avtotest_theme') || 'dark';
       this.mainContainer = document.getElementById('app-main-content');
       this.bindEvents();
@@ -286,8 +228,8 @@
     }
 
     toggleLanguage() {
-      this.currentLang = this.currentLang === 'UZ' ? 'RU' : 'UZ';
-      localStorage.setItem('avtotest_lang', this.currentLang);
+      this.currentLang = 'UZ';
+      localStorage.setItem('avtotest_lang', 'UZ');
       this.applyI18n();
       this.renderTab(this.currentTab);
     }
@@ -328,6 +270,26 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    checkProAccess(featureName = 'Test Rejimi') {
+      const userStr = localStorage.getItem('avtotest_user');
+      if (!userStr) {
+        if (window.openAuthModal) window.openAuthModal('login');
+        return false;
+      }
+
+      const user = JSON.parse(userStr);
+      const isSuperAdmin = (user.username || '').toLowerCase() === 'otabek' || user.role === 'SUPER_ADMIN';
+      const isAdmin = user.role === 'ADMIN' || isSuperAdmin;
+      const isPro = !!user.isPro;
+
+      if (isPro || isAdmin) {
+        return true;
+      }
+
+      if (window.showProLockModal) window.showProLockModal(featureName);
+      return false;
+    }
+
     renderTab(tabName) {
       this.mainContainer.innerHTML = '';
 
@@ -336,6 +298,7 @@
           this.renderHome();
           break;
         case 'test':
+          if (!this.checkProAccess('Test Rejimi')) return;
           window.TestEngine.init(this.mainContainer);
           break;
         case 'signs':
