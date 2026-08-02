@@ -167,12 +167,14 @@
         filteredItems.forEach(sign => {
           const signName = ru && sign.nameRu ? sign.nameRu : sign.name;
           const signDesc = ru && sign.descRu ? sign.descRu : sign.desc;
+          // Rasm manbasi: 'icon' maydonidan foydalaniladi. Fallback SVG qo'yiladi
+          const signIcon = sign.icon || sign.svgIcon || `<svg viewBox='0 0 100 100' class='w-20 h-20'><rect x='10' y='10' width='80' height='80' rx='8' fill='#242B36'/><text x='50' y='58' font-size='28' text-anchor='middle' fill='#9AA0A6'>?</text></svg>`;
 
           html += `
             <div class="tech-card p-4 flex flex-col justify-between cursor-pointer group hover:border-[#F2C94C]/40" onclick="window.SignsModule.openModal('${sign.id}')">
               <div>
                 <div class="h-28 flex items-center justify-center p-2 mb-3 bg-[#0B0F14] rounded-md border border-[#242B36]/60 group-hover:scale-105 transition-transform">
-                  ${sign.svgIcon}
+                  ${signIcon}
                 </div>
                 <div class="flex items-center justify-between mb-1">
                   <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#171C24] text-[#F2C94C] border border-[#242B36]">
@@ -229,7 +231,9 @@
       const titleEl = document.getElementById('sign-modal-title');
       const descEl = document.getElementById('sign-modal-desc');
 
-      if (iconEl) iconEl.innerHTML = foundSign.svgIcon;
+      // Rasm manbasi: 'icon' maydonidan foydalaniladi. Fallback SVG qo'yiladi
+      const modalIcon = foundSign.icon || foundSign.svgIcon || `<svg viewBox='0 0 100 100' class='w-24 h-24'><rect x='10' y='10' width='80' height='80' rx='8' fill='#242B36'/><text x='50' y='58' font-size='28' text-anchor='middle' fill='#9AA0A6'>?</text></svg>`;
+      if (iconEl) iconEl.innerHTML = modalIcon;
       if (idEl) idEl.textContent = 'Belgi ' + foundSign.id;
       if (titleEl) titleEl.textContent = ru && foundSign.nameRu ? foundSign.nameRu : foundSign.name;
       if (descEl) descEl.textContent = ru && foundSign.descRu ? foundSign.descRu : foundSign.desc;

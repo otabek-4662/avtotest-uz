@@ -13,8 +13,47 @@
     },
 
     render() {
-      const summary = window.StorageManager.getStatsSummary();
-      const history = window.StorageManager.getHistory();
+      // ✅ Null-safety: StorageManager mavjud bo'lmasa yoki xatolik bo'lsa fallback ishlatiladi
+      let summary, history;
+      try {
+        summary = (window.StorageManager && typeof window.StorageManager.getStatsSummary === 'function')
+          ? window.StorageManager.getStatsSummary()
+          : null;
+        history = (window.StorageManager && typeof window.StorageManager.getHistory === 'function')
+          ? window.StorageManager.getHistory()
+          : null;
+      } catch (e) {
+        console.error('[StatsModule] StorageManager xatoligi:', e);
+        summary = null;
+        history = null;
+      }
+
+      // ✅ Data yo'q yoki null bo'lsa — "Ma'lumot topilmadi" xabari
+      if (summary === null || history === null) {
+        this.container.innerHTML = `
+          <div class="fade-in max-w-5xl mx-auto py-4">
+            <div class="tech-card p-12 text-center max-w-md mx-auto">
+              <div class="w-14 h-14 mx-auto rounded-full bg-[#171C24] border border-[#242B36] flex items-center justify-center mb-4">
+                <svg class="w-7 h-7 text-[#9AA0A6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+              </div>
+              <h4 class="text-base font-bold text-[#E8EAED] mb-2 font-heading">Ma'lumot topilmadi</h4>
+              <p class="text-xs text-[#9AA0A6]">Statistika ma'lumotlari yuklanmadi. Sahifani yangilang yoki keyinroq urinib ko'ring.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // ✅ Safe defaults: agar summary yoki history empty bo'lsa
+      const safeSummary = {
+        totalTests: summary.totalTests ?? 0,
+        averageScore: summary.averageScore ?? 0,
+        passRate: summary.passRate ?? 0,
+        bestScore: summary.bestScore ?? 0,
+      };
+      const safeHistory = Array.isArray(history) ? history : [];
 
       let html = `
         <div class="fade-in max-w-5xl mx-auto py-4 space-y-8">
@@ -34,7 +73,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
               </div>
               <span class="text-xs text-[#9AA0A6] block mb-1">Jami Testlar</span>
-              <span class="text-2xl font-mono font-extrabold text-[#E8EAED]">${summary.totalTests} ta</span>
+              <span class="text-2xl font-mono font-extrabold text-[#E8EAED]">${safeSummary.totalTests} ta</span>
             </div>
 
             <div class="tech-card p-6">
@@ -42,7 +81,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
               </div>
               <span class="text-xs text-[#9AA0A6] block mb-1">O'rtacha Ball</span>
-              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${summary.averageScore} <span class="text-xs font-normal text-[#9AA0A6]">/ 20</span></span>
+              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${safeSummary.averageScore} <span class="text-xs font-normal text-[#9AA0A6]">/ 20</span></span>
             </div>
 
             <div class="tech-card p-6">
@@ -50,7 +89,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </div>
               <span class="text-xs text-[#9AA0A6] block mb-1">Muvaffaqiyat</span>
-              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${summary.passRate}%</span>
+              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${safeSummary.passRate}%</span>
             </div>
 
             <div class="tech-card p-6">
@@ -58,7 +97,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
               </div>
               <span class="text-xs text-[#9AA0A6] block mb-1">Eng Yuqori Ball</span>
-              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${summary.bestScore} <span class="text-xs font-normal text-[#9AA0A6]">/ 20</span></span>
+              <span class="text-2xl font-mono font-extrabold text-[#F2C94C]">${safeSummary.bestScore} <span class="text-xs font-normal text-[#9AA0A6]">/ 20</span></span>
             </div>
           </div>
 
@@ -68,7 +107,7 @@
                 <h3 class="text-lg font-bold text-[#E8EAED] font-heading mb-0.5">Oxirgi Imtihonlar Tarixi</h3>
                 <p class="text-xs text-[#9AA0A6]">So'nggi ishlangan 50 ta test ro'yxati</p>
               </div>
-              ${history.length > 0 ? `
+              ${safeHistory.length > 0 ? `
                 <button onclick="window.clearUserStatsHistory()" class="btn-secondary text-xs py-1.5 px-3 text-[#EB5757]">
                   Tarixni tozalash
                 </button>
@@ -81,7 +120,7 @@
           userObj = JSON.parse(localStorage.getItem('avtotest_user'));
       } catch(e) {}
       
-      if (userObj && userObj.isPro && history.length > 0) {
+      if (userObj && userObj.isPro && safeHistory.length > 0) {
           html += `
           <div class="tech-card p-6 mb-6">
             <h3 class="text-lg font-bold text-[#E8EAED] font-heading mb-4">📈 O'sish Dinamikasi (PRO)</h3>
@@ -100,7 +139,7 @@
           `;
       }
 
-      if (history.length === 0) {
+      if (safeHistory.length === 0) {
         html += `
           <div class="py-12 text-center">
             <div class="w-12 h-12 mx-auto rounded-full bg-[#171C24] text-[#9AA0A6] flex items-center justify-center mb-3">
@@ -118,7 +157,7 @@
           <div class="space-y-3">
         `;
 
-        history.forEach(item => {
+        safeHistory.forEach(item => {
           const dateStr = new Date(item.date).toLocaleDateString('uz-UZ', {
             year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
           });
@@ -163,13 +202,14 @@
       this.container.innerHTML = html;
       
       // Render Chart for PRO users
-      let userObj = null;
+      // ✅ userObj yuqorida e'lon qilingan, qayta e'lon qilmasdan ishlatiladi
+      userObj = null;
       try {
           userObj = JSON.parse(localStorage.getItem('avtotest_user'));
       } catch(e) {}
       
-      if (userObj && userObj.isPro && history.length > 0) {
-          this.renderChart(history);
+      if (userObj && userObj.isPro && safeHistory.length > 0) {
+          this.renderChart(safeHistory);
       }
     },
     

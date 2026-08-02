@@ -127,11 +127,14 @@
             </button>
           </div>
 
-          <!-- Logged In User Pill (Hidden by default) -->
-          <div id="user-profile-pill" class="hidden flex items-center gap-2 bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs relative overflow-hidden glass-panel hover-glow cursor-pointer" onclick="window.switchTab('profile')">
+          <!-- Logged In User Pill (Hidden by default, JS sets display:flex when shown) -->
+          <div id="user-profile-pill"
+               class="hidden bg-[#171C24] border border-[#242B36] px-3 py-1.5 rounded-md text-xs relative overflow-hidden glass-panel hover-glow cursor-pointer"
+               style="align-items:center; gap:8px;"
+               onclick="window.switchTab('profile')">
             <span id="user-display-name" class="font-mono font-bold text-[#F2C94C]">Foydalanuvchi</span>
-            <span id="pro-badge" class="hidden bg-gradient-to-r from-yellow-400 to-yellow-600 text-[#0B0F14] text-[10px] font-bold px-1.5 py-0.5 rounded pro-badge-glow ml-1">👑 PRO</span>
-            <button onclick="event.stopPropagation(); window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold ml-1">Chiqish</button>
+            <span id="pro-badge" class="hidden bg-gradient-to-r from-yellow-400 to-yellow-600 text-[#0B0F14] text-[10px] font-bold px-1.5 py-0.5 rounded pro-badge-glow">👑 PRO</span>
+            <button onclick="event.stopPropagation(); window.logoutUser()" class="text-[#EB5757] hover:underline font-semibold">Chiqish</button>
           </div>
 
           <!-- Mobile Hamburger Menu Button -->
