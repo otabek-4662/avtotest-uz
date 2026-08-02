@@ -1,6 +1,6 @@
 (function() {
   window.ProfileModule = {
-    activeTab: 'info', // 'info', 'promo', 'password', 'telegram'
+    activeTab: 'info', // 'info', 'promo', 'password', 'telegram', 'avatar'
 
     getUser() {
       const userStr = localStorage.getItem('avtotest_user');
@@ -43,6 +43,49 @@
       this.renderModalContent();
     },
 
+    // 🎨 2-VAZIFA 1: Ismni Tahrirlash (Edit Username)
+    editUsername() {
+      const newName = prompt("Yangi foydalanuvchi nomini kiriting:", this.user.username);
+      if (newName && newName.trim().length >= 3) {
+        this.user.username = newName.trim();
+        localStorage.setItem('avtotest_user', JSON.stringify(this.user));
+        
+        // Header display name update
+        const navName = document.getElementById('user-display-name');
+        if (navName) navName.textContent = this.user.username;
+        const mobileNavName = document.getElementById('mobile-user-name');
+        if (mobileNavName) mobileNavName.textContent = this.user.username;
+
+        this.renderModalContent();
+        alert("✅ Foydalanuvchi nomi muvaffaqiyatli o'zgartirildi!");
+      } else if (newName !== null) {
+        alert("⚠️ Foydalanuvchi nomi kamida 3 ta belgidan iborat bo'lishi kerak!");
+      }
+    },
+
+    // 🎨 2-VAZIFA 1: Avatar Almashtirish
+    changeAvatar(icon) {
+      this.user.avatar = icon;
+      localStorage.setItem('avtotest_user', JSON.stringify(this.user));
+      this.renderModalContent();
+    },
+
+    // 🎨 2-VAZIFA 5: Telefon/Email Biriktirish
+    bindContact() {
+      const contact = prompt("Telefon raqamingiz yoki Email manzilingizni kiriting:", this.user.telegramPhone || this.user.email || '');
+      if (contact && contact.trim().length >= 5) {
+        const trimmed = contact.trim();
+        if (trimmed.includes('@')) {
+          this.user.email = trimmed;
+        } else {
+          this.user.telegramPhone = trimmed;
+        }
+        localStorage.setItem('avtotest_user', JSON.stringify(this.user));
+        this.renderModalContent();
+        alert("✅ Kontakt ma'lumotlaringiz muvaffaqiyatli saqlandi!");
+      }
+    },
+
     renderModalContent() {
       const modalEl = document.getElementById('profile-modal');
       if (!modalEl) return;
@@ -55,40 +98,51 @@
       const isAdmin = user.role === 'ADMIN' || isSuperAdmin;
       const roleLabel = isSuperAdmin ? '⚡ SUPER ADMIN' : (isAdmin ? '🛡️ ADMIN' : (isPro ? '👑 PRO FOYDALANUVCHI' : 'ODDIY FOYDALANUVCHI'));
 
+      const avatarDisplay = user.avatar ? user.avatar : (user.username || 'U')[0].toUpperCase();
+
       modalEl.innerHTML = `
         <div class="tech-card p-6 sm:p-8 max-w-2xl w-full relative border border-[#242B36] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col my-auto" style="background:var(--surface,#11161D);">
           
           <!-- Header with Close Button -->
           <div class="flex items-center justify-between pb-4 border-b border-[#242B36] shrink-0">
             <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg text-[#0B0F14]" style="background:linear-gradient(135deg, var(--primary,#F2C94C), #D4A017)">
-                ${(user.username || 'U')[0].toUpperCase()}
+              
+              <!-- Avatar with click to change option -->
+              <div onclick="window.ProfileModule.setModalTab('avatar')" class="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl cursor-pointer hover:scale-105 transition-transform shadow-lg shadow-yellow-500/10 border border-[#F2C94C]/40" style="background:linear-gradient(135deg, var(--primary,#F2C94C), #D4A017);color:#0B0F14" title="Avatarni almashtirish">
+                ${avatarDisplay}
               </div>
+
               <div>
-                <h3 class="text-xl font-bold font-heading text-[#E8EAED] leading-tight">${user.username}</h3>
-                <div class="flex items-center gap-2 mt-0.5">
-                  <span class="text-xs font-mono px-2 py-0.5 rounded font-bold ${isPro || isAdmin ? 'bg-[#F2C94C]/20 text-[#F2C94C] border border-[#F2C94C]/40' : 'bg-[#171C24] text-[#9AA0A6] border border-[#242B36]'}">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-xl font-bold font-heading text-[#E8EAED] leading-tight">${user.username}</h3>
+                  <button onclick="window.ProfileModule.editUsername()" class="p-1 text-[#9AA0A6] hover:text-[#F2C94C] transition-colors" title="Ismni tahrirlash">
+                    ✏️
+                  </button>
+                </div>
+                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                  <span class="text-xs font-mono px-2.5 py-0.5 rounded font-bold ${isPro || isAdmin ? 'bg-[#F2C94C]/20 text-[#F2C94C] border border-[#F2C94C]/40' : 'bg-[#171C24] text-[#9AA0A6] border border-[#242B36]'}">
                     ${roleLabel}
                   </span>
-                  ${user.telegramPhone ? `<span class="text-[11px] text-[#27AE60] flex items-center gap-1 font-mono">✓ Telegram Ulangan</span>` : ''}
+                  ${user.telegramPhone ? `<span class="text-[11px] text-[#27AE60] flex items-center gap-1 font-mono font-semibold">✓ Telegram Ulangan</span>` : ''}
                 </div>
               </div>
             </div>
+
             <button onclick="window.ProfileModule.closeModal()" class="w-8 h-8 rounded-md bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] flex items-center justify-center text-sm font-bold border border-[#242B36] transition-colors">✕</button>
           </div>
 
-          <!-- Navigation Tabs Inside Profile Menu -->
-          <div class="flex items-center gap-2 pt-4 pb-2 border-b border-[#242B36] overflow-x-auto shrink-0 scrollbar-none">
-            <button onclick="window.ProfileModule.setModalTab('info')" class="px-3 py-1.5 rounded-md text-xs font-bold font-mono transition-colors whitespace-nowrap ${this.activeTab === 'info' ? 'bg-[#F2C94C] text-[#0B0F14]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED]'}" style="cursor:pointer">
+          <!-- 🎨 2-VAZIFA 2: Navigation Tabs with Proper Spacing (gap-3) & Prominent Active Tab -->
+          <div class="flex items-center gap-3 pt-4 pb-2 border-b border-[#242B36] overflow-x-auto shrink-0 scrollbar-none">
+            <button onclick="window.ProfileModule.setModalTab('info')" class="px-3.5 py-2 rounded-lg text-xs font-bold font-mono transition-all whitespace-nowrap ${this.activeTab === 'info' ? 'bg-gradient-to-r from-[#F2C94C] to-[#D4A017] text-[#0B0F14] shadow-md shadow-[#F2C94C]/20 border border-[#F2C94C]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] border border-[#242B36]'}" style="cursor:pointer">
               👤 Ma'lumotlar
             </button>
-            <button onclick="window.ProfileModule.setModalTab('promo')" class="px-3 py-1.5 rounded-md text-xs font-bold font-mono transition-colors whitespace-nowrap ${this.activeTab === 'promo' ? 'bg-[#F2C94C] text-[#0B0F14]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED]'}" style="cursor:pointer">
+            <button onclick="window.ProfileModule.setModalTab('promo')" class="px-3.5 py-2 rounded-lg text-xs font-bold font-mono transition-all whitespace-nowrap ${this.activeTab === 'promo' ? 'bg-gradient-to-r from-[#F2C94C] to-[#D4A017] text-[#0B0F14] shadow-md shadow-[#F2C94C]/20 border border-[#F2C94C]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] border border-[#242B36]'}" style="cursor:pointer">
               👑 Promokod Kiriting
             </button>
-            <button onclick="window.ProfileModule.setModalTab('password')" class="px-3 py-1.5 rounded-md text-xs font-bold font-mono transition-colors whitespace-nowrap ${this.activeTab === 'password' ? 'bg-[#F2C94C] text-[#0B0F14]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED]'}" style="cursor:pointer">
+            <button onclick="window.ProfileModule.setModalTab('password')" class="px-3.5 py-2 rounded-lg text-xs font-bold font-mono transition-all whitespace-nowrap ${this.activeTab === 'password' ? 'bg-gradient-to-r from-[#F2C94C] to-[#D4A017] text-[#0B0F14] shadow-md shadow-[#F2C94C]/20 border border-[#F2C94C]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] border border-[#242B36]'}" style="cursor:pointer">
               🔑 Parolni O'zgartirish
             </button>
-            <button onclick="window.ProfileModule.setModalTab('telegram')" class="px-3 py-1.5 rounded-md text-xs font-bold font-mono transition-colors whitespace-nowrap ${this.activeTab === 'telegram' ? 'bg-[#F2C94C] text-[#0B0F14]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED]'}" style="cursor:pointer">
+            <button onclick="window.ProfileModule.setModalTab('telegram')" class="px-3.5 py-2 rounded-lg text-xs font-bold font-mono transition-all whitespace-nowrap ${this.activeTab === 'telegram' ? 'bg-gradient-to-r from-[#F2C94C] to-[#D4A017] text-[#0B0F14] shadow-md shadow-[#F2C94C]/20 border border-[#F2C94C]' : 'bg-[#171C24] text-[#9AA0A6] hover:text-[#E8EAED] border border-[#242B36]'}" style="cursor:pointer">
               📱 Telegram Bot
             </button>
           </div>
@@ -98,12 +152,12 @@
             ${this.renderTabBody(user, isPro, stats)}
           </div>
 
-          <!-- Footer Actions -->
+          <!-- Footer Actions (🎨 2-VAZIFA 6: Red Highlighted Logout Button) -->
           <div class="pt-4 border-t border-[#242B36] flex items-center justify-between gap-3 shrink-0">
             <button onclick="window.ProfileModule.closeModal(); if(window.switchTab) window.switchTab('stats')" class="btn-secondary text-xs py-2 px-4 flex items-center gap-1.5">
               📊 Statistika Sahifasi
             </button>
-            <button onclick="window.logoutUser()" class="btn-secondary text-xs py-2 px-4 flex items-center gap-1.5 text-[#EB5757] border-[#EB5757]/40 hover:bg-[#EB5757]/10">
+            <button onclick="window.logoutUser()" class="btn-secondary text-xs py-2 px-4 flex items-center gap-1.5 text-[#EB5757] border-[#EB5757] bg-[#EB5757]/10 hover:bg-[#EB5757]/20 transition-colors font-bold">
               🚪 Tizimdan Chiqish
             </button>
           </div>
@@ -113,6 +167,25 @@
     },
 
     renderTabBody(user, isPro, stats) {
+      if (this.activeTab === 'avatar') {
+        const avatars = ['🚗', '🏎️', '🚀', '👑', '🛡️', '👤', '⚡', '🏆', '🎯', '🏁'];
+        return `
+          <div class="space-y-4">
+            <div class="p-3 rounded-lg bg-[#171C24] border border-[#242B36]">
+              <h4 class="text-sm font-bold font-heading text-[#F2C94C] mb-1">Avatar Tanlash</h4>
+              <p class="text-xs text-[#9AA0A6]">Profilingiz uchun mos rasm yoki ikonkani tanlang:</p>
+            </div>
+            <div class="grid grid-cols-5 gap-3 p-2">
+              ${avatars.map(icon => `
+                <button onclick="window.ProfileModule.changeAvatar('${icon}')" class="w-12 h-12 rounded-xl bg-[#171C24] border border-[#242B36] hover:border-[#F2C94C] text-2xl flex items-center justify-center transition-transform hover:scale-110">
+                  ${icon}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
       if (this.activeTab === 'promo') {
         return `
           <div class="space-y-4">
@@ -194,36 +267,76 @@
         `;
       }
 
-      // Default 'info' tab
+      // Default 'info' tab (🎨 2-VAZIFA 4: Nol stats kartochkalarda "Testni boshlash" tugmasi + 🎨 2-VAZIFA 5: Kontakt biriktirish tugmasi)
+      const hasNoTests = stats.totalTests === 0;
+
       return `
         <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 rounded-lg bg-[#171C24] border border-[#242B36]">
-            <span class="text-[11px] text-[#9AA0A6] block mb-0.5">Ishlangan Testlar</span>
-            <span class="text-lg font-mono font-bold text-[#E8EAED]">${stats.totalTests} ta</span>
+          <div class="p-3.5 rounded-lg bg-[#171C24] border border-[#242B36] flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] text-[#9AA0A6] block mb-0.5">Ishlangan Testlar</span>
+              <span class="text-lg font-mono font-bold text-[#E8EAED]">${stats.totalTests} ta</span>
+            </div>
+            ${hasNoTests ? `
+              <button onclick="window.ProfileModule.closeModal(); window.switchTab('test')" class="mt-2 text-[11px] font-bold text-[#F2C94C] hover:underline text-left">
+                🚀 Testni boshlash →
+              </button>
+            ` : ''}
           </div>
-          <div class="p-3 rounded-lg bg-[#171C24] border border-[#242B36]">
-            <span class="text-[11px] text-[#9AA0A6] block mb-0.5">O'tish Ko'rsatkichi</span>
-            <span class="text-lg font-mono font-bold text-[#F2C94C]">${stats.passRate}%</span>
+          <div class="p-3.5 rounded-lg bg-[#171C24] border border-[#242B36] flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] text-[#9AA0A6] block mb-0.5">O'tish Ko'rsatkichi</span>
+              <span class="text-lg font-mono font-bold text-[#F2C94C]">${stats.passRate}%</span>
+            </div>
+            ${hasNoTests ? `
+              <button onclick="window.ProfileModule.closeModal(); window.switchTab('test')" class="mt-2 text-[11px] font-bold text-[#F2C94C] hover:underline text-left">
+                🚀 Testni boshlash →
+              </button>
+            ` : ''}
           </div>
-          <div class="p-3 rounded-lg bg-[#171C24] border border-[#242B36]">
-            <span class="text-[11px] text-[#9AA0A6] block mb-0.5">O'rtacha Ball</span>
-            <span class="text-lg font-mono font-bold text-[#2D9CDB]">${stats.averageScore} / 20</span>
+          <div class="p-3.5 rounded-lg bg-[#171C24] border border-[#242B36] flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] text-[#9AA0A6] block mb-0.5">O'rtacha Ball</span>
+              <span class="text-lg font-mono font-bold text-[#2D9CDB]">${stats.averageScore} / 20</span>
+            </div>
+            ${hasNoTests ? `
+              <button onclick="window.ProfileModule.closeModal(); window.switchTab('test')" class="mt-2 text-[11px] font-bold text-[#2D9CDB] hover:underline text-left">
+                🚀 Testni boshlash →
+              </button>
+            ` : ''}
           </div>
-          <div class="p-3 rounded-lg bg-[#171C24] border border-[#242B36]">
-            <span class="text-[11px] text-[#9AA0A6] block mb-0.5">Eng Yuqori Natija</span>
-            <span class="text-lg font-mono font-bold text-[#27AE60]">${stats.bestScore} / 20</span>
+          <div class="p-3.5 rounded-lg bg-[#171C24] border border-[#242B36] flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] text-[#9AA0A6] block mb-0.5">Eng Yuqori Natija</span>
+              <span class="text-lg font-mono font-bold text-[#27AE60]">${stats.bestScore} / 20</span>
+            </div>
+            ${hasNoTests ? `
+              <button onclick="window.ProfileModule.closeModal(); window.switchTab('test')" class="mt-2 text-[11px] font-bold text-[#27AE60] hover:underline text-left">
+                🚀 Testni boshlash →
+              </button>
+            ` : ''}
           </div>
         </div>
 
-        <div class="p-4 rounded-lg bg-[#171C24] border border-[#242B36] space-y-2">
+        <div class="p-4 rounded-lg bg-[#171C24] border border-[#242B36] space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs text-[#9AA0A6]">Foydalanuvchi Nomi:</span>
-            <span class="text-xs font-bold text-[#E8EAED] font-mono">${user.username}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-[#E8EAED] font-mono">${user.username}</span>
+              <button onclick="window.ProfileModule.editUsername()" class="text-[11px] text-[#F2C94C] hover:underline">Tahrirlash</button>
+            </div>
           </div>
-          <div class="flex items-center justify-between">
+
+          <div class="flex items-center justify-between flex-wrap gap-2">
             <span class="text-xs text-[#9AA0A6]">Telefon / Email:</span>
-            <span class="text-xs font-bold text-[#E8EAED] font-mono">${user.telegramPhone || user.email || 'Kiritilmagan'}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-[#E8EAED] font-mono">${user.telegramPhone || user.email || 'Kiritilmagan'}</span>
+              <button onclick="window.ProfileModule.bindContact()" class="text-[11px] font-bold px-2 py-0.5 rounded bg-[#F2C94C]/10 text-[#F2C94C] border border-[#F2C94C]/30 hover:bg-[#F2C94C]/20 transition-colors">
+                📱 Biriktirish
+              </button>
+            </div>
           </div>
+
           <div class="flex items-center justify-between">
             <span class="text-xs text-[#9AA0A6]">Obuna Statusi:</span>
             <span class="text-xs font-bold font-mono ${isPro ? 'text-[#F2C94C]' : 'text-[#9AA0A6]'}">

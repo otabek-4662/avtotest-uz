@@ -362,6 +362,29 @@
       const timeSpentSeconds = 1200 - this.timeLeft;
       const passed = score >= 18;
 
+      // Save wrong question IDs for PRO Error Bank
+      const wrongIds = details.filter(d => !d.isCorrect && d.question && d.question.id).map(d => d.question.id);
+      if (wrongIds.length > 0) {
+        try {
+          const existing = JSON.parse(localStorage.getItem('avtotest_wrong_questions') || '[]');
+          const combined = Array.from(new Set([...existing, ...wrongIds]));
+          localStorage.setItem('avtotest_wrong_questions', JSON.stringify(combined));
+        } catch(e) {}
+      }
+
+      window.bookmarkQuestion = (id) => {
+        try {
+          const existing = JSON.parse(localStorage.getItem('avtotest_bookmarks') || '[]');
+          if (!existing.includes(id)) {
+            existing.push(id);
+            localStorage.setItem('avtotest_bookmarks', JSON.stringify(existing));
+            alert("⭐ Savol Saqlanganlar (Bookmarks) ro'yxatiga qo'shildi!");
+          } else {
+            alert("⭐ Ushbu savol allaqachon saqlangan!");
+          }
+        } catch(e) {}
+      };
+
       window.StorageManager.saveResult({
         date: new Date().toISOString(),
         ticketId: this.currentTicket,
