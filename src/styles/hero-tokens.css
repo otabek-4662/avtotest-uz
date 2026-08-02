@@ -1,0 +1,52 @@
+/* ======================================================
+   AvtoTest UZ — 3D Hero Precision HUD Theme Tokens & CSS
+   ====================================================== */
+
+:root {
+  --asphalt-night: #0B0E16;      /* Base background */
+  --panel-glass: rgba(255, 255, 255, 0.06);
+  --panel-border: rgba(255, 255, 255, 0.12);
+  --signal-blue: #1E7FFF;         /* Primary HUD accent — "majburiy" sign blue */
+  --signal-blue-glow: #5BA8FF;
+  --alert-red: #FF3B30;           /* Redline / countdown — "taqiqlovchi" sign red */
+  --caution-amber: #FFB020;       /* Highlights / warnings — "ogohlantiruvchi" sign yellow */
+  --ink-fog: #94A3B8;             /* Secondary text */
+  --ink-bright: #F5F7FA;          /* Primary text */
+}
+
+[data-theme="light"] {
+  --asphalt-night: #EEF2F8;
+  --panel-glass: rgba(15, 23, 42, 0.05);
+  --panel-border: rgba(15, 23, 42, 0.10);
+  --signal-blue: #0F62DE;
+  --signal-blue-glow: #3B82F6;
+  --alert-red: #E0291F;
+  --caution-amber: #DB8B00;
+  --ink-fog: #475569;
+  --ink-bright: #0B0E16;
+}
+
+/* Glassmorphism HUD Panel */
+.hud-panel {
+  background: var(--panel-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+}
+
+/* Neon Glow — Dark mode bloom, Light mode tinted shadow */
+.glow-signal {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--signal-blue-glow) 80%, transparent),
+              0 0 24px color-mix(in srgb, var(--signal-blue-glow) 45%, transparent),
+              0 0 48px color-mix(in srgb, var(--signal-blue-glow) 20%, transparent);
+}
+[data-theme="light"] .glow-signal {
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--signal-blue) 25%, transparent);
+}
+
+/* Tabular Mono Readout */
+.tabular-mono {
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Space Grotesk', monospace;
+  font-variant-numeric: tabular-nums;
+}

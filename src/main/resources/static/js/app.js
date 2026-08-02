@@ -182,9 +182,15 @@
   };
 
   // ========== THEME CONFIG ==========
-  const THEMES = ['dark', 'light', 'cloud'];
-  const THEME_ICONS = { dark: '🌙', light: '☀️', cloud: '☁️' };
-  const THEME_LABELS = { dark: 'Dark', light: 'Light', cloud: 'Cloud' };
+  const THEMES = ['dark', 'light'];
+  const THEME_ICONS = { dark: '🌙', light: '☀️' };
+  const THEME_LABELS = { dark: 'Dark', light: 'Light' };
+
+  const LANG_FLAGS = {
+    'UZ': "🇺🇿 O'Z",
+    'UZ_CYR': '🇺🇿 ЎЗ',
+    'RU': '🇷🇺 РУ'
+  };
 
   class AppController {
     constructor() {
@@ -323,8 +329,8 @@
 
     applyI18n() {
       // Update lang label
-      const label = document.getElementById('current-lang-label');
-      if (label) label.textContent = this.currentLang;
+      const displayLabel = document.getElementById('current-lang-display');
+      if (displayLabel) displayLabel.textContent = LANG_FLAGS[this.currentLang] || "🇺🇿 O'Z";
 
       // Update all data-i18n elements
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -357,11 +363,6 @@
             btn.classList.add('active', 'text-[var(--primary)]');
           }
         });
-        
-        // Hozirgi tanlangan til labelni yangilash
-        const langLabels = { 'UZ': "O'Z", 'UZ_CYR': 'ЎЗ', 'RU': 'РУ' };
-        const displayLabel = document.getElementById('current-lang-display');
-        if (displayLabel) displayLabel.textContent = langLabels[lang];
 
         this.applyI18n();
         this.renderTab(this.currentTab);
@@ -668,6 +669,12 @@
         setTimeout(() => {
           window.FuturisticCar.init('futuristic-car-container');
         }, 50);
+      }
+
+      if (window.GSAPScrollCar && typeof window.GSAPScrollCar.init === 'function') {
+        setTimeout(() => {
+          window.GSAPScrollCar.init();
+        }, 100);
       }
     }
 

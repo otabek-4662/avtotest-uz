@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700;800&family=Space+Grotesk:wght@700;800&display=swap');
 
 /* ========== THEME: DARK (Default) ========== */
 [data-theme="dark"], :root {
@@ -12,6 +12,17 @@
   --border: #242B36;
   --shadow: 0 10px 40px rgba(0,0,0,.35);
   --navbar-bg: rgba(11, 15, 20, 0.75);
+
+  /* 3D Hero Tokens (Dark) */
+  --asphalt-night: #0B0E16;
+  --panel-glass: rgba(255,255,255,0.06);
+  --panel-border: rgba(255,255,255,0.12);
+  --signal-blue: #1E7FFF;
+  --signal-blue-glow: #5BA8FF;
+  --alert-red: #FF3B30;
+  --caution-amber: #FFB020;
+  --ink-fog: #94A3B8;
+  --ink-bright: #F5F7FA;
 }
 
 /* ========== THEME: LIGHT ========== */
@@ -26,6 +37,17 @@
   --border: #D0D0D0;
   --shadow: 0 10px 40px rgba(0,0,0,.08);
   --navbar-bg: rgba(245, 245, 245, 0.85);
+
+  /* 3D Hero Tokens (Light) */
+  --asphalt-night: #EEF2F8;
+  --panel-glass: rgba(15,23,42,0.05);
+  --panel-border: rgba(15,23,42,0.10);
+  --signal-blue: #0F62DE;
+  --signal-blue-glow: #3B82F6;
+  --alert-red: #E0291F;
+  --caution-amber: #DB8B00;
+  --ink-fog: #475569;
+  --ink-bright: #0B0E16;
 }
 
 /* ========== THEME: CLOUD ========== */
@@ -442,4 +464,11 @@ h2, .section-title {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* GPU Acceleration & Performance Optimization */
+#scroll-road-container, #scroll-car, #futuristic-svg, .tech-card, .radial-stat-box {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }

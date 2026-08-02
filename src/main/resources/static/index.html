@@ -46,6 +46,11 @@
   <!-- Anime.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
+  <!-- GSAP 3 & Plugins CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+
   <!-- Google Identity Services (GSI) — OAuth 2.0 -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -127,10 +132,10 @@
         </nav>
 
         <!-- Right Side Actions -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0 pr-1 sm:pr-0">
           
           <!-- ENHANCED GLOBAL NAVBAR SEARCH -->
-          <div class="relative hidden lg:block w-48 search-container">
+          <div class="relative hidden lg:block w-44 search-container">
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 search-icon" style="color:var(--text-muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
@@ -144,29 +149,35 @@
             />
           </div>
 
-          <!-- THEME SWITCHER -->
-          <div class="relative">
-            <button id="btn-theme-toggle" onclick="window.cycleTheme()" class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1" title="Temani almashtirish">
-              <span id="theme-icon">🌙</span>
+          <!-- THEME SWITCHER (2-State Toggle) -->
+          <div class="relative shrink-0">
+            <button id="btn-theme-toggle" onclick="window.cycleTheme()" class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1.5 transition-colors duration-200" title="Temani almashtirish (Dark / Light)">
+              <span id="theme-icon" class="text-sm">🌙</span>
               <span id="current-theme-label" class="hidden sm:inline">Dark</span>
             </button>
           </div>
 
-          <!-- LANGUAGE SWITCHER (Dropdown) -->
-          <div class="relative group hidden sm:block">
-            <button class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1" title="Tilni almashtirish">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-              <span id="current-lang-display">O'Z</span>
+          <!-- LANGUAGE SWITCHER (Dropdown with Flags) -->
+          <div class="relative group hidden sm:block shrink-0">
+            <button class="btn-secondary text-xs py-1.5 px-2.5 font-mono font-bold flex items-center gap-1.5" title="Tilni almashtirish">
+              <span id="current-lang-display">🇺🇿 O'Z</span>
+              <svg class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </button>
-            <div class="absolute right-0 mt-2 w-32 rounded-md shadow-lg py-1 bg-[var(--surface-2)] border border-[var(--border)] hidden group-hover:block z-50">
-              <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors active">O'zbek (Latin)</button>
-              <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors">Ўзбек (Кир)</button>
-              <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn w-full text-left px-4 py-2 text-xs font-bold font-mono text-[var(--text)] hover:bg-[var(--bg)] transition-colors">Русский</button>
+            <div class="absolute right-0 mt-2 w-40 rounded-xl shadow-xl py-1.5 bg-[var(--surface-2)] border border-[var(--border)] hidden group-hover:block z-50 backdrop-blur-md">
+              <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center gap-2 text-[var(--text)] hover:bg-[var(--bg)] transition-colors active">
+                <span>🇺🇿</span> O'zbek (Latin)
+              </button>
+              <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center gap-2 text-[var(--text)] hover:bg-[var(--bg)] transition-colors">
+                <span>🇺🇿</span> Ўзбек (Cyrillic)
+              </button>
+              <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center gap-2 text-[var(--text)] hover:bg-[var(--bg)] transition-colors">
+                <span>🇷🇺</span> Русский
+              </button>
             </div>
           </div>
 
           <!-- AUTH BUTTONS -->
-          <div id="auth-nav-buttons" class="hidden sm:flex items-center gap-2">
+          <div id="auth-nav-buttons" class="hidden sm:flex items-center gap-2 shrink-0">
             <button onclick="window.openAuthModal('login')" class="btn-secondary text-xs py-2 px-3" data-i18n="btn-login">
               Kirish
             </button>
@@ -178,7 +189,7 @@
           <!-- Logged In User Pill (hidden by default, JS sets display:flex) -->
           <div id="user-profile-pill"
                onclick="window.openProfileModal()"
-               class="hidden px-3 py-1.5 rounded-md border transition-colors hover-surface glass-panel hover-glow"
+               class="hidden shrink-0 px-3 py-1.5 rounded-lg border transition-all duration-200 hover-surface glass-panel hover-glow whitespace-nowrap shadow-sm"
                style="background:var(--surface-2);border-color:var(--border);align-items:center;gap:8px;cursor:pointer"
                title="Profil va xizmatlar menyusini ochish">
             <!-- Avatar: OAuth dan rasm bo'lsa ko'rsatiladi, aks holda ikon -->
@@ -194,7 +205,7 @@
           </div>
 
           <!-- Mobile Hamburger -->
-          <button id="btn-mobile-menu" class="md:hidden p-2 rounded-md" style="background:var(--surface-2);color:var(--text);border:1px solid var(--border)">
+          <button id="btn-mobile-menu" class="md:hidden p-2 rounded-md shrink-0" style="background:var(--surface-2);color:var(--text);border:1px solid var(--border)">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
           </button>
         </div>
@@ -216,9 +227,9 @@
         <div class="px-4 py-2 flex items-center gap-2" style="border-top:1px solid var(--border)">
           <span class="text-xs font-bold text-[var(--text-muted)]">Til:</span>
           <div class="flex gap-2">
-            <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">O'Z</button>
-            <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">ЎЗ</button>
-            <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">РУ</button>
+            <button onclick="window.setLanguage('UZ')" data-lang="UZ" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">🇺🇿 O'Z</button>
+            <button onclick="window.setLanguage('UZ_CYR')" data-lang="UZ_CYR" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">🇺🇿 ЎЗ</button>
+            <button onclick="window.setLanguage('RU')" data-lang="RU" class="lang-selector-btn text-[10px] font-mono font-bold px-2 py-1 rounded bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]">🇷🇺 РУ</button>
           </div>
         </div>
 
@@ -543,6 +554,7 @@
   <script src="./js/pro-games.js"></script>
   <script src="./js/admin.js"></script>
   <script src="./js/futuristic-car.js"></script>
+  <script src="./js/gsap-scroll-car.js"></script>
   <script src="./js/app.js"></script>
 </body>
 </html>
