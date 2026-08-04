@@ -19,14 +19,15 @@ export const RoadPath = () => {
 
   return (
     <group>
-      {/* Asphalt Tube Surface */}
-      <mesh geometry={tubeGeometry}>
+      {/* Asphalt Tube Surface (Flattened into a road) */}
+      <mesh geometry={tubeGeometry} scale={[1, 0.05, 1]}>
         <meshStandardMaterial color="#0B0E16" roughness={0.7} metalness={0.2} />
       </mesh>
 
-      {/* Emissive Center Lane Marking Wireframe */}
-      <mesh geometry={tubeGeometry}>
-        <meshBasicMaterial color="#1E7FFF" wireframe opacity={0.35} transparent />
+      {/* Emissive Center Lane Marking Strip (Flattened and slightly raised) */}
+      <mesh scale={[1, 0.05, 1]} position={[0, 0.1, 0]}>
+        <tubeGeometry args={[roadCurve, 120, 0.15, 4, false]} />
+        <meshBasicMaterial color="#00F0FF" opacity={0.8} transparent />
       </mesh>
 
       {/* Stage 4 Minimal Finish Line Strip */}

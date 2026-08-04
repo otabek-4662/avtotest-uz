@@ -333,21 +333,28 @@
       const t = (key) => this.t(key);
 
       const html = `
-        <div class="fade-in space-y-20 py-4">
-          <!-- HERO SECTION -->
-          <section class="relative py-12 text-left max-w-4xl">
-            <div class="space-y-6">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
-                <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
-                ${t('standart')}
-              </div>
+        <div class="fade-in py-4">
+          <!-- 3D HERO SECTION REACT MOUNT POINT -->
+          <div id="hero-3d-mount" class="w-full relative min-h-[100vh] mb-12"></div>
+          
+          <div class="space-y-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Legacy Hero Content (fallback / below hero) -->
+            <section class="relative py-8 text-left">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
+                  <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
+                  ${t('standart')}
+                </div>
 
-              <h1 class="hero-h1" style="color:var(--text)">
-                ${t('heroH1')}
-              </h1>
+                <h1 class="hero-h1" style="color:var(--text)">
+                  ${t('heroH1')}
+                </h1>
 
-              <p class="body-text max-w-2xl" style="color:var(--text-muted)">
-                ${t('heroDesc')}
+                <p class="body-text max-w-2xl" style="color:var(--text-muted)">
+                  ${t('heroDesc')}
               </p>
 
               <div class="pt-4 flex flex-wrap items-center gap-4">
@@ -524,6 +531,19 @@
       `;
 
       this.mainContainer.innerHTML = html;
+
+      // Initialize the new React 3D Hero
+      if (window.mountHero3D) {
+        setTimeout(() => {
+          // Mount the 3D HUD to the newly injected container
+          if (!window.hero3dUnmount) {
+            window.hero3dUnmount = window.mountHero3D('hero-3d-mount');
+          } else {
+             window.hero3dUnmount(); // Unmount previous if it exists
+             window.hero3dUnmount = window.mountHero3D('hero-3d-mount');
+          }
+        }, 50);
+      }
     }
 
     attachGlobalHandlers() {

@@ -31,11 +31,22 @@ const AnimatedSceneContent = ({ progressRef, onSpeedUpdate }) => {
       carRef.current.lookAt(lookAtPos);
     }
 
-    // 2. Camera follows car with smooth offset
-    const camOffset = new THREE.Vector3(0, 3, 7);
+    // 2. Camera follows car with smooth offset (3/4 Chase Cam)
+    const up = new THREE.Vector3(0, 1, 0);
+    const right = new THREE.Vector3().crossVectors(up, tangent).normalize();
+    const back = tangent.clone().negate();
+    
+    // Position: 6 units behind, 3.5 units up, 4.5 units right
+    const camOffset = back.multiplyScalar(6)
+      .add(new THREE.Vector3(0, 3.5, 0))
+      .add(right.multiplyScalar(4.5));
+      
     const targetCamPos = point.clone().add(camOffset);
     state.camera.position.lerp(targetCamPos, 0.1);
-    state.camera.lookAt(point.x, point.y + 0.5, point.z - 5);
+    
+    // Look ahead of the car along its travel path
+    const targetLookAt = point.clone().add(tangent.clone().multiplyScalar(4));
+    state.camera.lookAt(targetLookAt);
 
     // 3. Stage-specific speed profile calculation:
     // Stage 0 (0.00–0.15): Ignition -> 0 km/h
