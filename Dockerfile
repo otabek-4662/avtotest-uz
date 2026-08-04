@@ -1,8 +1,7 @@
-FROM maven:3.8.5-openjdk-17 AS build
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
 COPY . .
-RUN mvn clean package -DskipTests
-
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+EXPOSE 3000
+CMD ["node", "server/index.js"]
