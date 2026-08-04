@@ -6,16 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server/index.js",
+    "server": "node server/index.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
     "@react-three/drei": "^9.105.6",
     "@react-three/fiber": "^8.16.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "framer-motion": "^11.0.25",
     "gsap": "^3.12.5",
+    "pg": "^8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.163.0"
+    "three": "^0.163.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

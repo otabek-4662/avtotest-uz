@@ -21,6 +21,14 @@ app.use(express.json());
 const mcpServer = createMcpServer();
 const activeTransports = new Map();
 
+app.get('/', (req, res) => {
+  res.json({
+    name: "AvtoTest UZ MCP Server",
+    status: "active",
+    mcp_endpoint: "/mcp/sse"
+  });
+});
+
 app.get('/mcp/sse', async (req, res) => {
   console.log('Yangi MCP SSE ulanishi qabul qilindi...');
 
