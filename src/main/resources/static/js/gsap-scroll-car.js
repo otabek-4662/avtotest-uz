@@ -49,7 +49,7 @@
           </defs>
 
           <!-- Background Winding Road Path -->
-          <path id="scroll-road-path" d="
+          <path id="scroll-road-path" class="hidden md:block" d="
             M 850, 50 
             C 800, 400 200, 600 200, 950 
             C 200, 1300 850, 1500 850, 1850 
@@ -105,8 +105,7 @@
           end: "bottom bottom",
           scrub: 1.2,
           onUpdate: (st) => {
-            const velocity = Math.abs(st.getVelocity());
-            self.handleSpeedometerVelocity(velocity);
+            self.handleSpeedometerProgress(st.progress);
 
             // Garage stop & brake lights logic at footer (st.progress > 0.96)
             const brakeLights = document.querySelectorAll('#car-brake-lights rect');
@@ -156,40 +155,41 @@
       });
     },
 
-    handleSpeedometerVelocity(velocity) {
-      // Map scroll velocity (px/sec) to target speed in KM/H (0 - 220)
-      // Velocity usually ranges from 0 to 4000+ when scrolling fast
-      let targetSpeed = Math.min(220, Math.round((velocity / 3000) * 220));
-
-      if (targetSpeed < 10 && velocity > 50) {
-        targetSpeed = 25; // minimum speed boost on gentle scroll
+    handleSpeedometerProgress(progress) {
+      // Direct mapping based on original spec stages:
+      // Stage 0 (0.00–0.15): Ignition -> 0 km/h
+      // Stage 1 (0.15–0.45): Acceleration -> 0 to 120 km/h
+      // Stage 2 (0.45–0.65): Steady Cruise -> 120 km/h
+      // Stage 3 (0.65–0.85): Redline Cue -> 120 to 190 km/h
+      // Stage 4 (0.85–1.00): Finish -> Decelerates 190 to 0 km/h
+      
+      let targetSpeed = 0;
+      if (progress < 0.15) {
+        targetSpeed = 0;
+      } else if (progress < 0.45) {
+        targetSpeed = Math.round(((progress - 0.15) / 0.30) * 120);
+      } else if (progress < 0.65) {
+        targetSpeed = 120;
+      } else if (progress < 0.85) {
+        targetSpeed = Math.round(120 + ((progress - 0.65) / 0.20) * 70);
+      } else {
+        targetSpeed = Math.round(190 * (1 - (progress - 0.85) / 0.15));
       }
 
-      // Smoothly interpolate current speed towards target speed
       const needleEl = document.getElementById('speedometer-needle');
       const digitalSpeedEl = document.getElementById('digital-speed-val');
 
-      if (this.decayTween) this.decayTween.kill();
+      // Update DOM directly without tweens for perfect deterministic behavior
+      const spd = targetSpeed;
+      // Map 0 - 240 km/h to angle -125deg to 95deg
+      const angle = -125 + ((spd / 240) * 220);
 
-      const self = this;
-      this.decayTween = gsap.to(this, {
-        currentSpeed: targetSpeed,
-        duration: targetSpeed > self.currentSpeed ? 0.3 : 1.2,
-        ease: targetSpeed > self.currentSpeed ? "power1.out" : "power2.out",
-        onUpdate: () => {
-          const spd = Math.round(self.currentSpeed);
-          
-          // Map 0 - 240 km/h to angle -125deg to 95deg
-          const angle = -125 + ((spd / 240) * 220);
-
-          if (needleEl) {
-            needleEl.style.transform = `rotate(${angle}deg)`;
-          }
-          if (digitalSpeedEl) {
-            digitalSpeedEl.textContent = spd;
-          }
-        }
-      });
+      if (needleEl) {
+        needleEl.style.transform = `rotate(${angle}deg)`;
+      }
+      if (digitalSpeedEl) {
+        digitalSpeedEl.textContent = spd;
+      }
     }
   };
 })();
