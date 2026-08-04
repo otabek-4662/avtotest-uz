@@ -14,7 +14,7 @@
   --ink-bright: #F5F7FA;          /* Primary text */
 }
 
-[data-theme="light"] {
+[data-theme="light"], .light, html:not(.dark) {
   --asphalt-night: #EEF2F8;
   --panel-glass: rgba(15, 23, 42, 0.05);
   --panel-border: rgba(15, 23, 42, 0.10);
@@ -41,7 +41,7 @@
               0 0 24px color-mix(in srgb, var(--signal-blue-glow) 45%, transparent),
               0 0 48px color-mix(in srgb, var(--signal-blue-glow) 20%, transparent);
 }
-[data-theme="light"] .glow-signal {
+[data-theme="light"] .glow-signal, .light .glow-signal, html:not(.dark) .glow-signal {
   box-shadow: 0 2px 12px color-mix(in srgb, var(--signal-blue) 25%, transparent);
 }
 

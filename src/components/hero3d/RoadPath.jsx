@@ -28,6 +28,14 @@ export const RoadPath = () => {
       <mesh geometry={tubeGeometry}>
         <meshBasicMaterial color="#1E7FFF" wireframe opacity={0.35} transparent />
       </mesh>
+
+      {/* Stage 4 Minimal Finish Line Strip */}
+      <group position={[0, -7.5, -144]} rotation={[0.05, 0, 0]}>
+        <mesh>
+          <planeGeometry args={[5, 0.6]} />
+          <meshBasicMaterial color="#F5F7FA" opacity={0.8} transparent />
+        </mesh>
+      </group>
     </group>
   );
 };

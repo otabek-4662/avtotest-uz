@@ -13,14 +13,17 @@ export const useScrollStory = (triggerRef) => {
   const [stageIndex, setStageIndex] = useState(0);
 
   useEffect(() => {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    const gsapInstance = gsap || window.gsap;
+    const ScrollTriggerInstance = ScrollTrigger || window.ScrollTrigger;
 
-    gsap.registerPlugin(ScrollTrigger);
+    if (!gsapInstance || !ScrollTriggerInstance) return;
+
+    gsapInstance.registerPlugin(ScrollTriggerInstance);
 
     const element = triggerRef.current;
     if (!element) return;
 
-    const st = ScrollTrigger.create({
+    const st = ScrollTriggerInstance.create({
       trigger: element,
       pin: true,
       scrub: 1,
