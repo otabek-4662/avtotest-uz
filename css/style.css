@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap');
-@import url('../src/styles/hero-tokens.css');
 
 :root {
   --bg: #0B0F14;
@@ -81,7 +80,7 @@ h2, .section-title {
 
 /* Custom Navigation Menu offset */
 .nav-menu-container {
-  margin-left: clamp(1rem, 6vw, 4rem);
+  margin-left: clamp(1rem, 2vw, 2rem);
 }
 
 /* Nav Item buttons */
@@ -124,13 +123,11 @@ h2, .section-title {
   border-radius: 6px;
   border: 1px solid var(--primary);
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(242, 201, 78, 0.15);
-  transition: background-color 200ms ease-out, filter 200ms ease-out, transform 200ms ease-out;
+  transition: background-color 200ms ease-out, filter 200ms ease-out;
 }
 
 .btn-primary:hover {
   filter: brightness(1.06);
-  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -256,27 +253,7 @@ h2, .section-title {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Glassmorphism & Micro-animations */
-.glass-panel {
-  background: rgba(17, 22, 29, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.hover-glow:hover {
-  box-shadow: 0 0 15px rgba(242, 201, 76, 0.3);
-}
-
-/* Pulse animation for PRO badge */
-@keyframes pulse-pro {
-  0% { box-shadow: 0 0 5px rgba(242, 201, 76, 0.4); }
-  50% { box-shadow: 0 0 12px rgba(242, 201, 76, 0.8); }
-  100% { box-shadow: 0 0 5px rgba(242, 201, 76, 0.4); }
-}
-.pro-badge-glow {
-  animation: pulse-pro 2s infinite ease-in-out;
-}
+/* Removed Glassmorphism & Micro-animations */
 
 /* Loading Spinner */
 .spinner-overlay {

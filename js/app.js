@@ -334,16 +334,13 @@
 
       const html = `
         <div class="fade-in py-4">
-          <!-- 3D HERO SECTION REACT MOUNT POINT -->
-          <div id="hero-3d-mount" class="w-full relative min-h-[100vh] mb-12"></div>
-          
           <div class="space-y-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Legacy Hero Content (fallback / below hero) -->
-            <section class="relative py-8 text-left">
+            <!-- Hero Content -->
+            <section class="relative py-12 text-left">
               <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 <!-- Left Content -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="lg:col-span-8 space-y-6">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-medium" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
                   <span class="w-2 h-2 rounded-full" style="background:var(--primary)"></span>
                   ${t('standart')}
@@ -373,52 +370,28 @@
 
           <!-- STATISTIKA BLOKLARI -->
           <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="radial-stat-box">
-              <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
-                <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="85, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">5000+</span>
-              </div>
+            <div class="tech-card text-center flex flex-col items-center justify-center p-6">
+              <h3 class="font-heading font-extrabold text-4xl mb-2" style="color:var(--primary)">5000+</h3>
               <span class="text-sm font-semibold" style="color:var(--text)">${t('savollarBazasi')}</span>
-              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('rasmiyManba')}</span>
+              <span class="text-xs mt-1" style="color:var(--text-muted)">${t('rasmiyManba')}</span>
             </div>
 
-            <div class="radial-stat-box">
-              <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
-                <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="100, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <span class="absolute font-heading font-extrabold text-lg" style="color:var(--text)">${t('taymer')}</span>
-              </div>
+            <div class="tech-card text-center flex flex-col items-center justify-center p-6">
+              <h3 class="font-heading font-extrabold text-4xl mb-2" style="color:var(--primary)">${t('taymer')}</h3>
               <span class="text-sm font-semibold" style="color:var(--text)">${t('taymerStandarti')}</span>
-              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('vaqtNazorati')}</span>
+              <span class="text-xs mt-1" style="color:var(--text-muted)">${t('vaqtNazorati')}</span>
             </div>
 
-            <div class="radial-stat-box">
-              <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
-                <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="95, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">95%</span>
-              </div>
+            <div class="tech-card text-center flex flex-col items-center justify-center p-6">
+              <h3 class="font-heading font-extrabold text-4xl mb-2" style="color:var(--primary)">95%</h3>
               <span class="text-sm font-semibold" style="color:var(--text)">${t('muvaffaqiyat')}</span>
-              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('otishKorsatkich')}</span>
+              <span class="text-xs mt-1" style="color:var(--text-muted)">${t('otishKorsatkich')}</span>
             </div>
 
-            <div class="radial-stat-box">
-              <div class="relative w-24 h-24 mb-3 flex items-center justify-center">
-                <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path style="color:var(--surface-2)" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path style="color:var(--primary)" class="progress-ring-circle" stroke-dasharray="60, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <span class="absolute font-heading font-extrabold text-xl" style="color:var(--text)">${stats.totalTests}</span>
-              </div>
+            <div class="tech-card text-center flex flex-col items-center justify-center p-6">
+              <h3 class="font-heading font-extrabold text-4xl mb-2" style="color:var(--primary)">${stats.totalTests}</h3>
               <span class="text-sm font-semibold" style="color:var(--text)">${t('ishlanganTestlar')}</span>
-              <span class="text-xs mt-0.5" style="color:var(--text-muted)">${t('shaxsiyNatija')}</span>
+              <span class="text-xs mt-1" style="color:var(--text-muted)">${t('shaxsiyNatija')}</span>
             </div>
           </section>
 
@@ -475,13 +448,13 @@
 
               <div onclick="window.switchTab('fines')" class="tech-card flex flex-col justify-between cursor-pointer group">
                 <div>
-                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--danger)">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style="background:var(--surface-2);border:1px solid var(--border);color:var(--primary)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
                   </div>
                   <h3 class="text-lg font-bold mb-2 font-heading" style="color:var(--text)">${t('jarimalarJadvali')}</h3>
                   <p class="muted-text mb-4 leading-relaxed">${t('finesDesc')}</p>
                 </div>
-                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--danger)">
+                <span class="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style="color:var(--primary)">
                   <span>${t('jadvalniKorish')}</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </span>
@@ -499,7 +472,7 @@
             <div class="tech-card p-6 sm:p-8 relative overflow-hidden">
               <div class="flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
                 <div class="flex items-center gap-5">
-                  <div class="w-16 h-16 rounded-xl flex items-center justify-center shrink-0" style="background:var(--surface-2);border:2px solid var(--primary);box-shadow:0 0 15px rgba(0,0,0,0.1)">
+                  <div class="w-16 h-16 rounded-xl flex items-center justify-center shrink-0" style="background:var(--surface-2);border:2px solid var(--primary);">
                     <svg class="w-9 h-9" style="color:var(--primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                     </svg>
@@ -531,19 +504,6 @@
       `;
 
       this.mainContainer.innerHTML = html;
-
-      // Initialize the new React 3D Hero
-      if (window.mountHero3D) {
-        setTimeout(() => {
-          // Mount the 3D HUD to the newly injected container
-          if (!window.hero3dUnmount) {
-            window.hero3dUnmount = window.mountHero3D('hero-3d-mount');
-          } else {
-             window.hero3dUnmount(); // Unmount previous if it exists
-             window.hero3dUnmount = window.mountHero3D('hero-3d-mount');
-          }
-        }, 50);
-      }
     }
 
     attachGlobalHandlers() {
